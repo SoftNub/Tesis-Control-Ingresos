@@ -22,6 +22,8 @@ public class SpLoginUsuario extends StoredProcedure {
     public static final String PARAM_IN_PASSWORD = "contrasenna";
     public static final String PARAM_OUT_IND = "ind";
     public static final String PARAM_OUT_MSJ = "msj";
+    public static final String PARAM_OUT_USER = "_user";
+    public static final String PARAM_OUT_PASS = "_password";
     
     public SpLoginUsuario(DataSource dataSource) {
         super(dataSource, SPROC_NAME);
@@ -29,6 +31,8 @@ public class SpLoginUsuario extends StoredProcedure {
         declareParameter(new SqlParameter(PARAM_IN_PASSWORD, Types.VARCHAR));
         declareParameter(new SqlOutParameter(PARAM_OUT_IND, Types.INTEGER));
         declareParameter(new SqlOutParameter(PARAM_OUT_MSJ, Types.VARCHAR));
+        declareParameter(new SqlOutParameter(PARAM_OUT_USER, Types.VARCHAR));
+        declareParameter(new SqlOutParameter(PARAM_OUT_PASS, Types.VARCHAR));
         compile();
     }
     

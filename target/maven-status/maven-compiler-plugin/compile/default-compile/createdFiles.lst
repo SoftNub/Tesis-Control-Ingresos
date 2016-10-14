@@ -1,6 +1,7 @@
 com/whnm/sicqfdp/dao/OperadoraDaoImpl.class
 com/whnm/sicqfdp/spbeans/SpEditarDepartamento.class
 com/whnm/sicqfdp/service/CondicionCasaService.class
+com/whnm/sicqfdp/beans/CustomUser.class
 com/whnm/sicqfdp/beans/ListTipoEquipo.class
 com/whnm/sicqfdp/spbeans/SpEditarDistrito.class
 com/whnm/sicqfdp/beans/Departamento.class
@@ -43,7 +44,6 @@ com/whnm/sicqfdp/spbeans/SpMantOperadora.class
 com/whnm/sicqfdp/dao/TipoEquipoDaoImp.class
 com/whnm/sicqfdp/controller/BienvenidaController.class
 com/whnm/sicqfdp/spbeans/SpListarDepartamentosHabilitados.class
-com/whnm/sicqfdp/beans/User.class
 com/whnm/sicqfdp/spbeans/SpMantTipoEquipo.class
 com/whnm/sicqfdp/interfaces/UserDao.class
 com/whnm/sicqfdp/spbeans/SpGrabarColegiadoEgreso.class
@@ -56,6 +56,7 @@ com/whnm/sicqfdp/interfaces/ProvinciaDao.class
 com/whnm/sicqfdp/spbeans/SpGrabarDistrito.class
 com/whnm/sicqfdp/spbeans/SpListarColegiado.class
 com/whnm/sicqfdp/dao/DistritoDaoImpl.class
+com/whnm/sicqfdp/spbeans/SpTraePassword.class
 com/whnm/sicqfdp/beans/Persona.class
 com/whnm/sicqfdp/beans/Role.class
 com/whnm/sicqfdp/spbeans/SpGrabarDepartamento.class

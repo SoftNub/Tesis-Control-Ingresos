@@ -13,4 +13,6 @@ public class Parametros {
     public static final String RESULSET = "#result-set-1";
     public static final String IND = "ind";
     public static final String MSJ = "msj";
+    public static final String USERNAME = "_user";
+    public static final String PASSWORD = "_password";
 }

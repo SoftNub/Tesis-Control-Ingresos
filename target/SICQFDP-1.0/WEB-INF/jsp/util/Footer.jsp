@@ -4,7 +4,7 @@
     Author     : wilson
 --%>
 <div class="container">
-    @Copyright Estudiantes Enseñando Estudiantes<br>
+    <p class="text-center text-muted">@Copyright Estudiantes Enseñando Estudiantes<br>
     Equipo Desarrollo Estudiantes Enseñando Estudiantes<br>
-    Peru - Piura - Veintiseis de Octubre - 2016
+    Peru - Piura - Veintiseis de Octubre - 2016</p>
 </div>

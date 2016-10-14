@@ -6,6 +6,7 @@
 package com.whnm.sicqfdp.beans;
 
 import java.io.Serializable;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -13,7 +14,7 @@ import org.springframework.stereotype.Repository;
  * @author wilson
  */
 @Repository
-public class Role implements Serializable{
+public class Role implements Serializable, GrantedAuthority{
     private Integer idRol;
     private String descripcion;
     private String autorisacion;
@@ -40,6 +41,11 @@ public class Role implements Serializable{
 
     public void setAutorisacion(String autorisacion) {
         this.autorisacion = autorisacion;
+    }
+
+    @Override
+    public String getAuthority() {
+        return autorisacion;
     }
     
     

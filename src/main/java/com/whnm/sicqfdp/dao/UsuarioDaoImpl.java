@@ -5,16 +5,15 @@
  */
 package com.whnm.sicqfdp.dao;
 
+import com.whnm.sicqfdp.beans.CustomUser;
 import com.whnm.sicqfdp.beans.Parametros;
 import com.whnm.sicqfdp.beans.Role;
-import com.whnm.sicqfdp.beans.User;
 import com.whnm.sicqfdp.interfaces.UserDao;
 import com.whnm.sicqfdp.spbeans.SpLoginUsuario;
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.sql.DataSource;
@@ -29,26 +28,30 @@ import org.springframework.stereotype.Service;
 public class UsuarioDaoImpl implements UserDao{
     private DataSource dataSource;
     private SpLoginUsuario spLoginUsuario;
+    //private SpTraePassword spTraePassword;
     
     @Autowired
     public UsuarioDaoImpl(DataSource dataSource) {
         this.dataSource = dataSource;
         this.spLoginUsuario = new SpLoginUsuario(dataSource);
+        //this.spTraePassword = new SpTraePassword(dataSource);
     }
     
     @Override
-    public User login(User user) {
-        User usuario = new User();
+    public CustomUser login(String username) {
+        CustomUser usuario = new CustomUser();
         Role role;
-        Set<Role> myRoles = new HashSet<>();
+        List<Role> myRoles = new ArrayList<>();
         Map<String,Object> vars = new HashMap<>();
-        vars.put(SpLoginUsuario.PARAM_IN_USUARIO, user.getNombreUsuario());
-        vars.put(SpLoginUsuario.PARAM_IN_PASSWORD, user.getPassword());
+        vars.put(SpLoginUsuario.PARAM_IN_USUARIO, username);
+        vars.put(SpLoginUsuario.PARAM_IN_PASSWORD, "");
         try {
             Map<String, Object> result = (Map<String, Object>) spLoginUsuario.execute(vars);
             List<Map<String, Object>> listResult = (List<Map<String, Object>>) result.get(Parametros.RESULSET);
             usuario.setIndError(Integer.parseInt(String.valueOf(result.get(Parametros.IND))));
             usuario.setMsjError(result.get(Parametros.MSJ).toString());
+            usuario.setUsername(result.get(Parametros.USERNAME).toString());
+            usuario.setPassword(result.get(Parametros.PASSWORD).toString());
             if(usuario.getIndError() == 0){
                 for (Map<String, Object> item : listResult) {
                     role = new Role();
@@ -57,6 +60,7 @@ public class UsuarioDaoImpl implements UserDao{
                     role.setAutorisacion(item.get("autorizacion") != null ? String.valueOf(item.get("autorizacion")) : "");
                     myRoles.add(role);
                 }
+                usuario.setAuthorities(myRoles);
             }
         } catch(Exception ex){
             Logger.getLogger(UsuarioDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
@@ -66,23 +70,46 @@ public class UsuarioDaoImpl implements UserDao{
         return usuario;
     }
 
+//    @Override
+//    public User traer_password(User user) {
+//        User usuario = new User();
+//        Map<String,Object> vars = new HashMap<>();
+//        vars.put(SpTraePassword.PARAM_IN_USUARIO, user.getNombreUsuario());
+//        try {
+//            Map<String, Object> result = (Map<String, Object>) spTraePassword.execute(vars);
+//            List<Map<String, Object>> listResult = (List<Map<String, Object>>) result.get(Parametros.RESULSET);
+//            usuario.setIndError(Integer.parseInt(String.valueOf(result.get(Parametros.IND))));
+//            usuario.setMsjError(result.get(Parametros.MSJ).toString());
+//            if(usuario.getIndError() == 0){
+//                for (Map<String, Object> item : listResult) {
+//                    usuario.setPassword(item.get("password") != null ? String.valueOf(item.get("password")) : "");
+//                }
+//            }
+//        } catch(Exception ex){
+//            Logger.getLogger(UsuarioDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+//            usuario.setIndError(1);
+//            usuario.setMsjError("Error: ["+ex.getMessage()+"]");        
+//        }
+//        return usuario;
+//    }
+
     @Override
-    public User grabar(User elemento) {
+    public CustomUser grabar(CustomUser elemento) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public User editar(User elemento) {
+    public CustomUser editar(CustomUser elemento) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public User eliminar(User elemento) {
+    public CustomUser eliminar(CustomUser elemento) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public User listar(User elemento) {
+    public CustomUser listar(CustomUser elemento) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     

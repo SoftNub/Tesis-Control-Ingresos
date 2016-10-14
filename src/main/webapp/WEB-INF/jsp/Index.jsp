@@ -11,6 +11,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <jsp:include page="util/Header.jsp"/>
+        <link rel="stylesheet" href="<%=request.getContextPath()%>/css/footer.css"/>
     </head>
     <body>
         <header>
@@ -21,7 +22,7 @@
         <section class = "container">
             <h1>Bienvenido A SISCQFDP</h1>
         </section>
-        <footer>
+        <footer class="footer">
             <jsp:include page="util/Footer.jsp"/>
         </footer>
     </body>

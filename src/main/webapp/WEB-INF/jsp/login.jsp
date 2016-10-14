@@ -11,31 +11,42 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" href="<%=request.getContextPath()%>/libs/bootstrap-3.3.6/css/bootstrap.min.css"/>
+        <script src="<%=request.getContextPath()%>/libs/jquery-1.12.4/jquery-1.12.4.min.js"></script>
+        <script src="<%=request.getContextPath()%>/libs/bootstrap-3.3.6/js/bootstrap.min.js"></script>
         <title>Login</title>
     </head>
     <body>
         <div class="container">
-            
-            <form class="form-signin"  action="<c:url value='j_spring_security_check' />" method='POST'>
+            <form  class="form-signin" action="<c:url value='j_spring_security_check' />" method='POST'>
                 <c:if test="${not empty error}">
-			<div class="alert alert-danger">${error}</div>
-		</c:if>
-		<c:if test="${not empty msg}">
-			<div class="alert alert-info">${msg}</div>
-		</c:if>
+                        <div class="alert alert-danger">
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            <strong>${error}</strong>
+                        </div>
+                </c:if>
+                <c:if test="${not empty msg}">
+                        <div class="alert alert-info">
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            <strong>${msg}</strong>
+                        </div>
+                </c:if>
                 <h2 class="form-signin-heading">LOGIN</h2>
-                <label for="txtNumColegiatura" class="sr-only">NUM. COLEGIATURA</label>
-                <input type="text" id="txtNumColegiatura" name="txtNumColegiatura" class="form-control" placeholder="Num colegiatura" required="" autofocus="">
-                <label for="txtContrasenna" class="sr-only">Contraseña</label>
-                <input type="password" id="txtContrasenna" name="txtContrasenna" class="form-control" placeholder="Contraseña" required="">
-<!--                <div class="checkbox">
+                <div class="form-group">
+                    <label for="txtNumColegiatura" class="sr-only">NUM. COLEGIATURA</label>
+                    <input type="text" id="txtNumColegiatura" name="txtNumColegiatura" class="form-control" placeholder="Num colegiatura" required="" autofocus="">
+                </div>
+                <div class="form-group">
+                    <label for="txtContrasenna" class="sr-only">Contraseña</label>
+                    <input type="password" id="txtContrasenna" name="txtContrasenna" class="form-control" placeholder="Contraseña" required="">
+                </div>
+                <!--                
+<div class="checkbox">
                     <label>
                         <input type="checkbox" value="remember-me"> Remember me
                     </label>
                 </div>-->
                 <button class="btn btn-lg btn-primary btn-block" type="submit">Ingresar</button>
-            </form>
-
+            </form>  
         </div> <!-- /container -->
     </body>
 </html>

@@ -59,6 +59,7 @@
 /media/whnm/Proyectos/SICQFDP/src/main/java/com/whnm/sicqfdp/spbeans/SpGrabarSolicitudEgreso.java
 /media/whnm/Proyectos/SICQFDP/src/main/java/com/whnm/sicqfdp/spbeans/SpMantEstadoCivil.java
 /media/whnm/Proyectos/SICQFDP/src/main/java/com/whnm/sicqfdp/spbeans/SpActualizarPersonaPreInscripcion.java
+/media/whnm/Proyectos/SICQFDP/src/main/java/com/whnm/sicqfdp/spbeans/SpTraePassword.java
 /media/whnm/Proyectos/SICQFDP/src/main/java/com/whnm/sicqfdp/beans/OtrosGrados.java
 /media/whnm/Proyectos/SICQFDP/src/main/java/com/whnm/sicqfdp/spbeans/SpListarTodasProvincias.java
 /media/whnm/Proyectos/SICQFDP/src/main/java/com/whnm/sicqfdp/seguridad/AuthenticationProviderImpl.java
@@ -77,11 +78,11 @@
 /media/whnm/Proyectos/SICQFDP/src/main/java/com/whnm/sicqfdp/beans/ListColegiado.java
 /media/whnm/Proyectos/SICQFDP/src/main/java/com/whnm/sicqfdp/interfaces/OperadoraDao.java
 /media/whnm/Proyectos/SICQFDP/src/main/java/com/whnm/sicqfdp/utils/ValidaEntrada.java
+/media/whnm/Proyectos/SICQFDP/src/main/java/com/whnm/sicqfdp/beans/CustomUser.java
 /media/whnm/Proyectos/SICQFDP/src/main/java/com/whnm/sicqfdp/interfaces/ProvinciaDao.java
 /media/whnm/Proyectos/SICQFDP/src/main/java/com/whnm/sicqfdp/beans/ListProvincia.java
 /media/whnm/Proyectos/SICQFDP/src/main/java/com/whnm/sicqfdp/exceptions/WebCqfdpAuthException.java
 /media/whnm/Proyectos/SICQFDP/src/main/java/com/whnm/sicqfdp/spbeans/SpGrabarDistritoProvincia.java
-/media/whnm/Proyectos/SICQFDP/src/main/java/com/whnm/sicqfdp/beans/User.java
 /media/whnm/Proyectos/SICQFDP/src/main/java/com/whnm/sicqfdp/beans/ListCondicionCasa.java
 /media/whnm/Proyectos/SICQFDP/src/main/java/com/whnm/sicqfdp/dao/OperadoraDaoImpl.java
 /media/whnm/Proyectos/SICQFDP/src/main/java/com/whnm/sicqfdp/service/OperadoraService.java

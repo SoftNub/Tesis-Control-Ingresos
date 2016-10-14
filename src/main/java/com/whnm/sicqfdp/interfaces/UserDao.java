@@ -5,12 +5,14 @@
  */
 package com.whnm.sicqfdp.interfaces;
 
-import com.whnm.sicqfdp.beans.User;
+import com.whnm.sicqfdp.beans.CustomUser;
+import org.springframework.security.core.userdetails.User;
 
 /**
  *
  * @author wilson
  */
-public interface UserDao extends Generica<User>{
-    public User login(User user);
+public interface UserDao extends Generica<CustomUser>{
+    public CustomUser login(String username);
+    //public User traer_password(User user);
 }

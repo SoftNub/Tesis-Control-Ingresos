@@ -26,15 +26,18 @@ public class BienvenidaController {
         @RequestParam(value = "logout", required = false) String logout) {
 
         ModelAndView model = new ModelAndView();
-        if (error != null) {
-                model.addObject("error", "Usuario y password incorrecto!   ----"+error);
-        }
+        try{
+            if (error != null) {
+                model.addObject("error", "Usuario o contraseña incorrecta");
+            }
 
-        if (logout != null) {
-                model.addObject("msg", "Usted ha salido del sistema satisfactoriamente. ----- " + logout);
+            if (logout != null) {
+                model.addObject("msg", "Usted ha salido del sistema satisfactoriamente.");
+            }
+            model.setViewName("login");
+        } catch(Exception ex){
+             model.addObject("error", ex.getMessage());
         }
-        model.setViewName("login");
-
         return model;
     }
     

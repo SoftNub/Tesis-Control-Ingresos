@@ -5,6 +5,7 @@
  */
 package com.whnm.sicqfdp.dao;
 
+import com.whnm.sicqfdp.beans.CustomUser;
 import com.whnm.sicqfdp.beans.Parametros;
 import com.whnm.sicqfdp.beans.Persona;
 import com.whnm.sicqfdp.interfaces.PersonaDao;
@@ -18,6 +19,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 /**
@@ -32,7 +34,7 @@ public class PersonaDaoImpl implements PersonaDao{
     private SpActualizarPersonaPreInscripcion spActualizarPersonaPreInscripcion;
     
     @Autowired
-    public PersonaDaoImpl(DataSource dataSource) {
+    public PersonaDaoImpl(@Qualifier("dataSource1")DataSource dataSource) {
         this.dataSource = dataSource;
         this.spListarPersona = new SpListarPersona(dataSource);
         this.spGrabarPersonaPreInscripcion = new SpGrabarPersonaPreInscripcion(dataSource);
@@ -40,7 +42,7 @@ public class PersonaDaoImpl implements PersonaDao{
     }
     
     @Override
-    public Persona grabar(Persona elemento) {
+    public Persona grabar(Persona elemento, CustomUser user) {
         Persona persona = new Persona();
         Map<String,Object> vars = new HashMap<String,Object>();
         vars.put(SpGrabarPersonaPreInscripcion.PARAM_IN_DNI, elemento.getDni());
@@ -67,6 +69,7 @@ public class PersonaDaoImpl implements PersonaDao{
         vars.put(SpGrabarPersonaPreInscripcion.PARAM_IN_EMAIL1, elemento.getEmailPrincipal());
         vars.put(SpGrabarPersonaPreInscripcion.PARAM_IN_EMAIL2, elemento.getEmailSecundario());
         vars.put(SpGrabarPersonaPreInscripcion.PARAM_IN_CODPOSTAL, elemento.getCodigoPostal());
+        vars.put(SpGrabarPersonaPreInscripcion.PARAM_IN_USUARIO, user.getUsername());
         try {
             Map<String, Object> result = (Map<String, Object>) spGrabarPersonaPreInscripcion.execute(vars);
             persona.setIndError(Integer.parseInt(String.valueOf(result.get(Parametros.IND))));
@@ -80,7 +83,7 @@ public class PersonaDaoImpl implements PersonaDao{
     }
 
     @Override
-    public Persona editar(Persona elemento) {
+    public Persona editar(Persona elemento, CustomUser user) {
         Persona persona = new Persona();
         Map<String,Object> vars = new HashMap<String,Object>();
         vars.put(SpActualizarPersonaPreInscripcion.PARAM_IN_DNI, elemento.getDni());
@@ -107,6 +110,7 @@ public class PersonaDaoImpl implements PersonaDao{
         vars.put(SpActualizarPersonaPreInscripcion.PARAM_IN_EMAIL1, elemento.getEmailPrincipal());
         vars.put(SpActualizarPersonaPreInscripcion.PARAM_IN_EMAIL2, elemento.getEmailSecundario());
         vars.put(SpActualizarPersonaPreInscripcion.PARAM_IN_CODPOSTAL, elemento.getCodigoPostal());
+        vars.put(SpActualizarPersonaPreInscripcion.PARAM_IN_USUARIO, user.getUsername());
         try {
             Map<String, Object> result = (Map<String, Object>) spActualizarPersonaPreInscripcion.execute(vars);
             persona.setIndError(Integer.parseInt(String.valueOf(result.get(Parametros.IND))));
@@ -120,7 +124,7 @@ public class PersonaDaoImpl implements PersonaDao{
     }
 
     @Override
-    public Persona eliminar(Persona elemento) {
+    public Persona eliminar(Persona elemento, CustomUser user) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

@@ -85,6 +85,7 @@
 /media/whnm/Proyectos/SICQFDP/src/main/java/com/whnm/sicqfdp/spbeans/SpGrabarDistritoProvincia.java
 /media/whnm/Proyectos/SICQFDP/src/main/java/com/whnm/sicqfdp/beans/ListCondicionCasa.java
 /media/whnm/Proyectos/SICQFDP/src/main/java/com/whnm/sicqfdp/dao/OperadoraDaoImpl.java
+/media/whnm/Proyectos/SICQFDP/src/main/java/com/whnm/sicqfdp/controller/GestionUsuariosController.java
 /media/whnm/Proyectos/SICQFDP/src/main/java/com/whnm/sicqfdp/service/OperadoraService.java
 /media/whnm/Proyectos/SICQFDP/src/main/java/com/whnm/sicqfdp/spbeans/SpMantOperadora.java
 /media/whnm/Proyectos/SICQFDP/src/main/java/com/whnm/sicqfdp/spbeans/SpGrabarColegiadoInscripcion.java

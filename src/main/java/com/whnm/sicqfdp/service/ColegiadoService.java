@@ -6,6 +6,7 @@
 package com.whnm.sicqfdp.service;
 
 import com.whnm.sicqfdp.beans.Colegiado;
+import com.whnm.sicqfdp.beans.CustomUser;
 import com.whnm.sicqfdp.beans.ListColegiado;
 import com.whnm.sicqfdp.interfaces.ColegiadoDao;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,17 +24,17 @@ public class ColegiadoService implements ColegiadoDao{
     private ColegiadoDao colegiadoDao;
     
     @Override
-    public Colegiado grabar(Colegiado elemento) {
+    public Colegiado grabar(Colegiado elemento, CustomUser user) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public Colegiado editar(Colegiado elemento) {
+    public Colegiado editar(Colegiado elemento, CustomUser user) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public Colegiado eliminar(Colegiado elemento) {
+    public Colegiado eliminar(Colegiado elemento, CustomUser user) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -48,13 +49,14 @@ public class ColegiadoService implements ColegiadoDao{
     }
 
     @Override
-    public Colegiado grabarColegiado(Integer opc, Integer indicador, Colegiado per) {
-        return colegiadoDao.grabarColegiado(opc, indicador, per);
+    public Colegiado grabarColegiado(Integer opc, Integer indicador, Colegiado per,
+            CustomUser user) {
+        return colegiadoDao.grabarColegiado(opc, indicador, per, user);
     }
 
     @Override
-    public Colegiado grabarSolicitudColegiatura(Colegiado col) {
-        return colegiadoDao.grabarSolicitudColegiatura(col);
+    public Colegiado grabarSolicitudColegiatura(Colegiado col, CustomUser user) {
+        return colegiadoDao.grabarSolicitudColegiatura(col, user);
     }
 
     @Override
@@ -63,8 +65,8 @@ public class ColegiadoService implements ColegiadoDao{
     }
 
     @Override
-    public ListColegiado grabarEgresoColegiado(ListColegiado listaColegiados) {
-        return colegiadoDao.grabarEgresoColegiado(listaColegiados);
+    public ListColegiado grabarEgresoColegiado(ListColegiado listaColegiados, CustomUser user) {
+        return colegiadoDao.grabarEgresoColegiado(listaColegiados, user);
     }
     
 }

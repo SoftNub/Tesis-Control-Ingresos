@@ -23,6 +23,7 @@ public class SpMantEstadoCivil extends StoredProcedure {
     public static final String PARAM_IN_ABBRESTADOCIVIL = "abbrEstadoCivil";
     public static final String PARAM_IN_HABILITADO = "habilit";
     public static final String PARAM_IN_OPCCRUD = "opcCrud";
+    public static final String PARAM_IN_USUARIO = "_usuario";
     
     public static final String PARAM_OUT_IND = "ind";
     public static final String PARAM_OUT_MSJ = "msj";
@@ -31,9 +32,10 @@ public class SpMantEstadoCivil extends StoredProcedure {
         super(dataSource, SPROC_NAME);
         declareParameter(new SqlParameter(PARAM_IN_IDESTADOCIVIL, Types.INTEGER));
         declareParameter(new SqlParameter(PARAM_IN_DESCESTADOCIVIL, Types.VARCHAR));
-        declareParameter(new SqlParameter(PARAM_IN_ABBRESTADOCIVIL, Types.CHAR));
+        declareParameter(new SqlParameter(PARAM_IN_ABBRESTADOCIVIL, Types.VARCHAR));
         declareParameter(new SqlParameter(PARAM_IN_HABILITADO, Types.INTEGER));
         declareParameter(new SqlParameter(PARAM_IN_OPCCRUD, Types.INTEGER));
+        declareParameter(new SqlParameter(PARAM_IN_USUARIO, Types.VARCHAR));
         declareParameter(new SqlOutParameter(PARAM_OUT_IND, Types.INTEGER));
         declareParameter(new SqlOutParameter(PARAM_OUT_MSJ, Types.VARCHAR));
         compile();

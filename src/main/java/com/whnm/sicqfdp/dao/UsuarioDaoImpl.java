@@ -18,6 +18,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 /**
@@ -31,7 +32,7 @@ public class UsuarioDaoImpl implements UserDao{
     //private SpTraePassword spTraePassword;
     
     @Autowired
-    public UsuarioDaoImpl(DataSource dataSource) {
+    public UsuarioDaoImpl(@Qualifier("dataSource") DataSource dataSource) {
         this.dataSource = dataSource;
         this.spLoginUsuario = new SpLoginUsuario(dataSource);
         //this.spTraePassword = new SpTraePassword(dataSource);
@@ -93,23 +94,24 @@ public class UsuarioDaoImpl implements UserDao{
 //        return usuario;
 //    }
 
-    @Override
-    public CustomUser grabar(CustomUser elemento) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public CustomUser editar(CustomUser elemento) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public CustomUser eliminar(CustomUser elemento) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
     @Override
     public CustomUser listar(CustomUser elemento) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public CustomUser grabar(CustomUser elemento, CustomUser user) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public CustomUser editar(CustomUser elemento, CustomUser user) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public CustomUser eliminar(CustomUser elemento, CustomUser user) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     

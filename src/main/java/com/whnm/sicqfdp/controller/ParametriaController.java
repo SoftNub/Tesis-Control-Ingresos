@@ -6,6 +6,7 @@
 package com.whnm.sicqfdp.controller;
 
 import com.whnm.sicqfdp.beans.CondicionCasa;
+import com.whnm.sicqfdp.beans.CustomUser;
 import com.whnm.sicqfdp.beans.Departamento;
 import com.whnm.sicqfdp.beans.Distrito;
 import com.whnm.sicqfdp.beans.DistritoList;
@@ -32,6 +33,7 @@ import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -77,7 +79,7 @@ public class ParametriaController {
 
 
 // <editor-fold defaultstate="collapsed" desc="parametria distritos">
-    @RequestMapping(value="Distritos.cqfdp", method = RequestMethod.GET)
+    @RequestMapping(value="parametria/Distritos.cqfdp", method = RequestMethod.GET)
     public ModelAndView mostrarVistaDistrito(){
         String urlJs1;
         String urlJs2;
@@ -103,7 +105,7 @@ public class ParametriaController {
     }
     
     
-    @RequestMapping(value="ListarAllDistritos.action", method = RequestMethod.POST)
+    @RequestMapping(value="parametria/ListarAllDistritos.action", method = RequestMethod.POST)
     public @ResponseBody DistritoList listarAllDistritos(
     ){
         DistritoList listaDistritos;
@@ -111,17 +113,18 @@ public class ParametriaController {
         return listaDistritos;
     }
     
-    @RequestMapping(value="GrabarDistrito.action", method = RequestMethod.POST)
+    @RequestMapping(value="parametria/GrabarDistrito.action", method = RequestMethod.POST)
     public @ResponseBody Distrito grabarDistrito(
           @RequestBody Distrito distrito  
     ){
         ValidaEntrada validaEntrada;
+        CustomUser user = (CustomUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Distrito distritoRep = new Distrito();
         validaEntrada = new ValidaEntrada();
         if(!distrito.getNombreDistrito().trim().isEmpty()) {
             if (validaEntrada.validarSoloLetras2(distrito.getNombreDistrito())){
                 if (distrito.getHabilitado() == 0 || distrito.getHabilitado() == 1){
-                    distritoRep = distritoServicio.grabar(distrito);
+                    distritoRep = distritoServicio.grabar(distrito, user);
                 } else {
                     distritoRep.setIndError(1);
                     distritoRep.setMsjError("Error:[Campo de habilitado contiene un valor incorrecto]");
@@ -137,18 +140,19 @@ public class ParametriaController {
         return distritoRep;
     }
     
-    @RequestMapping(value="EditarDistrito.action", method = RequestMethod.POST)
+    @RequestMapping(value="parametria/EditarDistrito.action", method = RequestMethod.POST)
     public @ResponseBody Distrito editarDistrito(
           @RequestBody Distrito distrito  
     ){
         ValidaEntrada validaEntrada;
         Distrito distritoRep = new Distrito();
         validaEntrada = new ValidaEntrada();
+        CustomUser user = (CustomUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (distrito.getIdDistrito() > 0) {
             if(!distrito.getNombreDistrito().trim().isEmpty()){
                 if (validaEntrada.validarSoloLetras2(distrito.getNombreDistrito())){
                     if (distrito.getHabilitado() == 0 || distrito.getHabilitado() == 1){
-                         distritoRep = distritoServicio.editar(distrito);
+                         distritoRep = distritoServicio.editar(distrito, user);
                     } else {
                         distritoRep.setIndError(1);
                         distritoRep.setMsjError("Error:[Campo de habilitación contiene un valor incorrecto]");
@@ -168,13 +172,14 @@ public class ParametriaController {
         return distritoRep;
     }
     
-    @RequestMapping(value="EliminarDistrito.action", method = RequestMethod.POST)
+    @RequestMapping(value="parametria/EliminarDistrito.action", method = RequestMethod.POST)
     public @ResponseBody Distrito eliminarDistrito(
           @RequestBody Distrito distrito  
     ){
         Distrito distritoRep = new Distrito();
+        CustomUser user = (CustomUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (distrito.getIdDistrito() > 0) {
-            distritoRep = distritoServicio.eliminar(distrito);
+            distritoRep = distritoServicio.eliminar(distrito, user);
         } else {
             distritoRep.setIndError(1);
             distritoRep.setMsjError("Error:[Codigo de distrito Incorrecto]");
@@ -182,7 +187,7 @@ public class ParametriaController {
         return distritoRep;
     }
     
-    @RequestMapping(value="ListarDistritoId.action", method = RequestMethod.POST)
+    @RequestMapping(value="parametria/ListarDistritoId.action", method = RequestMethod.POST)
     public @ResponseBody Distrito listarDistritoId(
           @RequestBody Distrito distrito  
     ){
@@ -196,7 +201,7 @@ public class ParametriaController {
         return distritoRep;
     }
     
-    @RequestMapping(value="ListarDistritosHabilitados.action", method = RequestMethod.POST)
+    @RequestMapping(value="parametria/ListarDistritosHabilitados.action", method = RequestMethod.POST)
     public @ResponseBody DistritoList listarDistritosHabilitados(
             @RequestBody Distrito distrito      
     ){
@@ -212,7 +217,7 @@ public class ParametriaController {
 // </editor-fold>
 
 // <editor-fold defaultstate="collapsed" desc="parametria provincia">
-    @RequestMapping(value="Provincia.cqfdp", method = RequestMethod.GET)
+    @RequestMapping(value="parametria/Provincia.cqfdp", method = RequestMethod.GET)
     public ModelAndView mostrarVistaProvincia(){
         String urlJs1;
         String urlJs2;
@@ -244,7 +249,7 @@ public class ParametriaController {
     }
     
     
-    @RequestMapping(value="ListarAllProvincias.action", method = RequestMethod.POST)
+    @RequestMapping(value="parametria/ListarAllProvincias.action", method = RequestMethod.POST)
     public @ResponseBody ListProvincia listarAllProvincias(
     ){
         ListProvincia listaProvincias;
@@ -252,18 +257,19 @@ public class ParametriaController {
         return listaProvincias;
     }
     
-    @RequestMapping(value="GrabarProvincia.action", method = RequestMethod.POST)
+    @RequestMapping(value="parametria/GrabarProvincia.action", method = RequestMethod.POST)
     public @ResponseBody Provincia grabarProvincia(
           @RequestBody Provincia provincia 
     ){
         ValidaEntrada validaEntrada;
         Provincia provinciaRep = new Provincia();
         validaEntrada = new ValidaEntrada();
+        CustomUser user = (CustomUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (provincia.getNombreProvincia() != null) {
             if(!provincia.getNombreProvincia().trim().isEmpty()) {
                 if (validaEntrada.validarSoloLetras2(provincia.getNombreProvincia())){
                     if (provincia.getHabilitado() == 0 || provincia.getHabilitado() == 1){
-                        provinciaRep = provinciaServicio.grabar(provincia);
+                        provinciaRep = provinciaServicio.grabar(provincia, user);
                     } else {
                         provinciaRep.setIndError(1);
                         provinciaRep.setMsjError("Error:[Campo de habilitado contiene un valor incorrecto]");
@@ -284,19 +290,20 @@ public class ParametriaController {
         return provinciaRep;
     }
     
-    @RequestMapping(value="EditarProvincia.action", method = RequestMethod.POST)
+    @RequestMapping(value="parametria/EditarProvincia.action", method = RequestMethod.POST)
     public @ResponseBody Provincia editarProvincia(
           @RequestBody Provincia provincia  
     ){
         ValidaEntrada validaEntrada;
         Provincia provinciaRep = new Provincia();
         validaEntrada = new ValidaEntrada();
+        CustomUser user = (CustomUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (provincia.getIdProvincia()> 0) {
             if(provincia.getNombreProvincia() != null){
                 if(!provincia.getNombreProvincia().trim().isEmpty()){
                     if (validaEntrada.validarSoloLetras2(provincia.getNombreProvincia())){
                         if (provincia.getHabilitado() == 0 || provincia.getHabilitado() == 1){
-                             provinciaRep = provinciaServicio.editar(provincia);
+                             provinciaRep = provinciaServicio.editar(provincia, user);
                         } else {
                             provinciaRep.setIndError(1);
                             provinciaRep.setMsjError("Error:[Campo de habilitación contiene un valor incorrecto]");
@@ -320,13 +327,14 @@ public class ParametriaController {
         return provinciaRep;
     }
     
-    @RequestMapping(value="EliminarProvincia.action", method = RequestMethod.POST)
+    @RequestMapping(value="parametria/EliminarProvincia.action", method = RequestMethod.POST)
     public @ResponseBody Provincia eliminarProvincia(
           @RequestBody Provincia provincia
     ){
         Provincia provinciaRep = new Provincia();
+        CustomUser user = (CustomUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (provincia.getIdProvincia() > 0) {
-            provinciaRep = provinciaServicio.eliminar(provincia);
+            provinciaRep = provinciaServicio.eliminar(provincia, user);
         } else {
             provinciaRep.setIndError(1);
             provinciaRep.setMsjError("Error:[Codigo de provincia Incorrecto]");
@@ -334,7 +342,7 @@ public class ParametriaController {
         return provinciaRep;
     }
     
-    @RequestMapping(value="ListarProvinciaId.action", method = RequestMethod.POST)
+    @RequestMapping(value="parametria/ListarProvinciaId.action", method = RequestMethod.POST)
     public @ResponseBody Provincia listarProvinciaId(
           @RequestBody Provincia provincia  
     ){
@@ -348,7 +356,7 @@ public class ParametriaController {
         return provinciaRep;
     }    
     
-    @RequestMapping(value="ListarDistritosProvincia.action", method = RequestMethod.POST)
+    @RequestMapping(value="parametria/ListarDistritosProvincia.action", method = RequestMethod.POST)
     public @ResponseBody DistritoList ListarDistritosProvincia(
           @RequestBody Provincia provincia  
     ){
@@ -362,19 +370,20 @@ public class ParametriaController {
         return listaDistritos;
     }   
     
-    @RequestMapping(value="GrabarDistritosProvincia.action", method = RequestMethod.POST)
+    @RequestMapping(value="parametria/GrabarDistritosProvincia.action", method = RequestMethod.POST)
     public @ResponseBody Provincia GrabarDistritosProvincia(
           @RequestBody String objs  
     ){
         Provincia provinciaRep = new Provincia();
         ObjectMapper mapper = new ObjectMapper();
+        CustomUser user = (CustomUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         try{
             JsonNode node = mapper.readTree(objs);
             Provincia provincia =  mapper.convertValue(node.get("provincia"), Provincia.class);
             Distrito distrito =  mapper.convertValue(node.get("distrito"), Distrito.class);
             if (provincia.getIdProvincia() > 0) {
                 if(distrito.getIdDistrito() > 0){
-                     provinciaRep = provinciaServicio.grabarDistritoDeProvincia(provincia, distrito);
+                     provinciaRep = provinciaServicio.grabarDistritoDeProvincia(provincia, distrito, user);
                 } else {
                     provinciaRep.setIndError(1);
                     provinciaRep.setMsjError("Error:[Codigo de distrito Incorrecto]");
@@ -390,7 +399,7 @@ public class ParametriaController {
         return provinciaRep;
     }  
     
-    @RequestMapping(value="EliminarDistritosProvincia.action", method = RequestMethod.POST)
+    @RequestMapping(value="parametria/EliminarDistritosProvincia.action", method = RequestMethod.POST)
     public @ResponseBody Provincia EliminarDistritosProvincia(
           @RequestBody String objs  
     ){
@@ -418,7 +427,7 @@ public class ParametriaController {
         return provinciaRep;
     }
     
-    @RequestMapping(value="ListarProvinciasHabilitadas.action", method = RequestMethod.POST)
+    @RequestMapping(value="parametria/ListarProvinciasHabilitadas.action", method = RequestMethod.POST)
     public @ResponseBody ListProvincia listarProvinciasHabilitadas(
             @RequestBody Provincia provincia     
     ){
@@ -434,7 +443,7 @@ public class ParametriaController {
 // </editor-fold>    
 
 // <editor-fold defaultstate="collapsed" desc="parametria departamentos">
-    @RequestMapping(value="Departamento.cqfdp", method = RequestMethod.GET)
+    @RequestMapping(value="parametria/Departamento.cqfdp", method = RequestMethod.GET)
     public ModelAndView mostrarVistaDepartamento(){
         String urlJs1;
         String urlJs2;
@@ -466,7 +475,7 @@ public class ParametriaController {
     }
     
     
-    @RequestMapping(value="ListarAllDepartamentos.action", method = RequestMethod.POST)
+    @RequestMapping(value="parametria/ListarAllDepartamentos.action", method = RequestMethod.POST)
     public @ResponseBody ListDepartamento ListarAllDepartamentos(
     ){
         ListDepartamento listaDepartamentos;
@@ -474,18 +483,19 @@ public class ParametriaController {
         return listaDepartamentos;
     }
     
-    @RequestMapping(value="GrabarDepartamento.action", method = RequestMethod.POST)
+    @RequestMapping(value="parametria/GrabarDepartamento.action", method = RequestMethod.POST)
     public @ResponseBody Departamento GrabarDepartamento(
           @RequestBody Departamento departamento 
     ){
         ValidaEntrada validaEntrada;
         Departamento departamentoRep = new Departamento();
         validaEntrada = new ValidaEntrada();
+        CustomUser user = (CustomUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (departamento.getNombreDepartamento()!= null) {
             if(!departamento.getNombreDepartamento().trim().isEmpty()) {
                 if (validaEntrada.validarSoloLetras2(departamento.getNombreDepartamento())){
                     if (departamento.getHabilitado() == 0 || departamento.getHabilitado() == 1){
-                        departamentoRep = departamentoServicio.grabar(departamento);
+                        departamentoRep = departamentoServicio.grabar(departamento, user);
                     } else {
                         departamentoRep.setIndError(1);
                         departamentoRep.setMsjError("Error:[Campo de habilitado contiene un valor incorrecto]");
@@ -506,19 +516,20 @@ public class ParametriaController {
         return departamentoRep;
     }
     
-    @RequestMapping(value="EditarDepartamento.action", method = RequestMethod.POST)
+    @RequestMapping(value="parametria/EditarDepartamento.action", method = RequestMethod.POST)
     public @ResponseBody Departamento EditarDepartamento(
           @RequestBody Departamento departamento  
     ){
         ValidaEntrada validaEntrada;
         Departamento departamentoRep = new Departamento();
         validaEntrada = new ValidaEntrada();
+        CustomUser user = (CustomUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (departamento.getIdDepartamento()> 0) {
             if(departamento.getNombreDepartamento()!= null){
                 if(!departamento.getNombreDepartamento().trim().isEmpty()){
                     if (validaEntrada.validarSoloLetras2(departamento.getNombreDepartamento())){
                         if (departamento.getHabilitado() == 0 || departamento.getHabilitado() == 1){
-                             departamentoRep = departamentoServicio.editar(departamento);
+                             departamentoRep = departamentoServicio.editar(departamento, user);
                         } else {
                             departamentoRep.setIndError(1);
                             departamentoRep.setMsjError("Error:[Campo de habilitación contiene un valor incorrecto]");
@@ -542,13 +553,14 @@ public class ParametriaController {
         return departamentoRep;
     }
     
-    @RequestMapping(value="EliminarDepartamento.action", method = RequestMethod.POST)
+    @RequestMapping(value="parametria/EliminarDepartamento.action", method = RequestMethod.POST)
     public @ResponseBody Departamento EliminarDepartamento(
           @RequestBody Departamento departamento
     ){
         Departamento departamentoRep = new Departamento();
+        CustomUser user = (CustomUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (departamento.getIdDepartamento()> 0) {
-            departamentoRep = departamentoServicio.eliminar(departamento);
+            departamentoRep = departamentoServicio.eliminar(departamento, user);
         } else {
             departamentoRep.setIndError(1);
             departamentoRep.setMsjError("Error:[Codigo de departamento Incorrecto]");
@@ -556,7 +568,7 @@ public class ParametriaController {
         return departamentoRep;
     }
     
-    @RequestMapping(value="ListarDepartamentoId.action", method = RequestMethod.POST)
+    @RequestMapping(value="parametria/ListarDepartamentoId.action", method = RequestMethod.POST)
     public @ResponseBody Departamento ListarDepartamentoId(
           @RequestBody Departamento departamento  
     ){
@@ -570,7 +582,7 @@ public class ParametriaController {
         return departamentoRep;
     }    
     
-    @RequestMapping(value="ListarProvinciaDepartamento.action", method = RequestMethod.POST)
+    @RequestMapping(value="parametria/ListarProvinciaDepartamento.action", method = RequestMethod.POST)
     public @ResponseBody ListProvincia ListarProvinciaDepartamento(
           @RequestBody Departamento departamento  
     ){
@@ -584,19 +596,21 @@ public class ParametriaController {
         return listaProvincia;
     }   
     
-    @RequestMapping(value="GrabarProvinciaDepartamento.action", method = RequestMethod.POST)
+    @RequestMapping(value="parametria/GrabarProvinciaDepartamento.action", method = RequestMethod.POST)
     public @ResponseBody Departamento GrabarProvinciaDepartamento(
           @RequestBody String objs  
     ){
         Departamento departamentoRep = new Departamento();
         ObjectMapper mapper = new ObjectMapper();
+        CustomUser user = (CustomUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         try{
             JsonNode node = mapper.readTree(objs);
             Departamento departamento = mapper.convertValue(node.get("departamento"), Departamento.class);
             Provincia provincia =  mapper.convertValue(node.get("provincia"), Provincia.class);
             if (departamento.getIdDepartamento()> 0) {
                 if(provincia.getIdProvincia()> 0){
-                     departamentoRep = departamentoServicio.grabarProvinciaDeDepartamento(departamento, provincia);
+                     departamentoRep = departamentoServicio.grabarProvinciaDeDepartamento(
+                             departamento, provincia, user);
                 } else {
                     departamentoRep.setIndError(1);
                     departamentoRep.setMsjError("Error:[Codigo de provincia Incorrecto]");
@@ -612,7 +626,7 @@ public class ParametriaController {
         return departamentoRep;
     }  
     
-    @RequestMapping(value="EliminarProvinciaDepartamento.action", method = RequestMethod.POST)
+    @RequestMapping(value="parametria/EliminarProvinciaDepartamento.action", method = RequestMethod.POST)
     public @ResponseBody Departamento EliminarProvinciaDepartamento(
           @RequestBody String objs  
     ){
@@ -640,7 +654,7 @@ public class ParametriaController {
         return departamentoRep;
     }
     
-    @RequestMapping(value="ListarDepartamentosHabilitados.action", method = RequestMethod.POST)
+    @RequestMapping(value="parametria/ListarDepartamentosHabilitados.action", method = RequestMethod.POST)
     public @ResponseBody ListDepartamento ListarDepartamentosHabilitados(
             @RequestBody Departamento departamento     
     ){
@@ -656,7 +670,7 @@ public class ParametriaController {
 // </editor-fold>   
 
 // <editor-fold defaultstate="collapsed" desc="parametria Estado Civil">
-    @RequestMapping(value="EstadoCivil.cqfdp", method = RequestMethod.GET)
+    @RequestMapping(value="parametria/EstadoCivil.cqfdp", method = RequestMethod.GET)
     public ModelAndView mostrarVistaEstadoCivil(){
         String urlJs1;
         String urlJs2;
@@ -682,7 +696,7 @@ public class ParametriaController {
     }
     
     
-    @RequestMapping(value="listEstadosCiviles.action", method = RequestMethod.POST)
+    @RequestMapping(value="parametria/listEstadosCiviles.action", method = RequestMethod.POST)
     public @ResponseBody ListEstadoCivil listEstadosCiviles(
             @RequestBody String objs
     ){
@@ -727,7 +741,7 @@ public class ParametriaController {
         return listaEstadosCiviles;
     }
     
-    @RequestMapping(value="mantEstadoCivil.action", method = RequestMethod.POST)
+    @RequestMapping(value="parametria/mantEstadoCivil.action", method = RequestMethod.POST)
     public @ResponseBody EstadoCivil mantEstadoCivil(
           @RequestBody String objs  
     ){
@@ -736,6 +750,7 @@ public class ParametriaController {
         EstadoCivil estadoCivilRep = new EstadoCivil();
         ObjectMapper mapper = new ObjectMapper();
         ValidaEntrada valida = new ValidaEntrada();
+        CustomUser user = (CustomUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         try{
             JsonNode node = mapper.readTree(objs);
             opcCrud =  mapper.convertValue(node.get("opc"), Integer.class);
@@ -751,7 +766,7 @@ public class ParametriaController {
                                             if(estadoCivil.getAbbr().length() == 1){
                                                 if(valida.validarSoloLetras2(estadoCivil.getAbbr())){
                                                     if(estadoCivil.getHabilitado() == 0 || estadoCivil.getHabilitado() == 1){
-                                                        estadoCivilRep = estadoCivilService.mantEstadoCivil(opcCrud, estadoCivil);
+                                                        estadoCivilRep = estadoCivilService.mantEstadoCivil(opcCrud, estadoCivil, user);
                                                     } else {
                                                         estadoCivilRep.setIndError(1);
                                                         estadoCivilRep.setMsjError("Error : [Campo habilitado incorrecto]");
@@ -794,7 +809,7 @@ public class ParametriaController {
                                                 if(valida.validarSoloLetras2(estadoCivil.getAbbr())){
                                                     if(estadoCivil.getHabilitado() == 0 || estadoCivil.getHabilitado() == 1){
                                                         if(estadoCivil.getIdEstadoCivil()>0) {
-                                                            estadoCivilRep = estadoCivilService.mantEstadoCivil(opcCrud, estadoCivil);
+                                                            estadoCivilRep = estadoCivilService.mantEstadoCivil(opcCrud, estadoCivil, user);
                                                         } else {
                                                             estadoCivilRep.setIndError(1);
                                                             estadoCivilRep.setMsjError("Error : [Id Estado Civil incorrecto]");
@@ -832,7 +847,7 @@ public class ParametriaController {
                     break;
                 case 3:
                     if(estadoCivil.getIdEstadoCivil()>0) {
-                        estadoCivilRep = estadoCivilService.mantEstadoCivil(opcCrud, estadoCivil);
+                        estadoCivilRep = estadoCivilService.mantEstadoCivil(opcCrud, estadoCivil, user);
                     } else {
                         estadoCivilRep.setIndError(1);
                         estadoCivilRep.setMsjError("Error : [Id Estado Civil incorrecto]");
@@ -852,7 +867,7 @@ public class ParametriaController {
 // </editor-fold>    
     
 // <editor-fold defaultstate="collapsed" desc="parametria Condicion Casa">
-    @RequestMapping(value="CondicionCasa.cqfdp", method = RequestMethod.GET)
+    @RequestMapping(value="parametria/CondicionCasa.cqfdp", method = RequestMethod.GET)
     public ModelAndView mostrarVistaCondicionCasa(){
         String urlJs1;
         String urlJs2;
@@ -878,7 +893,7 @@ public class ParametriaController {
     }
     
     
-    @RequestMapping(value="listCondicionCasa.action", method = RequestMethod.POST)
+    @RequestMapping(value="parametria/listCondicionCasa.action", method = RequestMethod.POST)
     public @ResponseBody ListCondicionCasa listCondicionCasa(
             @RequestBody String objs
     ){
@@ -923,7 +938,7 @@ public class ParametriaController {
         return listaCondicionesCasas;
     }
     
-    @RequestMapping(value="mantCondicionCasa.action", method = RequestMethod.POST)
+    @RequestMapping(value="parametria/mantCondicionCasa.action", method = RequestMethod.POST)
     public @ResponseBody CondicionCasa mantCondicionCasa(
           @RequestBody String objs  
     ){
@@ -932,6 +947,7 @@ public class ParametriaController {
         CondicionCasa condicionCasaRep = new CondicionCasa();
         ObjectMapper mapper = new ObjectMapper();
         ValidaEntrada valida = new ValidaEntrada();
+        CustomUser user = (CustomUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         try{
             JsonNode node = mapper.readTree(objs);
             opcCrud =  mapper.convertValue(node.get("opc"), Integer.class);
@@ -943,7 +959,7 @@ public class ParametriaController {
                             if(condiconCasa.getDenominacion().length() <= 30) {
                                 if(valida.validarSoloLetras2(condiconCasa.getDenominacion())){
                                     if(condiconCasa.getHabilitado() == 0 || condiconCasa.getHabilitado() == 1){
-                                        condicionCasaRep = condicionCasaService.mantCondicionCasa(opcCrud, condiconCasa);
+                                        condicionCasaRep = condicionCasaService.mantCondicionCasa(opcCrud, condiconCasa, user);
                                     } else {
                                         condicionCasaRep.setIndError(1);
                                         condicionCasaRep.setMsjError("Error : [Campo habilitado incorrecto]");
@@ -969,7 +985,7 @@ public class ParametriaController {
                                 if(valida.validarSoloLetras2(condiconCasa.getDenominacion())){
                                     if(condiconCasa.getHabilitado() == 0 || condiconCasa.getHabilitado() == 1){
                                         if(condiconCasa.getIdCondicion()>0) {
-                                            condicionCasaRep = condicionCasaService.mantCondicionCasa(opcCrud, condiconCasa);
+                                            condicionCasaRep = condicionCasaService.mantCondicionCasa(opcCrud, condiconCasa, user);
                                         } else {
                                             condicionCasaRep.setIndError(1);
                                             condicionCasaRep.setMsjError("Error : [Id Condicion Casa incorrecto]");
@@ -997,7 +1013,7 @@ public class ParametriaController {
                     break;
                 case 3:
                     if(condiconCasa.getIdCondicion()>0) {
-                        condicionCasaRep = condicionCasaService.mantCondicionCasa(opcCrud, condiconCasa);
+                        condicionCasaRep = condicionCasaService.mantCondicionCasa(opcCrud, condiconCasa, user);
                     } else {
                         condicionCasaRep.setIndError(1);
                         condicionCasaRep.setMsjError("Error : [Id Condicion Casa incorrecto]");

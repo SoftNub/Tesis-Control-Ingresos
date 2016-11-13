@@ -18,10 +18,11 @@ import org.springframework.jdbc.object.StoredProcedure;
  */
 public class SpMantCondicionCasa extends StoredProcedure {
     public static final String SPROC_NAME = "mg_sp_mant_condCasa";
-    public static final String PARAM_IN_IDCONDICIONCASA = "codCodicionCasa";
-    public static final String PARAM_IN_DESCCONDICIONCASA = "descCodicionCasa";
+    public static final String PARAM_IN_IDCONDICIONCASA = "codCondicionCasa";
+    public static final String PARAM_IN_DESCCONDICIONCASA = "descCondicionCasa";
     public static final String PARAM_IN_HABILITADO = "habilit";
     public static final String PARAM_IN_OPCCRUD = "opcCrud";
+    public static final String PARAM_IN_USUARIO = "_usuario";
     
     public static final String PARAM_OUT_IND = "ind";
     public static final String PARAM_OUT_MSJ = "msj";
@@ -32,6 +33,7 @@ public class SpMantCondicionCasa extends StoredProcedure {
         declareParameter(new SqlParameter(PARAM_IN_DESCCONDICIONCASA, Types.VARCHAR));
         declareParameter(new SqlParameter(PARAM_IN_HABILITADO, Types.INTEGER));
         declareParameter(new SqlParameter(PARAM_IN_OPCCRUD, Types.INTEGER));
+        declareParameter(new SqlParameter(PARAM_IN_USUARIO, Types.VARCHAR));
         declareParameter(new SqlOutParameter(PARAM_OUT_IND, Types.INTEGER));
         declareParameter(new SqlOutParameter(PARAM_OUT_MSJ, Types.VARCHAR));
         compile();

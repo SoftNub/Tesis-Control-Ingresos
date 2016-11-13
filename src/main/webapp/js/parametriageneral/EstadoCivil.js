@@ -28,7 +28,7 @@ function mantEstadoCivil(opcCrud){
     };
     estadoCivil = new EstadoCivil();
     $.ajax({
-        url : "mantEstadoCivil.action",
+        url : "../parametria/mantEstadoCivil.action",
         type : "POST",
         contentType : 'application/json; charset=utf-8',
         dataType : 'json',
@@ -50,7 +50,7 @@ function listEstadosCiviles(opcListado){
         "habilitado": this.habilitado
     }; 
     $.ajax({
-        url : "listEstadosCiviles.action",
+        url : "../parametria/listEstadosCiviles.action",
         type : "POST",
         contentType : 'application/json; charset=utf-8',
         dataType : 'json',

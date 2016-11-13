@@ -44,7 +44,7 @@ function ListProvincia(Provincias, indError, msjError){
 function listarAllProvincias(){
     var listProvincias = new ListProvincia();
     $.ajax({
-        url : "ListarAllProvincias.action",
+        url : "../parametria/ListarAllProvincias.action",
         type : "POST",
         contentType : 'application/json; charset=utf-8',
         dataType : 'json',
@@ -66,7 +66,7 @@ function grabarProvincia(){
     };
     provincia = new Provincia();
     $.ajax({
-        url : "GrabarProvincia.action",
+        url : "../parametria/GrabarProvincia.action",
         type : "POST",
         contentType : 'application/json; charset=utf-8',
         dataType : 'json',
@@ -90,7 +90,7 @@ function editarProvincia(){
     };
     provincia = new Provincia();
     $.ajax({
-        url : "EditarProvincia.action",
+        url : "../parametria/EditarProvincia.action",
         type : "POST",
         contentType : 'application/json; charset=utf-8',
         dataType : 'json',
@@ -112,7 +112,7 @@ function eliminarProvincia(){
     };
     provincia = new Provincia();
     $.ajax({
-        url : "EliminarProvincia.action",
+        url : "../parametria/EliminarProvincia.action",
         type : "POST",
         contentType : 'application/json; charset=utf-8',
         dataType : 'json',
@@ -134,7 +134,7 @@ function listarProvinciaId(){
     };
     provincia = new Provincia();
     $.ajax({
-        url : "ListarProvinciaId.action",
+        url : "../parametria/ListarProvinciaId.action",
         type : "POST",
         contentType : 'application/json; charset=utf-8',
         dataType : 'json',
@@ -158,7 +158,7 @@ function listarDistritosDeProvincia(){
     };
     listaDistritos = new ListDistritos();
     $.ajax({
-        url : "ListarDistritosProvincia.action",
+        url : "../parametria/ListarDistritosProvincia.action",
         type : "POST",
         contentType : 'application/json; charset=utf-8',
         dataType : 'json',
@@ -182,7 +182,7 @@ function grabarDistritoDeProvincia(idDistrito){
     };
     provincia = new Provincia();
     $.ajax({
-        url : "GrabarDistritosProvincia.action",
+        url : "../parametria/GrabarDistritosProvincia.action",
         type : "POST",
         contentType : 'application/json; charset=utf-8',
         dataType : 'json',
@@ -207,7 +207,7 @@ function eliminarDistritoDeProvincia(idDistrito){
     };
     provincia = new Provincia();
     $.ajax({
-        url : "EliminarDistritosProvincia.action",
+        url : "../parametria/EliminarDistritosProvincia.action",
         type : "POST",
         contentType : 'application/json; charset=utf-8',
         dataType : 'json',
@@ -228,7 +228,7 @@ function listarProvinciasHabilitadas(){
     };
     var listProvincias = new ListProvincia();
     $.ajax({
-        url : "ListarProvinciasHabilitadas.action",
+        url : "../parametria/ListarProvinciasHabilitadas.action",
         type : "POST",
         contentType : 'application/json; charset=utf-8',
         dataType : 'json',

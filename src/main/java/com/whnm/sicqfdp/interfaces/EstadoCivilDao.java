@@ -5,6 +5,7 @@
  */
 package com.whnm.sicqfdp.interfaces;
 
+import com.whnm.sicqfdp.beans.CustomUser;
 import com.whnm.sicqfdp.beans.EstadoCivil;
 import com.whnm.sicqfdp.beans.ListEstadoCivil;
 
@@ -13,6 +14,6 @@ import com.whnm.sicqfdp.beans.ListEstadoCivil;
  * @author wilson
  */
 public interface EstadoCivilDao {
-    public EstadoCivil mantEstadoCivil(Integer opcCrud, EstadoCivil estCivil);
+    public EstadoCivil mantEstadoCivil(Integer opcCrud, EstadoCivil estCivil, CustomUser user);
     public ListEstadoCivil listarEstadoCivil(Integer opcListado, EstadoCivil estCivil);
 }

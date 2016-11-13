@@ -5,6 +5,7 @@
  */
 package com.whnm.sicqfdp.service;
 
+import com.whnm.sicqfdp.beans.CustomUser;
 import com.whnm.sicqfdp.beans.EstadoCivil;
 import com.whnm.sicqfdp.beans.ListEstadoCivil;
 import com.whnm.sicqfdp.interfaces.EstadoCivilDao;
@@ -22,8 +23,8 @@ public class EstadoCivilService implements EstadoCivilDao{
     @Qualifier("estadoCivilDao")
     private EstadoCivilDao estadoCivilDao;
     @Override
-    public EstadoCivil mantEstadoCivil(Integer opcCrud, EstadoCivil estCivil) {
-        return estadoCivilDao.mantEstadoCivil(opcCrud, estCivil);
+    public EstadoCivil mantEstadoCivil(Integer opcCrud, EstadoCivil estCivil, CustomUser user) {
+        return estadoCivilDao.mantEstadoCivil(opcCrud, estCivil, user);
     }
 
     @Override

@@ -6,6 +6,7 @@
 package com.whnm.sicqfdp.service;
 
 import com.whnm.sicqfdp.beans.CondicionCasa;
+import com.whnm.sicqfdp.beans.CustomUser;
 import com.whnm.sicqfdp.beans.ListCondicionCasa;
 import com.whnm.sicqfdp.interfaces.CondicionCasaDao;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +23,9 @@ public class CondicionCasaService implements CondicionCasaDao{
     @Qualifier("condicionCasaDao")
     private CondicionCasaDao condicionCasaDao;
     @Override
-    public CondicionCasa mantCondicionCasa(Integer opcCrud, CondicionCasa condCasa) {
-        return condicionCasaDao.mantCondicionCasa(opcCrud, condCasa);
+    public CondicionCasa mantCondicionCasa(Integer opcCrud, CondicionCasa condCasa,
+            CustomUser user) {
+        return condicionCasaDao.mantCondicionCasa(opcCrud, condCasa, user);
     }
 
     @Override

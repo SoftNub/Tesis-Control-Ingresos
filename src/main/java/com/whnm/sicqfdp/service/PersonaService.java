@@ -5,6 +5,7 @@
  */
 package com.whnm.sicqfdp.service;
 
+import com.whnm.sicqfdp.beans.CustomUser;
 import com.whnm.sicqfdp.beans.Persona;
 import com.whnm.sicqfdp.interfaces.PersonaDao;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,17 +23,17 @@ public class PersonaService implements PersonaDao{
     private PersonaDao personaDao;
     
     @Override
-    public Persona grabar(Persona elemento) {
-        return personaDao.grabar(elemento);
+    public Persona grabar(Persona elemento, CustomUser user) {
+        return personaDao.grabar(elemento, user);
     }
 
     @Override
-    public Persona editar(Persona elemento) {
-        return personaDao.editar(elemento);
+    public Persona editar(Persona elemento, CustomUser user) {
+        return personaDao.editar(elemento, user);
     }
 
     @Override
-    public Persona eliminar(Persona elemento) {
+    public Persona eliminar(Persona elemento, CustomUser user) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

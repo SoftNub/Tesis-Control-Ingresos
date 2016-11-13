@@ -5,6 +5,7 @@
  */
 package com.whnm.sicqfdp.service;
 
+import com.whnm.sicqfdp.beans.CustomUser;
 import com.whnm.sicqfdp.beans.Departamento;
 import com.whnm.sicqfdp.beans.ListDepartamento;
 import com.whnm.sicqfdp.beans.ListProvincia;
@@ -40,28 +41,31 @@ public class DepartamentoServiceImp implements DepartamentoDao{
     }
 
     @Override
-    public Departamento grabarProvinciaDeDepartamento(Departamento elemento, Provincia elemento2) {
-        return departamentoDao.grabarProvinciaDeDepartamento(elemento, elemento2);
+    public Departamento grabarProvinciaDeDepartamento(Departamento elemento,
+            Provincia elemento2, CustomUser user) {
+        return departamentoDao.grabarProvinciaDeDepartamento(elemento, elemento2,
+                user);
     }
 
     @Override
-    public Departamento eliminarProvinciaDeDepartamento(Departamento elemento, Provincia elemento2) {
+    public Departamento eliminarProvinciaDeDepartamento(Departamento elemento,
+            Provincia elemento2) {
         return departamentoDao.eliminarProvinciaDeDepartamento(elemento, elemento2);
     }
 
     @Override
-    public Departamento grabar(Departamento elemento) {
-        return departamentoDao.grabar(elemento);
+    public Departamento grabar(Departamento elemento, CustomUser user) {
+        return departamentoDao.grabar(elemento, user);
     }
 
     @Override
-    public Departamento editar(Departamento elemento) {
-        return departamentoDao.editar(elemento);
+    public Departamento editar(Departamento elemento, CustomUser user) {
+        return departamentoDao.editar(elemento, user);
     }
 
     @Override
-    public Departamento eliminar(Departamento elemento) {
-        return departamentoDao.eliminar(elemento);
+    public Departamento eliminar(Departamento elemento, CustomUser user) {
+        return departamentoDao.eliminar(elemento, user);
     }
 
     @Override

@@ -5,6 +5,7 @@
  */
 package com.whnm.sicqfdp.interfaces;
 
+import com.whnm.sicqfdp.beans.CustomUser;
 import com.whnm.sicqfdp.beans.Distrito;
 import com.whnm.sicqfdp.beans.DistritoList;
 

@@ -18,7 +18,7 @@ import org.springframework.jdbc.object.StoredProcedure;
  */
 public class SpGrabarPersonaPreInscripcion extends StoredProcedure {
     public static final String SPROC_NAME = "mc_sp_grabar_persona";
-    public static final String PARAM_IN_DNI = "dni";
+    public static final String PARAM_IN_DNI = "_dni";
     public static final String PARAM_IN_APEPATERNO = "appaterno";
     public static final String PARAM_IN_APEMATERNO = "apmaterno";
     public static final String PARAM_IN_NOMBRES = "nom";
@@ -42,6 +42,7 @@ public class SpGrabarPersonaPreInscripcion extends StoredProcedure {
     public static final String PARAM_IN_EMAIL1 = "email1";
     public static final String PARAM_IN_EMAIL2 = "email2";
     public static final String PARAM_IN_CODPOSTAL = "codigoPostal";
+    public static final String PARAM_IN_USUARIO = "_usuario";
     public static final String PARAM_OUT_IND = "ind";
     public static final String PARAM_OUT_MSJ = "msj";
     
@@ -71,6 +72,7 @@ public class SpGrabarPersonaPreInscripcion extends StoredProcedure {
         declareParameter(new SqlParameter(PARAM_IN_EMAIL1, Types.VARCHAR));
         declareParameter(new SqlParameter(PARAM_IN_EMAIL2, Types.VARCHAR));
         declareParameter(new SqlParameter(PARAM_IN_CODPOSTAL, Types.VARCHAR));
+        declareParameter(new SqlParameter(PARAM_IN_USUARIO, Types.VARCHAR));
         declareParameter(new SqlOutParameter(PARAM_OUT_IND, Types.INTEGER));
         declareParameter(new SqlOutParameter(PARAM_OUT_MSJ, Types.VARCHAR));
         compile();

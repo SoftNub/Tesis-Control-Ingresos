@@ -5,6 +5,7 @@
  */
 package com.whnm.sicqfdp.dao;
 
+import com.whnm.sicqfdp.beans.CustomUser;
 import com.whnm.sicqfdp.beans.EstadoCivil;
 import com.whnm.sicqfdp.beans.ListEstadoCivil;
 import com.whnm.sicqfdp.beans.Parametros;
@@ -19,6 +20,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 /**
@@ -32,14 +34,15 @@ public class EstadoCivilDaoImpl implements EstadoCivilDao{
     private SpMantEstadoCivil spMantEstadoCivil;
     
     @Autowired
-    public EstadoCivilDaoImpl(DataSource dataSource) {
+    public EstadoCivilDaoImpl(@Qualifier("dataSource1")DataSource dataSource) {
         this.dataSource = dataSource;
         this.spListarEstadoCivil = new SpListarEstadoCivil(dataSource);
         this.spMantEstadoCivil = new SpMantEstadoCivil(dataSource);
     }
     
     @Override
-    public EstadoCivil mantEstadoCivil(Integer opcCrud, EstadoCivil estCivil) {
+    public EstadoCivil mantEstadoCivil(Integer opcCrud, EstadoCivil estCivil,
+            CustomUser user) {
         EstadoCivil estadocivil = new EstadoCivil();
         Map<String,Object> vars = new HashMap<String,Object>();
         vars.put(SpMantEstadoCivil.PARAM_IN_OPCCRUD, opcCrud);
@@ -47,12 +50,13 @@ public class EstadoCivilDaoImpl implements EstadoCivilDao{
         vars.put(SpMantEstadoCivil.PARAM_IN_DESCESTADOCIVIL, estCivil.getDenominacion());
         vars.put(SpMantEstadoCivil.PARAM_IN_ABBRESTADOCIVIL, estCivil.getAbbr());
         vars.put(SpMantEstadoCivil.PARAM_IN_HABILITADO, estCivil.getHabilitado());
+        vars.put(SpMantEstadoCivil.PARAM_IN_USUARIO, user.getUsername());
         try {
             Map<String, Object> result = (Map<String, Object>) spMantEstadoCivil.execute(vars);
             estadocivil.setIndError(Integer.parseInt(String.valueOf(result.get(Parametros.IND))));
             estadocivil.setMsjError(result.get(Parametros.MSJ).toString());        
         } catch(Exception ex){
-            Logger.getLogger(DistritoDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(EstadoCivilDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
             estadocivil.setIndError(1);
             estadocivil.setMsjError("Error: ["+ex.getMessage()+"]");        
         }
@@ -81,7 +85,7 @@ public class EstadoCivilDaoImpl implements EstadoCivilDao{
                 estadosCiviles.add(estC);
             }        
         } catch(Exception ex){
-            Logger.getLogger(DistritoDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(EstadoCivilDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
             listaEstadoCivil.setIndError(1);
             listaEstadoCivil.setMsjError("Error: ["+ex.getMessage()+"]");
         }

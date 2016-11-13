@@ -18,7 +18,7 @@ import org.springframework.jdbc.object.StoredProcedure;
  */
 public class SpListarDepartamentosHabilitados extends StoredProcedure {
     public static final String SPROC_NAME = "mg_sp_listar_departamentos_habilitados";
-    public static final String PARAM_IN_HABILITADO = "habilitado";
+    public static final String PARAM_IN_HABILITADO = "_habilitado";
     public static final String PARAM_OUT_IND = "ind";
     public static final String PARAM_OUT_MSJ = "msj";
     

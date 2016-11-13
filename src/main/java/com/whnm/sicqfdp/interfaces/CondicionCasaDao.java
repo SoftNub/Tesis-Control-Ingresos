@@ -6,6 +6,7 @@
 package com.whnm.sicqfdp.interfaces;
 
 import com.whnm.sicqfdp.beans.CondicionCasa;
+import com.whnm.sicqfdp.beans.CustomUser;
 import com.whnm.sicqfdp.beans.ListCondicionCasa;
 
 /**
@@ -13,6 +14,7 @@ import com.whnm.sicqfdp.beans.ListCondicionCasa;
  * @author wilson
  */
 public interface CondicionCasaDao {
-    public CondicionCasa mantCondicionCasa(Integer opcCrud, CondicionCasa condCasa);
+    public CondicionCasa mantCondicionCasa(Integer opcCrud, CondicionCasa condCasa,
+            CustomUser user);
     public ListCondicionCasa listarCondicionCasas(Integer opcListado, CondicionCasa condCasa);
 }

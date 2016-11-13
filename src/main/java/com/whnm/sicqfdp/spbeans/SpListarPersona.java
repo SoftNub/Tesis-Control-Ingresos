@@ -19,7 +19,7 @@ import org.springframework.jdbc.object.StoredProcedure;
 public class SpListarPersona extends StoredProcedure {
     public static final String SPROC_NAME = "mc_sp_listar_persona";
     public static final String PARAM_IN_OPC = "opc";
-    public static final String PARAM_IN_DNI = "dni";
+    public static final String PARAM_IN_DNI = "_dni";
     public static final String PARAM_OUT_IND = "ind";
     public static final String PARAM_OUT_MSJ = "msj";
     

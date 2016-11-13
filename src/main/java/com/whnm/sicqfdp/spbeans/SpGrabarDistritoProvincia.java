@@ -20,6 +20,7 @@ public class SpGrabarDistritoProvincia extends StoredProcedure{
     public static final String SPROC_NAME = "mg_sp_grabar_distritos_x_provincia";
     public static final String PARAM_IN_CODPROVINCIA = "codProvincia";
     public static final String PARAM_IN_CODDISTRITO = "codDistrito";
+    public static final String PARAM_IN_USUARIO = "_usuario";
     public static final String PARAM_OUT_IND = "ind";
     public static final String PARAM_OUT_MSJ = "msj";
     
@@ -27,6 +28,7 @@ public class SpGrabarDistritoProvincia extends StoredProcedure{
         super(dataSource, SPROC_NAME);
         declareParameter(new SqlParameter(PARAM_IN_CODPROVINCIA, Types.INTEGER));
         declareParameter(new SqlParameter(PARAM_IN_CODDISTRITO, Types.INTEGER));
+        declareParameter(new SqlParameter(PARAM_IN_USUARIO, Types.VARCHAR));
         declareParameter(new SqlOutParameter(PARAM_OUT_IND, Types.INTEGER));
         declareParameter(new SqlOutParameter(PARAM_OUT_MSJ, Types.VARCHAR));
         compile();

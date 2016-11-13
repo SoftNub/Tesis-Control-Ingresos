@@ -41,7 +41,7 @@ function ListDistritos(Distritos, indError, msjError){
 function listarTodosDistritos(){
     var listDistritos = new ListDistritos();
     $.ajax({
-        url : "ListarAllDistritos.action",
+        url : "../parametria/ListarAllDistritos.action",
         type : "POST",
         contentType : 'application/json; charset=utf-8',
         dataType : 'json',
@@ -63,7 +63,7 @@ function grabarDistrito(){
     };
     distrito = new Distrito();
     $.ajax({
-        url : "GrabarDistrito.action",
+        url : "../parametria/GrabarDistrito.action",
         type : "POST",
         contentType : 'application/json; charset=utf-8',
         dataType : 'json',
@@ -87,7 +87,7 @@ function editarDistrito(){
     };
     distrito = new Distrito();
     $.ajax({
-        url : "EditarDistrito.action",
+        url : "../parametria/EditarDistrito.action",
         type : "POST",
         contentType : 'application/json; charset=utf-8',
         dataType : 'json',
@@ -109,7 +109,7 @@ function eliminarDistrito(){
     };
     distrito = new Distrito();
     $.ajax({
-        url : "EliminarDistrito.action",
+        url : "../parametria/EliminarDistrito.action",
         type : "POST",
         contentType : 'application/json; charset=utf-8',
         dataType : 'json',
@@ -131,7 +131,7 @@ function listarDistritoId(){
     };
     distrito = new Distrito();
     $.ajax({
-        url : "ListarDistritoId.action",
+        url : "../parametria/ListarDistritoId.action",
         type : "POST",
         contentType : 'application/json; charset=utf-8',
         dataType : 'json',
@@ -154,7 +154,7 @@ function listarDistritosHabilitados(){
     };
     var listDistritos = new ListDistritos();
     $.ajax({
-        url : "ListarDistritosHabilitados.action",
+        url : "../parametria/ListarDistritosHabilitados.action",
         type : "POST",
         contentType : 'application/json; charset=utf-8',
         dataType : 'json',

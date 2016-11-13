@@ -5,6 +5,7 @@
  */
 package com.whnm.sicqfdp.service;
 
+import com.whnm.sicqfdp.beans.CustomUser;
 import com.whnm.sicqfdp.beans.Distrito;
 import com.whnm.sicqfdp.beans.DistritoList;
 import com.whnm.sicqfdp.beans.ListProvincia;
@@ -30,18 +31,18 @@ public class ProvinciaServiceImp implements ProvinciaDao{
     }
 
     @Override
-    public Provincia grabar(Provincia elemento) {
-        return provinciaDao.grabar(elemento);
+    public Provincia grabar(Provincia elemento, CustomUser user) {
+        return provinciaDao.grabar(elemento, user);
     }
 
     @Override
-    public Provincia editar(Provincia elemento) {
-        return provinciaDao.editar(elemento);
+    public Provincia editar(Provincia elemento, CustomUser user) {
+        return provinciaDao.editar(elemento, user);
     }
 
     @Override
-    public Provincia eliminar(Provincia elemento) {
-        return provinciaDao.eliminar(elemento);
+    public Provincia eliminar(Provincia elemento, CustomUser user) {
+        return provinciaDao.eliminar(elemento, user);
     }
 
     @Override
@@ -55,8 +56,9 @@ public class ProvinciaServiceImp implements ProvinciaDao{
     }
 
     @Override
-    public Provincia grabarDistritoDeProvincia(Provincia elemento, Distrito elemento2) {
-        return provinciaDao.grabarDistritoDeProvincia(elemento, elemento2);
+    public Provincia grabarDistritoDeProvincia(Provincia elemento, Distrito elemento2,
+            CustomUser user) {
+        return provinciaDao.grabarDistritoDeProvincia(elemento, elemento2, user);
     }
 
     @Override

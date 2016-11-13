@@ -5,6 +5,7 @@
  */
 package com.whnm.sicqfdp.interfaces;
 
+import com.whnm.sicqfdp.beans.CustomUser;
 import com.whnm.sicqfdp.beans.Departamento;
 import com.whnm.sicqfdp.beans.ListDepartamento;
 import com.whnm.sicqfdp.beans.ListProvincia;
@@ -18,6 +19,8 @@ public interface DepartamentoDao extends Generica<Departamento>{
     public ListDepartamento listarAllDepartamentos();
     public ListDepartamento listarDepartamentosHabilitadas(Departamento elemento);
     public ListProvincia listarProvinciaDeDepartamento(Departamento elemento);
-    public Departamento grabarProvinciaDeDepartamento(Departamento elemento, Provincia elemento2);
-    public Departamento eliminarProvinciaDeDepartamento(Departamento elemento, Provincia elemento2);
+    public Departamento grabarProvinciaDeDepartamento(Departamento elemento,
+            Provincia elemento2, CustomUser user);
+    public Departamento eliminarProvinciaDeDepartamento(Departamento elemento,
+            Provincia elemento2);
 }

@@ -19,6 +19,7 @@ com/whnm/sicqfdp/spbeans/SpListarDistritos.class
 com/whnm/sicqfdp/beans/Datos.class
 com/whnm/sicqfdp/beans/Distrito.class
 com/whnm/sicqfdp/beans/EstadoCivil.class
+com/whnm/sicqfdp/controller/GestionUsuariosController.class
 com/whnm/sicqfdp/exceptions/WebCqfdpAuthException.class
 com/whnm/sicqfdp/beans/ListOperadora.class
 com/whnm/sicqfdp/spbeans/SpListarPersona.class

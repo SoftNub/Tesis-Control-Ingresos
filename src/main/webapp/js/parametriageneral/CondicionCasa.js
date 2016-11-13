@@ -27,7 +27,7 @@ function mantCondicionCasa(opcCrud){
     };
     condicionCasa = new CondicionCasa();
     $.ajax({
-        url : "mantCondicionCasa.action",
+        url : "../parametria/mantCondicionCasa.action",
         type : "POST",
         contentType : 'application/json; charset=utf-8',
         dataType : 'json',
@@ -49,7 +49,7 @@ function listCondicionCasa(opcListado){
         "habilitado": this.habilitado
     };
     $.ajax({
-        url : "listCondicionCasa.action",
+        url : "../parametria/listCondicionCasa.action",
         type : "POST",
         contentType : 'application/json; charset=utf-8',
         dataType : 'json',

@@ -19,7 +19,8 @@ import org.springframework.jdbc.object.StoredProcedure;
 public class SpGrabarDepartamento extends StoredProcedure {
     public static final String SPROC_NAME = "mg_sp_grabar_departamento";
     public static final String PARAM_IN_DESCDEPARTAMENTO = "descDepartamento";
-    public static final String PARAM_IN_HABILITADO = "habilitado";
+    public static final String PARAM_IN_HABILITADO = "_habilitado";
+    public static final String PARAM_IN_USUARIO = "_usuario";
     public static final String PARAM_OUT_IND = "ind";
     public static final String PARAM_OUT_MSJ = "msj";
     
@@ -27,6 +28,7 @@ public class SpGrabarDepartamento extends StoredProcedure {
         super(dataSource, SPROC_NAME);
         declareParameter(new SqlParameter(PARAM_IN_DESCDEPARTAMENTO, Types.VARCHAR));
         declareParameter(new SqlParameter(PARAM_IN_HABILITADO, Types.INTEGER));
+        declareParameter(new SqlParameter(PARAM_IN_USUARIO, Types.VARCHAR));
         declareParameter(new SqlOutParameter(PARAM_OUT_IND, Types.INTEGER));
         declareParameter(new SqlOutParameter(PARAM_OUT_MSJ, Types.VARCHAR));
         compile();

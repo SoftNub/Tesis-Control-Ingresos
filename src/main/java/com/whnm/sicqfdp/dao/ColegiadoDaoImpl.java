@@ -6,6 +6,7 @@
 package com.whnm.sicqfdp.dao;
 
 import com.whnm.sicqfdp.beans.Colegiado;
+import com.whnm.sicqfdp.beans.CustomUser;
 import com.whnm.sicqfdp.beans.ExperienciaLaboral;
 import com.whnm.sicqfdp.beans.Familiar;
 import com.whnm.sicqfdp.beans.ListColegiado;
@@ -25,6 +26,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 /**
@@ -41,7 +43,7 @@ public class ColegiadoDaoImpl implements ColegiadoDao{
     
     
     @Autowired
-    public ColegiadoDaoImpl(DataSource dataSource) {
+    public ColegiadoDaoImpl(@Qualifier("dataSource1")DataSource dataSource) {
         this.dataSource = dataSource;
         this.spListarColegiado = new SpListarColegiado(dataSource);
         this.spGrabarColegiadoInscripcion = new SpGrabarColegiadoInscripcion(dataSource);
@@ -174,7 +176,8 @@ public class ColegiadoDaoImpl implements ColegiadoDao{
     }
 
     @Override
-    public Colegiado grabarColegiado(Integer opc, Integer indicador, Colegiado elemento) {
+    public Colegiado grabarColegiado(Integer opc, Integer indicador, Colegiado elemento,
+            CustomUser user) {
         Colegiado persona = new Colegiado();
         Map<String,Object> vars = new HashMap<String,Object>();
         vars.put(SpGrabarColegiadoInscripcion.PARAM_IN_OPC, opc);
@@ -218,7 +221,7 @@ public class ColegiadoDaoImpl implements ColegiadoDao{
         String tramaExpLab = "";
         if(elemento.getExpeLaborales() != null){
             for(ExperienciaLaboral item : elemento.getExpeLaborales()){
-                tramaExpLab += (item.getId() != null ? item.getId() : "")+"|"
+                tramaExpLab += (item.getId() != null ? item.getId() : "0")+"|"
                         + (item.getNumColegiatura() != null ? item.getNumColegiatura() : "")+"|"
                         + (item.getCentroTrabajo()!= null ? item.getCentroTrabajo() : " ")+"|"
                         + (item.getRegimenLaboral()!= null ? item.getRegimenLaboral() : " ")+"|"
@@ -230,7 +233,7 @@ public class ColegiadoDaoImpl implements ColegiadoDao{
         String tramaFamilia = "";
         if(elemento.getFamiliares() != null){
             for(Familiar item : elemento.getFamiliares()){
-                tramaFamilia += (item.getId() != null ? item.getId() : "")+"|"
+                tramaFamilia += (item.getId() != null ? item.getId() : "0")+"|"
                         + (item.getNumColegiatura() != null ? item.getNumColegiatura() : "")+"|"
                         + (item.getNombre()!= null ? item.getNombre() : " ")+"|"
                         + (item.getParentesco()!= null ? item.getParentesco(): " ")+"|"
@@ -241,7 +244,7 @@ public class ColegiadoDaoImpl implements ColegiadoDao{
         String tramaGrados = "";
         if(elemento.getOtrosEstudios()!= null){
             for(OtrosGrados item : elemento.getOtrosEstudios()){
-                tramaGrados += (item.getId() != null ? item.getId() : "")+"|"
+                tramaGrados += (item.getId() != null ? item.getId() : "0")+"|"
                         + (item.getNumColegiatura() != null ? item.getNumColegiatura() : "")+"|"
                         + (item.getDenominacion()!= null ? item.getDenominacion() : " ")+"|"
                         + (item.getTipo()!= null ? item.getTipo() : "")+"|"
@@ -258,6 +261,7 @@ public class ColegiadoDaoImpl implements ColegiadoDao{
         vars.put(SpGrabarColegiadoInscripcion.PARAM_IN_TRAMA_GRADOS, tramaGrados);
         vars.put(SpGrabarColegiadoInscripcion.PARAM_IN_IND_EXISTE, elemento.getIndExiste());
         vars.put(SpGrabarColegiadoInscripcion.PARAM_IN_ES_COLEGIADO, elemento.getEsColegiado());
+        vars.put(SpGrabarColegiadoInscripcion.PARAM_IN_USUARIO, user.getUsername());
         try {
             Map<String, Object> result = (Map<String, Object>) spGrabarColegiadoInscripcion.execute(vars);
             persona.setIndError(Integer.parseInt(String.valueOf(result.get(Parametros.IND))));
@@ -271,17 +275,17 @@ public class ColegiadoDaoImpl implements ColegiadoDao{
     }
 
     @Override
-    public Colegiado grabar(Colegiado elemento) {
+    public Colegiado grabar(Colegiado elemento, CustomUser user) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public Colegiado editar(Colegiado elemento) {
+    public Colegiado editar(Colegiado elemento, CustomUser user) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public Colegiado eliminar(Colegiado elemento) {
+    public Colegiado eliminar(Colegiado elemento, CustomUser user) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -291,11 +295,12 @@ public class ColegiadoDaoImpl implements ColegiadoDao{
     }
 
     @Override
-    public Colegiado grabarSolicitudColegiatura(Colegiado col) {
+    public Colegiado grabarSolicitudColegiatura(Colegiado col, CustomUser user) {
         Colegiado persona = new Colegiado();
         Map<String,Object> vars = new HashMap<String,Object>();
         vars.put(SpGrabarSolicitudEgreso.PARAM_IN_DNI, col.getDni());
         vars.put(SpGrabarSolicitudEgreso.PARAM_IN_NUMCOLEGIATURA, col.getNumColegiatura());
+        vars.put(SpGrabarSolicitudEgreso.PARAM_IN_USUARIO, user.getUsername());
         try {
             Map<String, Object> result = (Map<String, Object>) spGrabarSolicitudEgreso.execute(vars);
             persona.setIndError(Integer.parseInt(String.valueOf(result.get(Parametros.IND))));
@@ -438,7 +443,7 @@ public class ColegiadoDaoImpl implements ColegiadoDao{
     }
 
     @Override
-    public ListColegiado grabarEgresoColegiado(ListColegiado listaColegiados) {
+    public ListColegiado grabarEgresoColegiado(ListColegiado listaColegiados, CustomUser user) {
         ListColegiado persona = new ListColegiado();
         Map<String,Object> vars = new HashMap<String,Object>();
         /*Elaborando trama*/
@@ -455,6 +460,7 @@ public class ColegiadoDaoImpl implements ColegiadoDao{
         }
        
         vars.put(SpGrabarColegiadoEgreso.PARAM_IN_TRAMA, trama);
+        vars.put(SpGrabarColegiadoEgreso.PARAM_IN_USUARIO, user.getUsername());
         try {
             Map<String, Object> result = (Map<String, Object>) spGrabarColegiadoEgreso.execute(vars);
             persona.setIndError(Integer.parseInt(String.valueOf(result.get(Parametros.IND))));

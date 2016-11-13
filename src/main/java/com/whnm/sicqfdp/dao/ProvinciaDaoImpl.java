@@ -5,6 +5,7 @@
  */
 package com.whnm.sicqfdp.dao;
 
+import com.whnm.sicqfdp.beans.CustomUser;
 import com.whnm.sicqfdp.beans.Distrito;
 import com.whnm.sicqfdp.beans.DistritoList;
 import com.whnm.sicqfdp.beans.Provincia;
@@ -28,6 +29,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 /**
@@ -48,7 +50,7 @@ public class ProvinciaDaoImpl implements ProvinciaDao{
     private SpListarProvinciasHabilitados spListarProvinciasHabilitados;
 
     @Autowired
-    public ProvinciaDaoImpl(DataSource dataSource) {
+    public ProvinciaDaoImpl(@Qualifier("dataSource1") DataSource dataSource) {
         this.dataSource = dataSource;
         this.spListarProvincia = new SpListarProvincia(dataSource);
         this.spListarTodosProvincia = new SpListarTodasProvincias(dataSource);
@@ -86,11 +88,12 @@ public class ProvinciaDaoImpl implements ProvinciaDao{
     }
 
     @Override
-    public Provincia grabar(Provincia elemento) {
+    public Provincia grabar(Provincia elemento, CustomUser user) {
          Provincia distrito = new Provincia();
         Map<String,Object> vars = new HashMap<String,Object>();
         vars.put(SpGrabarProvincia.PARAM_IN_DESCPROVINCIA, elemento.getNombreProvincia().toUpperCase());
         vars.put(SpGrabarProvincia.PARAM_IN_HABILITADO, elemento.getHabilitado());
+        vars.put(SpGrabarProvincia.PARAM_IN_USUARIO, user.getUsername());
         try {
             Map<String, Object> result = (Map<String, Object>) spGrabarProvincia.execute(vars);
             distrito.setIndError(Integer.parseInt(String.valueOf(result.get(Parametros.IND))));
@@ -104,12 +107,13 @@ public class ProvinciaDaoImpl implements ProvinciaDao{
     }
 
     @Override
-    public Provincia editar(Provincia elemento) {
+    public Provincia editar(Provincia elemento, CustomUser user) {
         Provincia distrito = new Provincia();
         Map<String,Object> vars = new HashMap<String,Object>();
         vars.put(SpEditarProvincia.PARAM_IN_CODPROVINCIA, elemento.getIdProvincia());
         vars.put(SpEditarProvincia.PARAM_IN_DESCPROVINCIA, elemento.getNombreProvincia().toUpperCase());
         vars.put(SpEditarProvincia.PARAM_IN_HABILITADO, elemento.getHabilitado());
+        vars.put(SpEditarProvincia.PARAM_IN_USUARIO, user.getUsername());
         try {
             Map<String, Object> result = (Map<String, Object>) spEditarProvincia.execute(vars);
             distrito.setIndError(Integer.parseInt(String.valueOf(result.get(Parametros.IND))));
@@ -123,10 +127,11 @@ public class ProvinciaDaoImpl implements ProvinciaDao{
     }
 
     @Override
-    public Provincia eliminar(Provincia elemento) {
+    public Provincia eliminar(Provincia elemento, CustomUser user) {
         Provincia distrito = new Provincia();
         Map<String,Object> vars = new HashMap<String,Object>();
         vars.put(SpEliminarProvincia.PARAM_IN_CODPROVINCIA, elemento.getIdProvincia());
+        vars.put(SpEliminarProvincia.PARAM_IN_USUARIO, user.getUsername());
         try {
             Map<String, Object> result = (Map<String, Object>) spEliminarProvincia.execute(vars);
            distrito.setIndError(Integer.parseInt(String.valueOf(result.get(Parametros.IND))));
@@ -189,11 +194,13 @@ public class ProvinciaDaoImpl implements ProvinciaDao{
     }
 
     @Override
-    public Provincia grabarDistritoDeProvincia(Provincia elemento, Distrito elemento2) {
+    public Provincia grabarDistritoDeProvincia(Provincia elemento, Distrito elemento2,
+            CustomUser user) {
         Provincia distrito = new Provincia();
         Map<String,Object> vars = new HashMap<String,Object>();
         vars.put(SpGrabarDistritoProvincia.PARAM_IN_CODPROVINCIA, elemento.getIdProvincia());
         vars.put(SpGrabarDistritoProvincia.PARAM_IN_CODDISTRITO, elemento2.getIdDistrito());
+        vars.put(SpGrabarDistritoProvincia.PARAM_IN_USUARIO, user.getUsername());
         try {
             Map<String, Object> result = (Map<String, Object>) spGrabarDistritoProvincia.execute(vars);
             distrito.setIndError(Integer.parseInt(String.valueOf(result.get(Parametros.IND))));

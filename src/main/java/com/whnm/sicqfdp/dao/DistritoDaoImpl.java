@@ -5,6 +5,7 @@
  */
 package com.whnm.sicqfdp.dao;
 
+import com.whnm.sicqfdp.beans.CustomUser;
 import com.whnm.sicqfdp.beans.Distrito;
 import com.whnm.sicqfdp.beans.DistritoList;
 import com.whnm.sicqfdp.beans.Parametros;
@@ -23,6 +24,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 /**
@@ -40,7 +42,7 @@ public class DistritoDaoImpl implements DistritoDao{
     private SpEliminarDistrito spEliminarDistrito;
 
     @Autowired
-    public DistritoDaoImpl(DataSource dataSource) {
+    public DistritoDaoImpl(@Qualifier("dataSource1") DataSource dataSource) {
         this.dataSource = dataSource;
         this.spListarDistrito = new SpListarDistritos(dataSource);
         this.spListarTodosDistrito = new SpListarTodosDistritos(dataSource);
@@ -76,11 +78,12 @@ public class DistritoDaoImpl implements DistritoDao{
     }
 
     @Override
-    public Distrito grabar(Distrito elemento) {
+    public Distrito grabar(Distrito elemento, CustomUser user) {
         Distrito distrito = new Distrito();
         Map<String,Object> vars = new HashMap<String,Object>();
         vars.put(SpGrabarDistrito.PARAM_IN_DESCDISTRITO, elemento.getNombreDistrito().toUpperCase());
         vars.put(SpGrabarDistrito.PARAM_IN_HABILITADO, elemento.getHabilitado());
+        vars.put(SpGrabarDistrito.PARAM_IN_USUARIO, user.getUsername());
         try {
             Map<String, Object> result = (Map<String, Object>) spGrabarDistrito.execute(vars);
             distrito.setIndError(Integer.parseInt(String.valueOf(result.get(Parametros.IND))));
@@ -94,12 +97,13 @@ public class DistritoDaoImpl implements DistritoDao{
     }
 
     @Override
-    public Distrito editar(Distrito elemento) {
+    public Distrito editar(Distrito elemento, CustomUser user) {
         Distrito distrito = new Distrito();
         Map<String,Object> vars = new HashMap<String,Object>();
         vars.put(SpEditarDistrito.PARAM_IN_CODDISTRITO, elemento.getIdDistrito());
         vars.put(SpEditarDistrito.PARAM_IN_DESCDISTRITO, elemento.getNombreDistrito().toUpperCase());
         vars.put(SpEditarDistrito.PARAM_IN_HABILITADO, elemento.getHabilitado());
+        vars.put(SpEditarDistrito.PARAM_IN_USUARIO, user.getUsername());
         try {
             Map<String, Object> result = (Map<String, Object>) spEditarDistrito.execute(vars);
             distrito.setIndError(Integer.parseInt(String.valueOf(result.get(Parametros.IND))));
@@ -113,7 +117,7 @@ public class DistritoDaoImpl implements DistritoDao{
     }
 
     @Override
-    public Distrito eliminar(Distrito elemento) {
+    public Distrito eliminar(Distrito elemento, CustomUser user) {
         Distrito distrito = new Distrito();
         Map<String,Object> vars = new HashMap<String,Object>();
         vars.put(SpEliminarDistrito.PARAM_IN_CODDISTRITO, elemento.getIdDistrito());
@@ -177,4 +181,6 @@ public class DistritoDaoImpl implements DistritoDao{
         listaDistritos.setListaDistritos(distritos);
         return listaDistritos;
     }
+
+   
 }

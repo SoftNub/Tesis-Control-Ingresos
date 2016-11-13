@@ -6,6 +6,7 @@
 package com.whnm.sicqfdp.interfaces;
 
 import com.whnm.sicqfdp.beans.Colegiado;
+import com.whnm.sicqfdp.beans.CustomUser;
 import com.whnm.sicqfdp.beans.ListColegiado;
 
 /**
@@ -14,8 +15,10 @@ import com.whnm.sicqfdp.beans.ListColegiado;
  */
 public interface ColegiadoDao extends Generica<Colegiado> {
     public Colegiado listarColegiado(Integer opc, Colegiado per);
-    public Colegiado grabarColegiado(Integer opc, Integer indicador, Colegiado per);
-    public Colegiado grabarSolicitudColegiatura(Colegiado col);
+    public Colegiado grabarColegiado(Integer opc, Integer indicador, Colegiado per,
+            CustomUser user);
+    public Colegiado grabarSolicitudColegiatura(Colegiado col, CustomUser user);
     public ListColegiado buscarColegiadoEgreso(Integer opc, Colegiado col);
-    public ListColegiado grabarEgresoColegiado(ListColegiado listaColegiados);
+    public ListColegiado grabarEgresoColegiado(ListColegiado listaColegiados,
+            CustomUser user);
 }

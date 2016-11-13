@@ -19,11 +19,11 @@ import org.springframework.jdbc.object.StoredProcedure;
 public class SpGrabarColegiadoInscripcion extends StoredProcedure {
     public static final String SPROC_NAME = "mc_sp_mant_colegiado";
     public static final String PARAM_IN_OPC = "opc";
-    public static final String PARAM_IN_DNI = "dni";
+    public static final String PARAM_IN_DNI = "_dni";
     public static final String PARAM_IN_APEPATERNO = "appaterno";
     public static final String PARAM_IN_APEMATERNO = "apmaterno";
     public static final String PARAM_IN_NOMBRES = "nom";
-    public static final String PARAM_IN_IDESTADOCIVIL = "idEstadoCivil";
+    public static final String PARAM_IN_IDESTADOCIVIL = "_idEstadoCivil";
     public static final String PARAM_IN_GSANGUINEO = "gsanguineo";
     public static final String PARAM_IN_TIPOSANGRE = "tiposang";
     public static final String PARAM_IN_FECHANAC = "fechanac";
@@ -56,6 +56,7 @@ public class SpGrabarColegiadoInscripcion extends StoredProcedure {
     public static final String PARAM_IN_TRAMA_GRADOS = "trama_grados";
     public static final String PARAM_IN_IND_EXISTE = "ind_existe";
     public static final String PARAM_IN_ES_COLEGIADO = "ind_es_coleg";
+    public static final String PARAM_IN_USUARIO = "_usuario";
     public static final String PARAM_OUT_IND = "ind";
     public static final String PARAM_OUT_MSJ = "msj";
     
@@ -99,6 +100,7 @@ public class SpGrabarColegiadoInscripcion extends StoredProcedure {
         declareParameter(new SqlParameter(PARAM_IN_TRAMA_GRADOS, Types.VARCHAR));
         declareParameter(new SqlParameter(PARAM_IN_IND_EXISTE, Types.INTEGER));
         declareParameter(new SqlParameter(PARAM_IN_ES_COLEGIADO, Types.INTEGER));
+        declareParameter(new SqlParameter(PARAM_IN_USUARIO, Types.VARCHAR));
         declareParameter(new SqlOutParameter(PARAM_OUT_IND, Types.INTEGER));
         declareParameter(new SqlOutParameter(PARAM_OUT_MSJ, Types.VARCHAR));
         compile();

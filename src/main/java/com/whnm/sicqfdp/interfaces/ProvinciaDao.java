@@ -5,6 +5,7 @@
  */
 package com.whnm.sicqfdp.interfaces;
 
+import com.whnm.sicqfdp.beans.CustomUser;
 import com.whnm.sicqfdp.beans.Distrito;
 import com.whnm.sicqfdp.beans.DistritoList;
 import com.whnm.sicqfdp.beans.ListProvincia;
@@ -18,6 +19,7 @@ public interface ProvinciaDao extends Generica<Provincia>{
     public ListProvincia listarAllProvincias();
     public ListProvincia listarProvinciasHabilitadas(Provincia elemento);
     public DistritoList listarDistritosDeProvincia(Provincia elemento);
-    public Provincia grabarDistritoDeProvincia(Provincia elemento, Distrito elemento2);
+    public Provincia grabarDistritoDeProvincia(Provincia elemento, Distrito elemento2,
+            CustomUser user);
     public Provincia eliminarDistritoDeProvincia(Provincia elemento, Distrito elemento2);
 }

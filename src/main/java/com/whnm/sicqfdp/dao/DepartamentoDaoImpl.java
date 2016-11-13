@@ -5,6 +5,7 @@
  */
 package com.whnm.sicqfdp.dao;
 
+import com.whnm.sicqfdp.beans.CustomUser;
 import com.whnm.sicqfdp.beans.Departamento;
 import com.whnm.sicqfdp.beans.ListDepartamento;
 import com.whnm.sicqfdp.beans.ListProvincia;
@@ -28,6 +29,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 /**
@@ -48,7 +50,7 @@ public class DepartamentoDaoImpl implements DepartamentoDao{
     private SpListarDepartamentosHabilitados spListarDepartamentosHabilitados;
 
     @Autowired
-    public DepartamentoDaoImpl(DataSource dataSource) {
+    public DepartamentoDaoImpl(@Qualifier("dataSource1")DataSource dataSource) {
         this.dataSource = dataSource;
         this.spListarDepartamento = new SpListarDepartamento(dataSource);
         this.spListarTodosDepartamentos = new SpListarTodosDepartamentos(dataSource);
@@ -86,11 +88,12 @@ public class DepartamentoDaoImpl implements DepartamentoDao{
     }
 
     @Override
-    public Departamento grabar(Departamento elemento) {
+    public Departamento grabar(Departamento elemento, CustomUser user) {
          Departamento distrito = new Departamento();
         Map<String,Object> vars = new HashMap<String,Object>();
         vars.put(SpGrabarDepartamento.PARAM_IN_DESCDEPARTAMENTO, elemento.getNombreDepartamento().toUpperCase());
         vars.put(SpGrabarDepartamento.PARAM_IN_HABILITADO, elemento.getHabilitado());
+        vars.put(SpGrabarDepartamento.PARAM_IN_USUARIO, user.getUsername());
         try {
             Map<String, Object> result = (Map<String, Object>) spGrabarDepartamento.execute(vars);
             distrito.setIndError(Integer.parseInt(String.valueOf(result.get(Parametros.IND))));
@@ -104,12 +107,13 @@ public class DepartamentoDaoImpl implements DepartamentoDao{
     }
 
     @Override
-    public Departamento editar(Departamento elemento) {
+    public Departamento editar(Departamento elemento, CustomUser user) {
         Departamento distrito = new Departamento();
         Map<String,Object> vars = new HashMap<String,Object>();
         vars.put(SpEditarDepartamento.PARAM_IN_CODDEPARTAMENTO, elemento.getIdDepartamento());
         vars.put(SpEditarDepartamento.PARAM_IN_DESCDEPARTAMENTO, elemento.getNombreDepartamento().toUpperCase());
         vars.put(SpEditarDepartamento.PARAM_IN_HABILITADO, elemento.getHabilitado());
+        vars.put(SpEditarDepartamento.PARAM_IN_USUARIO, user.getUsername());
         try {
             Map<String, Object> result = (Map<String, Object>) spEditarDepartamento.execute(vars);
             distrito.setIndError(Integer.parseInt(String.valueOf(result.get(Parametros.IND))));
@@ -123,7 +127,7 @@ public class DepartamentoDaoImpl implements DepartamentoDao{
     }
 
     @Override
-    public Departamento eliminar(Departamento elemento) {
+    public Departamento eliminar(Departamento elemento, CustomUser user) {
         Departamento distrito = new Departamento();
         Map<String,Object> vars = new HashMap<String,Object>();
         vars.put(SpEliminarDepartamento.PARAM_IN_CODDEPARTAMENTO, elemento.getIdDepartamento());
@@ -189,11 +193,13 @@ public class DepartamentoDaoImpl implements DepartamentoDao{
     }
 
     @Override
-    public Departamento grabarProvinciaDeDepartamento(Departamento elemento, Provincia elemento2) {
+    public Departamento grabarProvinciaDeDepartamento(Departamento elemento,
+            Provincia elemento2, CustomUser user) {
         Departamento departamento = new Departamento();
         Map<String,Object> vars = new HashMap<String,Object>();
         vars.put(SpGrabarProvinciaDepartamento.PARAM_IN_CODDEPARTAMENTO, elemento.getIdDepartamento());
         vars.put(SpGrabarProvinciaDepartamento.PARAM_IN_CODPROVINCIA, elemento2.getIdProvincia());
+        vars.put(SpGrabarProvinciaDepartamento.PARAM_IN_USUARIO, user.getUsername());
         try {
             Map<String, Object> result = (Map<String, Object>) spGrabarProvinciaDepartamento.execute(vars);
             departamento.setIndError(Integer.parseInt(String.valueOf(result.get(Parametros.IND))));

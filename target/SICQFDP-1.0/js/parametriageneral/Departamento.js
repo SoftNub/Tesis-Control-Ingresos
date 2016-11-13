@@ -31,7 +31,7 @@ function ListDepartemento(Departamentos, indError, msjError){
 function listarAllDepartamento(){
     var listDepartamento = new ListDepartemento();
     $.ajax({
-        url : "ListarAllDepartamentos.action",
+        url : "../parametria/ListarAllDepartamentos.action",
         type : "POST",
         contentType : 'application/json; charset=utf-8',
         dataType : 'json',
@@ -53,7 +53,7 @@ function grabarDepartamento(){
     };
     departamento = new Departamento();
     $.ajax({
-        url : "GrabarDepartamento.action",
+        url : "../parametria/GrabarDepartamento.action",
         type : "POST",
         contentType : 'application/json; charset=utf-8',
         dataType : 'json',
@@ -77,7 +77,7 @@ function editarDepartamento(){
     };
     departamento = new Departamento();
     $.ajax({
-        url : "EditarDepartamento.action",
+        url : "../parametria/EditarDepartamento.action",
         type : "POST",
         contentType : 'application/json; charset=utf-8',
         dataType : 'json',
@@ -99,7 +99,7 @@ function eliminarDepartamento(){
     };
     departamento = new Departamento();
     $.ajax({
-        url : "EliminarDepartamento.action",
+        url : "../parametria/EliminarDepartamento.action",
         type : "POST",
         contentType : 'application/json; charset=utf-8',
         dataType : 'json',
@@ -121,7 +121,7 @@ function listarDepartamentoId(){
     };
     departamento = new Departamento();
     $.ajax({
-        url : "ListarDepartamentoId.action",
+        url : "../parametria/ListarDepartamentoId.action",
         type : "POST",
         contentType : 'application/json; charset=utf-8',
         dataType : 'json',
@@ -145,7 +145,7 @@ function listarProvinciaDeDepartamento(){
     };
     listaProvincias = new ListProvincia();
     $.ajax({
-        url : "ListarProvinciaDepartamento.action",
+        url : "../parametria/ListarProvinciaDepartamento.action",
         type : "POST",
         contentType : 'application/json; charset=utf-8',
         dataType : 'json',
@@ -169,7 +169,7 @@ function grabarProvinciaDeDepartamento(idProvincia){
     };
     departamento = new Departamento();
     $.ajax({
-        url : "GrabarProvinciaDepartamento.action",
+        url : "../parametria/GrabarProvinciaDepartamento.action",
         type : "POST",
         contentType : 'application/json; charset=utf-8',
         dataType : 'json',
@@ -194,7 +194,7 @@ function eliminarProvinciaDeDepartamento(idProvincia){
     };
     departamento = new Departamento();
     $.ajax({
-        url : "EliminarProvinciaDepartamento.action",
+        url : "../parametria/EliminarProvinciaDepartamento.action",
         type : "POST",
         contentType : 'application/json; charset=utf-8',
         dataType : 'json',
@@ -215,7 +215,7 @@ function listarDepartamentosHabilitados(){
     };
     var listDepartamentos = new ListDepartemento();
     $.ajax({
-        url : "ListarDepartamentosHabilitados.action",
+        url : "../parametria/ListarDepartamentosHabilitados.action",
         type : "POST",
         contentType : 'application/json; charset=utf-8',
         dataType : 'json',

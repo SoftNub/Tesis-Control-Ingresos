@@ -22,7 +22,7 @@ public class SpActualizarPersonaPreInscripcion extends StoredProcedure {
     public static final String PARAM_IN_APEPATERNO = "appaterno";
     public static final String PARAM_IN_APEMATERNO = "apmaterno";
     public static final String PARAM_IN_NOMBRES = "nom";
-    public static final String PARAM_IN_IDESTADOCIVIL = "idEstadoCivil";
+    public static final String PARAM_IN_IDESTADOCIVIL = "_idEstadoCivil";
     public static final String PARAM_IN_GSANGUINEO = "gsanguineo";
     public static final String PARAM_IN_TIPOSANGRE = "tiposang";
     public static final String PARAM_IN_FECHANAC = "fechanac";
@@ -42,6 +42,7 @@ public class SpActualizarPersonaPreInscripcion extends StoredProcedure {
     public static final String PARAM_IN_EMAIL1 = "email1";
     public static final String PARAM_IN_EMAIL2 = "email2";
     public static final String PARAM_IN_CODPOSTAL = "codigoPostal";
+    public static final String PARAM_IN_USUARIO = "_usuario";
     public static final String PARAM_OUT_IND = "ind";
     public static final String PARAM_OUT_MSJ = "msj";
     
@@ -71,6 +72,7 @@ public class SpActualizarPersonaPreInscripcion extends StoredProcedure {
         declareParameter(new SqlParameter(PARAM_IN_EMAIL1, Types.VARCHAR));
         declareParameter(new SqlParameter(PARAM_IN_EMAIL2, Types.VARCHAR));
         declareParameter(new SqlParameter(PARAM_IN_CODPOSTAL, Types.VARCHAR));
+        declareParameter(new SqlParameter(PARAM_IN_USUARIO, Types.VARCHAR));
         declareParameter(new SqlOutParameter(PARAM_OUT_IND, Types.INTEGER));
         declareParameter(new SqlOutParameter(PARAM_OUT_MSJ, Types.VARCHAR));
         compile();

@@ -6,6 +6,7 @@
 package com.whnm.sicqfdp.controller;
 
 import com.whnm.sicqfdp.beans.Colegiado;
+import com.whnm.sicqfdp.beans.CustomUser;
 import com.whnm.sicqfdp.beans.ListColegiado;
 import com.whnm.sicqfdp.beans.Persona;
 import com.whnm.sicqfdp.interfaces.ColegiadoDao;
@@ -15,6 +16,7 @@ import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,7 +38,7 @@ public class ColegiadoController {
     private ColegiadoDao colegiadoService;
     
     // <editor-fold defaultstate="collapsed" desc="Pre Inscripcion">
-    @RequestMapping(value="PreInscripcion.cqfdp", method = RequestMethod.GET)
+    @RequestMapping(value="colegiados/PreInscripcion.cqfdp", method = RequestMethod.GET)
     public ModelAndView mostrarVistaPreInscripcion(){
         String urlJs1;
         String urlJs2;
@@ -57,7 +59,7 @@ public class ColegiadoController {
         return vista;
     }
     
-    @RequestMapping(value="buscarPersona.action", method = RequestMethod.POST)
+    @RequestMapping(value="colegiados/buscarPersona.action", method = RequestMethod.POST)
     public @ResponseBody Persona buscarPersona(
           @RequestBody String objs  
     ){
@@ -101,7 +103,7 @@ public class ColegiadoController {
         return personaRep;
     }
     
-    @RequestMapping(value="mantPersonaPreInscripcion.action", method = RequestMethod.POST)
+    @RequestMapping(value="colegiados/mantPersonaPreInscripcion.action", method = RequestMethod.POST)
     public @ResponseBody Persona mantPersonaPreInscripcion(
           @RequestBody String objs  
     ){
@@ -109,6 +111,7 @@ public class ColegiadoController {
         Persona personaRep = new Persona();
         validaEntrada = new ValidaEntrada();
         ObjectMapper mapper = new ObjectMapper();
+        CustomUser user = (CustomUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Integer opc;
         Persona persona;
         try{
@@ -416,9 +419,9 @@ public class ColegiadoController {
             }
            
             if (opc == 1){
-                personaRep = personaService.grabar(persona);
+                personaRep = personaService.grabar(persona, user);
             } else {
-                personaRep = personaService.editar(persona);
+                personaRep = personaService.editar(persona, user);
             }
         }catch(Exception ex){
             personaRep.setIndError(1);
@@ -429,7 +432,7 @@ public class ColegiadoController {
 // </editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc="Inscripcion/Ingreso Colegiatura">
-    @RequestMapping(value="InscripcionIngresoColegiatura.cqfdp", method = RequestMethod.GET)
+    @RequestMapping(value="colegiados/InscripcionIngresoColegiatura.cqfdp", method = RequestMethod.GET)
     public ModelAndView mostrarVistaInscripcionIngresoColegiatura(){
         String tituloParametria;
         String msjGrabar;
@@ -447,7 +450,7 @@ public class ColegiadoController {
         return vista;
     }
     
-    @RequestMapping(value="buscarColegiado.action", method = RequestMethod.POST)
+    @RequestMapping(value="colegiados/buscarColegiado.action", method = RequestMethod.POST)
     public @ResponseBody Colegiado buscarColegiado(
           @RequestBody String objs  
     ){
@@ -549,7 +552,7 @@ public class ColegiadoController {
         return colegiadoRep;
     }
     
-    @RequestMapping(value="mantColegiadoInscripcion.action", method = RequestMethod.POST)
+    @RequestMapping(value="colegiados/mantColegiadoInscripcion.action", method = RequestMethod.POST)
     public @ResponseBody Colegiado mantColegiadoInscripcion(
           @RequestBody String objs  
     ){
@@ -557,6 +560,7 @@ public class ColegiadoController {
         Colegiado personaRep = new Colegiado();
         validaEntrada = new ValidaEntrada();
         ObjectMapper mapper = new ObjectMapper();
+        CustomUser user = (CustomUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Integer opc;
         Integer indIncripIngre;
         Colegiado persona;
@@ -957,7 +961,8 @@ public class ColegiadoController {
                     return personaRep;
                 }
             }
-            personaRep = colegiadoService.grabarColegiado(opc, indIncripIngre, persona);
+            personaRep = colegiadoService.grabarColegiado(opc, indIncripIngre, persona,
+                    user);
         }catch(Exception ex){
             personaRep.setIndError(1);
             personaRep.setMsjError("Error:["+ex.getMessage()+"]");
@@ -967,7 +972,7 @@ public class ColegiadoController {
 // </editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc="ActualizarDatosColegiatura">
-    @RequestMapping(value="ActualizaDatosColegiatura.cqfdp", method = RequestMethod.GET)
+    @RequestMapping(value="colegiados/ActualizaDatosColegiatura.cqfdp", method = RequestMethod.GET)
     public ModelAndView mostrarVistaActualizaDatosColegiatura(){
         String tituloParametria;
         String msjGrabar;
@@ -985,7 +990,7 @@ public class ColegiadoController {
 // </editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc="EgresoColegiatura">
-    @RequestMapping(value="EgresoColegiatura.cqfdp", method = RequestMethod.GET)
+    @RequestMapping(value="colegiados/EgresoColegiatura.cqfdp", method = RequestMethod.GET)
     public ModelAndView mostrarVistaEgresoColegiatura(){
         String tituloParametria;
         String msjGrabar;
@@ -1001,7 +1006,7 @@ public class ColegiadoController {
         return vista;
     }
     
-    @RequestMapping(value="listarColegiadosEgreso.action", method = RequestMethod.POST)
+    @RequestMapping(value="colegiados/listarColegiadosEgreso.action", method = RequestMethod.POST)
     public @ResponseBody ListColegiado listarColegiadosEgreso(
     ){
         ListColegiado resp = new ListColegiado();
@@ -1017,11 +1022,12 @@ public class ColegiadoController {
         return  resp;
     }
     
-    @RequestMapping(value="grabarEgresoColegiatura.action", method = RequestMethod.POST)
+    @RequestMapping(value="colegiados/grabarEgresoColegiatura.action", method = RequestMethod.POST)
     public @ResponseBody ListColegiado grabarEgresoColegiatura(
             @RequestBody ListColegiado listaColegiados 
     ){
         ListColegiado resp = new ListColegiado();
+        CustomUser user = (CustomUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         boolean band = false;
         try{
             if(listaColegiados.getListaColegiados() != null){
@@ -1035,7 +1041,7 @@ public class ColegiadoController {
                         }
                     }
                     if(band){
-                        resp = colegiadoService.grabarEgresoColegiado(listaColegiados);
+                        resp = colegiadoService.grabarEgresoColegiado(listaColegiados, user);
                     } else {
                         resp.setIndError(1);
                         resp.setMsjError("[Error: No hay ningun colegiado seleccionado para egreso]");
@@ -1058,7 +1064,7 @@ public class ColegiadoController {
 // </editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc="Solicitud Egreso Colegiatura">
-    @RequestMapping(value="SolicitudEgresoColegiatura.cqfdp", method = RequestMethod.GET)
+    @RequestMapping(value="colegiados/SolicitudEgresoColegiatura.cqfdp", method = RequestMethod.GET)
     public ModelAndView mostrarVistaSolicitudEgresoColegiatura(){
         String tituloParametria;
         String msjGrabar;
@@ -1074,13 +1080,14 @@ public class ColegiadoController {
         return vista;
     }
     
-    @RequestMapping(value="grabarSolicitudEgreso.action", method = RequestMethod.POST)
+    @RequestMapping(value="colegiados/grabarSolicitudEgreso.action", method = RequestMethod.POST)
     public @ResponseBody Colegiado grabarSolicitudEgreso(
           @RequestBody Colegiado colegiado  
     ){
         ValidaEntrada validaEntrada;
         Colegiado personaRep = new Colegiado();
         validaEntrada = new ValidaEntrada();
+        CustomUser user = (CustomUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         try{
             if(colegiado.getDni() == null){
                 personaRep.setIndError(1);
@@ -1126,7 +1133,7 @@ public class ColegiadoController {
                 personaRep.setMsjError("[Error: El Numero Colegiatura acepta maximo 10 numeros]'");
                 return personaRep;
             }
-            personaRep = colegiadoService.grabarSolicitudColegiatura(colegiado);
+            personaRep = colegiadoService.grabarSolicitudColegiatura(colegiado, user);
         }catch(Exception ex){
             personaRep.setIndError(1);
             personaRep.setMsjError("Error:["+ex.getMessage()+"]");

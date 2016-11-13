@@ -5,6 +5,7 @@
  */
 package com.whnm.sicqfdp.service;
 
+import com.whnm.sicqfdp.beans.CustomUser;
 import com.whnm.sicqfdp.beans.Distrito;
 import com.whnm.sicqfdp.beans.DistritoList;
 import com.whnm.sicqfdp.interfaces.DistritoDao;
@@ -28,18 +29,18 @@ public class DistritosServiceImp implements DistritoDao{
     }
 
     @Override
-    public Distrito grabar(Distrito elemento) {
-        return distritoDao.grabar(elemento);
+    public Distrito grabar(Distrito elemento, CustomUser user) {
+        return distritoDao.grabar(elemento, user);
     }
 
     @Override
-    public Distrito editar(Distrito elemento) {
-       return distritoDao.editar(elemento);
+    public Distrito editar(Distrito elemento, CustomUser user) {
+       return distritoDao.editar(elemento, user);
     }
 
     @Override
-    public Distrito eliminar(Distrito elemento) {
-        return distritoDao.eliminar(elemento);
+    public Distrito eliminar(Distrito elemento, CustomUser user) {
+        return distritoDao.eliminar(elemento, user);
     }
 
     @Override

@@ -8,19 +8,19 @@
 	http://www.springframework.org/schema/security/spring-security-3.2.xsd">
 
 	<http auto-config="true" use-expressions="true" >
-            <intercept-url pattern="/Index.cqfdp" access="hasAnyRole('ROLE_SECRETARIA', 'ROLE_TESORERA')" />
-            <intercept-url pattern="/Distritos.cqfdp" access="hasRole('ROLE_SECRETARIA')" />
-            <intercept-url pattern="/Provincia.cqfdp" access="hasRole('ROLE_SECRETARIA')" />
-            <intercept-url pattern="/Departamento.cqfdp" access="hasRole('ROLE_SECRETARIA')" />
-            <intercept-url pattern="/EstadoCivil.cqfdp" access="hasRole('ROLE_SECRETARIA')" />
-            <intercept-url pattern="/CondicionCasa.cqfdp" access="hasRole('ROLE_SECRETARIA')" />
-            <intercept-url pattern="/Operadora.cqfdp" access="hasRole('ROLE_SECRETARIA')" />
-            <intercept-url pattern="/TipoEquipo.cqfdp" access="hasRole('ROLE_SECRETARIA')" />
-            <intercept-url pattern="/SolicitudEgresoColegiatura.cqfdp" access="hasRole('ROLE_SECRETARIA')" />
-            <intercept-url pattern="/PreInscripcion.cqfdp" access="hasRole('ROLE_SECRETARIA')" />
-            <intercept-url pattern="/InscripcionIngresoColegiatura.cqfdp" access="hasRole('ROLE_SECRETARIA')" />
-            <intercept-url pattern="/ActualizaDatosColegiatura.cqfdp" access="hasRole('ROLE_TESORERA')" />
-            <intercept-url pattern="/EgresoColegiatura.cqfdp" access="hasRole('ROLE_TESORERA')" />
+            <intercept-url pattern="/Index.cqfdp" access="isAuthenticated()" />
+            <intercept-url pattern="/Distritos.cqfdp" access="hasRole('ROLE_GESTIONA_DISTRITOS')" />
+            <intercept-url pattern="/Provincia.cqfdp" access="hasRole('ROLE_GESTIONA_PROVINCIAS')" />
+            <intercept-url pattern="/Departamento.cqfdp" access="hasRole('ROLE_GESTIONA_DEPARTAMENTOS')" />
+            <intercept-url pattern="/EstadoCivil.cqfdp" access="hasRole('ROLE_GESTIONA_ESTCIVIL')" />
+            <intercept-url pattern="/CondicionCasa.cqfdp" access="hasRole('ROLE_GESTIONA_CONDCASA')" />
+<!--            <intercept-url pattern="/Operadora.cqfdp" access="hasRole('ROLE_')" />
+            <intercept-url pattern="/TipoEquipo.cqfdp" access="hasRole('ROLE_SECRETARIA')" />-->
+            <intercept-url pattern="/SolicitudEgresoColegiatura.cqfdp" access="hasRole('ROLE_SOLICITUD_EGRE_COLEG')" />
+            <intercept-url pattern="/PreInscripcion.cqfdp" access="hasRole('ROLE_PREINSCRIPCION')" />
+            <intercept-url pattern="/InscripcionIngresoColegiatura.cqfdp" access="hasRole('ROLE_INSCRIP_INGRESO_COLEG')" />
+            <intercept-url pattern="/ActualizaDatosColegiatura.cqfdp" access="hasRole('ROLE_ACTUALIZA_DATOS_COLEG')" />
+            <intercept-url pattern="/EgresoColegiatura.cqfdp" access="hasRole('ROLE_EGRESO_COLEG')" />
             <form-login 
                 username-parameter="txtNumColegiatura" 
                 password-parameter="txtContrasenna"

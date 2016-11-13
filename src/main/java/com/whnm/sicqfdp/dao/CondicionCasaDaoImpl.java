@@ -6,6 +6,7 @@
 package com.whnm.sicqfdp.dao;
 
 import com.whnm.sicqfdp.beans.CondicionCasa;
+import com.whnm.sicqfdp.beans.CustomUser;
 import com.whnm.sicqfdp.beans.ListCondicionCasa;
 import com.whnm.sicqfdp.beans.Parametros;
 import com.whnm.sicqfdp.interfaces.CondicionCasaDao;
@@ -19,6 +20,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 /**
@@ -32,20 +34,22 @@ public class CondicionCasaDaoImpl implements CondicionCasaDao{
     private SpMantCondicionCasa spMantCondicionCasa;
     
     @Autowired
-    public CondicionCasaDaoImpl(DataSource dataSource) {
+    public CondicionCasaDaoImpl(@Qualifier("dataSource1")DataSource dataSource) {
         this.dataSource = dataSource;
         this.spListarCondicionCasa = new SpListarCondicionCasa(dataSource);
         this.spMantCondicionCasa = new SpMantCondicionCasa(dataSource);
     }
     
     @Override
-    public CondicionCasa mantCondicionCasa(Integer opcCrud, CondicionCasa condCasa) {
+    public CondicionCasa mantCondicionCasa(Integer opcCrud, CondicionCasa condCasa,
+            CustomUser user) {
         CondicionCasa condicionCasa = new CondicionCasa();
         Map<String,Object> vars = new HashMap<String,Object>();
         vars.put(SpMantCondicionCasa.PARAM_IN_OPCCRUD, opcCrud);
         vars.put(SpMantCondicionCasa.PARAM_IN_IDCONDICIONCASA, condCasa.getIdCondicion());
         vars.put(SpMantCondicionCasa.PARAM_IN_DESCCONDICIONCASA, condCasa.getDenominacion());
         vars.put(SpMantCondicionCasa.PARAM_IN_HABILITADO, condCasa.getHabilitado());
+        vars.put(SpMantCondicionCasa.PARAM_IN_USUARIO, user.getUsername());
         try {
             Map<String, Object> result = (Map<String, Object>) spMantCondicionCasa.execute(vars);
             condicionCasa.setIndError(Integer.parseInt(String.valueOf(result.get(Parametros.IND))));

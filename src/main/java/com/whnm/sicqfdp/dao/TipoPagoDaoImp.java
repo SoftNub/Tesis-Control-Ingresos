@@ -5,12 +5,14 @@
  */
 package com.whnm.sicqfdp.dao;
 
-import com.whnm.sicqfdp.beans.ListTipoEquipo;
+import com.whnm.sicqfdp.beans.CustomUser;
+import com.whnm.sicqfdp.beans.ListTipoPago;
 import com.whnm.sicqfdp.beans.Parametros;
-import com.whnm.sicqfdp.beans.TipoEquipo;
-import com.whnm.sicqfdp.interfaces.TipoEquipoDao;
+import com.whnm.sicqfdp.beans.TipoPago;
+import com.whnm.sicqfdp.interfaces.TipoPagoDao;
 import com.whnm.sicqfdp.spbeans.SpListarTipoEquipo;
-import com.whnm.sicqfdp.spbeans.SpMantTipoEquipo;
+import com.whnm.sicqfdp.spbeans.SpListarTipoPago;
+import com.whnm.sicqfdp.spbeans.SpMantTipoPago;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -19,72 +21,112 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 /**
  *
  * @author wilson
  */
-@Service(value="tipoEquipoDao")
-public class TipoEquipoDaoImp implements TipoEquipoDao{
+@Service(value="tipoPagoDao")
+public class TipoPagoDaoImp implements TipoPagoDao{
     private DataSource dataSource;
-    private SpListarTipoEquipo spListarTipoEquipo;
-    private SpMantTipoEquipo spMantTipoEquipo;
+    private SpListarTipoPago spListarTipoPago;
+    private SpMantTipoPago spMantTipoPago;
     
     @Autowired
-    public TipoEquipoDaoImp(DataSource dataSource) {
+    public TipoPagoDaoImp(@Qualifier("dataSource1") DataSource dataSource) {
         this.dataSource = dataSource;
-        this.spListarTipoEquipo = new SpListarTipoEquipo(dataSource);
-        this.spMantTipoEquipo = new SpMantTipoEquipo(dataSource);
+        this.spListarTipoPago = new SpListarTipoPago(dataSource);
+        this.spMantTipoPago = new SpMantTipoPago(dataSource);
     }
     
     @Override
-    public TipoEquipo mantTipoEquipo(Integer opcCrud, TipoEquipo tipoEq) {
-        TipoEquipo tipoEquipo = new TipoEquipo();
+    public TipoPago mantenimientoTipoPago(Integer opcCrud, TipoPago tipoPa, CustomUser user) {
+        TipoPago tipoPago = new TipoPago();
         Map<String,Object> vars = new HashMap<String,Object>();
-        vars.put(SpMantTipoEquipo.PARAM_IN_OPCCRUD, opcCrud);
-        vars.put(SpMantTipoEquipo.PARAM_IN_IDTIPOEQUIPO, tipoEq.getIdTipoEquipo());
-        vars.put(SpMantTipoEquipo.PARAM_IN_DESCTIPOEQUIPO, tipoEq.getDenominacion());
-        vars.put(SpMantTipoEquipo.PARAM_IN_HABILITADO, tipoEq.getHabilitado());
-        try {
-            Map<String, Object> result = (Map<String, Object>) spMantTipoEquipo.execute(vars);
-            tipoEquipo.setIndError(Integer.parseInt(String.valueOf(result.get(Parametros.IND))));
-            tipoEquipo.setMsjError(result.get(Parametros.MSJ).toString());        
-        } catch(Exception ex){
-            Logger.getLogger(OperadoraDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
-            tipoEquipo.setIndError(1);
-            tipoEquipo.setMsjError("Error: ["+ex.getMessage()+"]");        
+        vars.put(SpMantTipoPago.PARAM_IN_IDTIPOOPERACION, opcCrud);
+        vars.put(SpMantTipoPago.PARAM_IN_IDPAGO, tipoPa.getId());
+        vars.put(SpMantTipoPago.PARAM_IN_CONCEPTO_PARA, tipoPa.getConceptoPara());
+        vars.put(SpMantTipoPago.PARAM_IN_DENOMINACION, tipoPa.getConcepto());
+        vars.put(SpMantTipoPago.PARAM_IN_ESTADO, tipoPa.getEstado());
+        vars.put(SpMantTipoPago.PARAM_IN_EST_COLEG, tipoPa.getEstadosColegiados());
+        vars.put(SpMantTipoPago.PARAM_IN_ES_INHABILITADORA, tipoPa.getEsInhabilitadora());
+        if(opcCrud == 1){
+            vars.put(SpMantTipoPago.PARAM_IN_FECHA_VIG, tipoPa.getPrecioActual().getFechaInicioVigencia());
+            vars.put(SpMantTipoPago.PARAM_IN_PRECIO, tipoPa.getPrecioActual().getPrecio());
+        } else {
+            vars.put(SpMantTipoPago.PARAM_IN_FECHA_VIG, " ");
+            vars.put(SpMantTipoPago.PARAM_IN_PRECIO, 0);
         }
-        return tipoEquipo;
+        vars.put(SpMantTipoPago.PARAM_IN_NUMERO_ACTIVAS, tipoPa.getNumPagosActivos());
+        vars.put(SpMantTipoPago.PARAM_IN_TIPO_GENERACION, tipoPa.getTipoGeneracion());
+        vars.put(SpMantTipoPago.PARAM_IN_USUARIO, user.getUsername());
+        try {
+            Map<String, Object> result = (Map<String, Object>) spMantTipoPago.execute(vars);
+            tipoPago.setIndError(Integer.parseInt(String.valueOf(result.get(Parametros.IND))));
+            tipoPago.setMsjError(result.get(Parametros.MSJ).toString());        
+        } catch(Exception ex){
+            Logger.getLogger(TipoPagoDaoImp.class.getName()).log(Level.SEVERE, null, ex);
+            tipoPago.setIndError(1);
+            tipoPago.setMsjError("Error: ["+ex.getMessage()+"]");        
+        }
+        return tipoPago;
     }
 
     @Override
-    public ListTipoEquipo listarTipoEquipo(Integer opcListado, TipoEquipo tipoEq) {
-        ListTipoEquipo listaTiposEquipos = new ListTipoEquipo();
-        List<TipoEquipo> tiposEquipos = new ArrayList<>();
+    public ListTipoPago listarTipoPago(Integer opcListado, TipoPago tipoPa) {
+        ListTipoPago listaTiposPagos = new ListTipoPago();
+        List<TipoPago> tiposPagos = new ArrayList<>();
         Map<String,Object> vars = new HashMap<String,Object>();
-        vars.put(SpListarTipoEquipo.PARAM_IN_OPCLISTADO, opcListado);
-        vars.put(SpListarTipoEquipo.PARAM_IN_IDTIPOEQUIPO, tipoEq.getIdTipoEquipo());
-        vars.put(SpListarTipoEquipo.PARAM_IN_HABILITADO, tipoEq.getHabilitado());
+        vars.put(SpListarTipoPago.PARAM_IN_IDTIPOOPERACION, opcListado);
+        vars.put(SpListarTipoPago.PARAM_IN_CONCEPTO_PARA, tipoPa.getConceptoPara());
+        vars.put(SpListarTipoPago.PARAM_IN_ESTADO, tipoPa.getEstado());
+        vars.put(SpListarTipoPago.PARAM_IN_IDPAGO, tipoPa.getId());
         try {
-            Map<String, Object> result = (Map<String, Object>) spListarTipoEquipo.execute(vars);
+            Map<String, Object> result = (Map<String, Object>) spListarTipoPago.execute(vars);
             List<Map<String, Object>> listResult = (List<Map<String, Object>>) result.get(Parametros.RESULSET);
-            listaTiposEquipos.setIndError(Integer.parseInt(String.valueOf(result.get(Parametros.IND))));
-            listaTiposEquipos.setMsjError(result.get(Parametros.MSJ).toString());
+            listaTiposPagos.setIndError(Integer.parseInt(String.valueOf(result.get(Parametros.IND))));
+            listaTiposPagos.setMsjError(result.get(Parametros.MSJ).toString());
             for (Map<String, Object> item : listResult) {
-                TipoEquipo tEquipo = new TipoEquipo();
-                tEquipo.setIdTipoEquipo(item.get("id") != null ? Integer.parseInt(String.valueOf(item.get("id"))) : -1);
-                tEquipo.setDenominacion(item.get("denominacion") != null ? String.valueOf(item.get("denominacion")) : "");
-                tEquipo.setHabilitado(item.get("habilitado") != null ? Integer.parseInt(String.valueOf(item.get("habilitado"))) : -1);
-                tiposEquipos.add(tEquipo);
-            }        
+                TipoPago tPagos = new TipoPago();
+                tPagos.setId(item.get("id_pago") != null ? Long.parseLong(String.valueOf(item.get("id_pago"))) : -1);
+                tPagos.setConcepto(item.get("denominacion") != null ? String.valueOf(item.get("denominacion")) : "");
+                tPagos.setEsInhabilitadora(item.get("es_inhabilitador") != null ? Integer.parseInt(String.valueOf(item.get("es_inhabilitador"))) : -1);
+                tPagos.setEstado(item.get("habilitado") != null ? Integer.parseInt(String.valueOf(item.get("habilitado"))) : -1);
+                tPagos.setNumPagosActivos(item.get("numero_activas") != null ? Integer.parseInt(String.valueOf(item.get("numero_activas"))) : -1);
+                tPagos.setConceptoPara(item.get("concepto_para") != null ? String.valueOf(item.get("concepto_para")) : "");
+                tPagos.setEstadosColegiados(item.get("estados_colegiados") != null ? String.valueOf(item.get("estados_colegiados")) : "");
+                tPagos.setTipoGeneracion(item.get("tipo_generacion") != null ? Integer.parseInt(String.valueOf(item.get("tipo_generacion"))) : -1);
+                tiposPagos.add(tPagos);
+            }
+            listaTiposPagos.setListTipoPago(tiposPagos);
         } catch(Exception ex){
-            Logger.getLogger(TipoEquipoDaoImp.class.getName()).log(Level.SEVERE, null, ex);
-            listaTiposEquipos.setIndError(1);
-            listaTiposEquipos.setMsjError("Error: ["+ex.getMessage()+"]");
+            Logger.getLogger(TipoPagoDaoImp.class.getName()).log(Level.SEVERE, null, ex);
+            listaTiposPagos.setIndError(1);
+            listaTiposPagos.setMsjError("Error: ["+ex.getMessage()+"]");
         }
-        listaTiposEquipos.setListaTiposEquipos(tiposEquipos);
-        return listaTiposEquipos;
+        return listaTiposPagos;
+    }
+
+    @Override
+    public TipoPago grabar(TipoPago elemento, CustomUser user) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public TipoPago editar(TipoPago elemento, CustomUser user) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public TipoPago eliminar(TipoPago elemento, CustomUser user) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public TipoPago listar(TipoPago elemento) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }

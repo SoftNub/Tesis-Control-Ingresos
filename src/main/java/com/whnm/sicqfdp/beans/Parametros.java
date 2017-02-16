@@ -11,6 +11,7 @@ package com.whnm.sicqfdp.beans;
  */
 public class Parametros {
     public static final String RESULSET = "#result-set-1";
+    public static final String RESULSET_2 = "#result-set-2";
     public static final String IND = "ind";
     public static final String MSJ = "msj";
     public static final String USERNAME = "_user";

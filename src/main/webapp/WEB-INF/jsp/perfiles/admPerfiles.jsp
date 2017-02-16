@@ -11,6 +11,9 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <jsp:include page="../util/Header.jsp"/>
+        <script src="<%=request.getContextPath()%>/js/usuarios/Usuarios.js"></script>
+        <script src="<%=request.getContextPath()%>/js/usuarios/Perfiles.js"></script>
+        <script src="<%=request.getContextPath()%>/js/usuarios/Menus.js"></script>
         <script src="<%=request.getContextPath()%>/js/usuarios/gestionPerfiles.js"></script>
     </head>
     <body>
@@ -28,14 +31,14 @@
             <div class="row form-group divPerfiles"> 
                 <div class="row form-group"> 
                     <div class="col-lg-2">
-                        <label>Ingrese Descripción:</label>
+                        <label for="txtDescripcionPerfil">Ingrese Descripción:</label>
                     </div>
                     <div class="col-lg-3">
                         <input type="text" class="form-control" id="txtDescripcionPerfil" 
-                               placeholder = "perfil" tabindex="1" maxlength="100">
+                            name="txtDescripcionPerfil"   placeholder = "perfil" tabindex="1" maxlength="100">
                     </div>
                     <div class="col-lg-1">
-                        <button type="button" class="btn btn-primary btn-block">
+                        <button type="button" class="btn btn-primary btn-block" id="btnCrearPerfil">
                             Crear <span class="glyphicon glyphicon-plus-sign"></span>
                         </button>
                     </div>
@@ -43,67 +46,24 @@
             </div>
             <br/>
             <div class="row form-group divPerfiles">
-                <div class="col-lg-offset-2 col-lg-8">
-                    <table id="tablaPerfiles" class="table table-bordered table-hover">
-                        <thead>
-                            <th class="text-center">Cod. Perfil</th>
-                            <th class="text-center">Descripcion</th>
-                            <th class="text-center">Estado</th>
-                            <th class="text-center">Editar</th>
-                            <th class="text-center">Menu</th>
-                        </thead>
-                        <tbody id="bodytablaPerfiles">
-                            <tr>
-                                <td class="text-center">1</td>
-                                <td class="text-center">SECRETARIA</td>
-                                <td class="text-center"><span class="label label-success">Activo</span></td>
-                                <td class="text-center">
-                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
-                                        <span class="glyphicon glyphicon-edit"></span>
-                                    </button>
-                                </td>
-                                <td class="text-center">
-                                    <button type="button" class="btn btn-primary" onclick="mostrarMenuPerfil(1)">
-                                        <span class="glyphicon glyphicon-list-alt"></span>
-                                    </button>
-                                </td>
-                            </tr>
-                            
-                        </tbody>
-                    </table>
+                <div class="col-lg-offset-2 col-lg-8" id="divTabla">
+                    
                 </div>               
             </div>
             <br/>
             <div class="panel panel-primary divDetalle">
-                <div class="panel-heading text-center"><strong>MENUS DE PERFIL: SECRETARIA</strong></div>
+                <div class="panel-heading text-center"><strong id="tituloPanelMenu">MENUS DE PERFIL: SECRETARIA</strong></div>
                 <div class="panel-body">
                     <div class="row form-group">
-                        <div class="col-lg-offset-2 col-lg-8">
-                            <table id="tablaPerfilesMenu" class="table table-bordered table-hover">
-                                <thead>
-                                    <th class="text-center">Cod. Menu</th>
-                                    <th class="text-center">Descripcion</th>
-                                    <th class="text-center">Rol</th>
-                                    <th class="text-center">Seleccionar</th>
-                                </thead>
-                                <tbody id="bodytablaPerfilesMenu">
-                                    <tr>
-                                        <td class="text-center">1</td>
-                                        <td class="text-center">Perfiles</td>
-                                        <td class="text-center">ROLE-GESTION-PERFILES</td>
-                                        <td class="text-center">
-                                        <input type="checkbox" id="1"/>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                        <div class="col-lg-offset-2 col-lg-8" id="divMenu">
+                            
                         </div>
                     </div>
                 </div>
                 <div class="panel-footer">
                     <div class="row form-group">
                         <div class="col-lg-offset-4 col-lg-2">
-                            <button type="button" class="btn btn-primary btn-block">
+                            <button type="button" class="btn btn-primary btn-block" id="btnGenerarMenu">
                                 Generar Menu <span class="glyphicon glyphicon-cog"></span>
                             </button>
                         </div>
@@ -124,13 +84,17 @@
                             <h4 class="modal-title">EDITAR PERFIL</h4>
                         </div>
                         <div class="modal-body">
+                            <div id = "panelErrorInt">
+                
+                            </div>
+                            <br/>
                             <div class="row form-group"> 
                                 <div class="col-lg-2">
-                                    <label for="apellidos">Descripcion:</label>
+                                    <label for="txtDescripcion">Descripcion:</label>
                                 </div>
                                 <div class="col-lg-8">
                                     <input type="text" class="form-control" id="txtDescripcion" 
-                                           placeholder = "perfil" tabindex="5" maxlength="100">
+                                        name ="txtDescripcion"   placeholder = "perfil" tabindex="5" maxlength="100">
                                 </div>
                             </div>
                             <div class="row form-group"> 
@@ -145,7 +109,7 @@
                         <div class="modal-footer">
                             <div class="row form-group">
                                 <div class="col-lg-offset-3 col-lg-2">
-                                    <button type="button" class="btn btn-primary btn-block">
+                                    <button type="button" class="btn btn-primary btn-block" id="btnEditar">
                                         Aceptar
                                     </button>
                                 </div>

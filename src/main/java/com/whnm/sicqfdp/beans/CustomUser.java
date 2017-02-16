@@ -25,6 +25,7 @@ public class CustomUser implements UserDetails{
  
     /* Spring Security related fields*/
     private List<Role> authorities;
+    private List<Menu> menus;
     private boolean accountNonExpired = true;
     private boolean accountNonLocked = true;
     private boolean credentialsNonExpired = true;
@@ -131,6 +132,14 @@ public class CustomUser implements UserDetails{
 
     public String getMsjError() {
         return msjError;
+    }
+
+    public List<Menu> getMenus() {
+        return menus;
+    }
+
+    public void setMenus(List<Menu> menus) {
+        this.menus = menus;
     }
     
     

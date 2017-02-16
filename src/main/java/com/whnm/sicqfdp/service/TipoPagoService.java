@@ -5,30 +5,61 @@
  */
 package com.whnm.sicqfdp.service;
 
-import com.whnm.sicqfdp.beans.ListTipoEquipo;
-import com.whnm.sicqfdp.beans.TipoEquipo;
-import com.whnm.sicqfdp.interfaces.TipoEquipoDao;
+import com.whnm.sicqfdp.beans.CustomUser;
+import com.whnm.sicqfdp.beans.ListTipoPago;
+import com.whnm.sicqfdp.beans.TipoPago;
+import com.whnm.sicqfdp.interfaces.TipoPagoDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 /**
- *
+ * Clase que contiene los distintos servicios expuestos de la clase
+ * tipo pago
  * @author wilson
  */
-@Service("tipoEquipoService")
-public class TipoEquipoService implements TipoEquipoDao{
+@Service("tipoPagoService")
+public class TipoPagoService implements TipoPagoDao{
+    /**
+     * Obtencion del bean Dao par tipo de pago
+     */
     @Autowired
-    @Qualifier("tipoEquipoDao")
-    private TipoEquipoDao tipoEquipoDao;
-    
+    @Qualifier("tipoPagoDao")
+    private TipoPagoDao tipoPagoDao;
+
+    /**
+     * Devolvera una lista de tipos de pago
+     * @param opc
+     * @param tipoPago
+     * @return 
+     */
     @Override
-    public TipoEquipo mantTipoEquipo(Integer opcCrud, TipoEquipo tipoEq) {
-        return tipoEquipoDao.mantTipoEquipo(opcCrud, tipoEq);
+    public ListTipoPago listarTipoPago(Integer opc, TipoPago tipoPago) {
+        return tipoPagoDao.listarTipoPago(opc, tipoPago);
     }
 
     @Override
-    public ListTipoEquipo listarTipoEquipo(Integer opcListado, TipoEquipo tipoEq) {
-        return tipoEquipoDao.listarTipoEquipo(opcListado, tipoEq);
+    public TipoPago mantenimientoTipoPago(Integer opc, TipoPago tipoPago, CustomUser user) {
+        return tipoPagoDao.mantenimientoTipoPago(opc, tipoPago, user);
     }
+
+    @Override
+    public TipoPago grabar(TipoPago elemento, CustomUser user) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public TipoPago editar(TipoPago elemento, CustomUser user) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public TipoPago eliminar(TipoPago elemento, CustomUser user) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public TipoPago listar(TipoPago elemento) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }   
 }

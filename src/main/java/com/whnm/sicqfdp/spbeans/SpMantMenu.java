@@ -16,19 +16,23 @@ import org.springframework.jdbc.object.StoredProcedure;
  *
  * @author wilson
  */
-public class SpListarColegiado extends StoredProcedure {
-    public static final String SPROC_NAME = "mc_sp_listar_colegiado";
-    public static final String PARAM_IN_OPC = "opc";
-    public static final String PARAM_IN_DNI = "_dni";
-    public static final String PARAM_IN_NUMCOLEGIATURA = "num_coleg";
+public class SpMantMenu extends StoredProcedure {
+    public static final String SPROC_NAME = "ms_sp_mant_perfil_menu";
+    public static final String PARAM_IN_OPC = "_tipo_operacion";
+    public static final String PARAM_IN_ID_PERFIL = "_id_perfil";
+    public static final String PARAM_IN_ID_MENU = "_id_menu";
+    public static final String PARAM_IN_USUARIO_MENU = "_usuario_menu";
+    public static final String PARAM_IN_USUARIO = "_usuario";
     public static final String PARAM_OUT_IND = "ind";
     public static final String PARAM_OUT_MSJ = "msj";
     
-    public SpListarColegiado(DataSource dataSource) {
+    public SpMantMenu(DataSource dataSource) {
         super(dataSource, SPROC_NAME);
         declareParameter(new SqlParameter(PARAM_IN_OPC, Types.INTEGER));
-        declareParameter(new SqlParameter(PARAM_IN_DNI, Types.VARCHAR));
-        declareParameter(new SqlParameter(PARAM_IN_NUMCOLEGIATURA, Types.VARCHAR));
+        declareParameter(new SqlParameter(PARAM_IN_ID_PERFIL, Types.INTEGER));
+        declareParameter(new SqlParameter(PARAM_IN_ID_MENU, Types.INTEGER));
+        declareParameter(new SqlParameter(PARAM_IN_USUARIO_MENU, Types.VARCHAR));
+        declareParameter(new SqlParameter(PARAM_IN_USUARIO, Types.VARCHAR));
         declareParameter(new SqlOutParameter(PARAM_OUT_IND, Types.INTEGER));
         declareParameter(new SqlOutParameter(PARAM_OUT_MSJ, Types.VARCHAR));
         compile();

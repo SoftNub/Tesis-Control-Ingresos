@@ -11,7 +11,10 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <jsp:include page="../util/Header.jsp"/>
-        <script src="<%=request.getContextPath()%>/js/usuarios/gestionPerfiles.js"></script>
+        <script src="<%=request.getContextPath()%>/js/usuarios/Perfiles.js"></script>
+        <script src="<%=request.getContextPath()%>/js/usuarios/Menus.js"></script>
+        <script src="<%=request.getContextPath()%>/js/usuarios/Usuarios.js"></script>
+        <script src="<%=request.getContextPath()%>/js/usuarios/gestionUsuarios.js"></script>
     </head>
     <body>
         <header>
@@ -25,136 +28,111 @@
                 
             </div>        
             <br/>        
-            <div class="row form-group divPerfiles"> 
-                <div class="row form-group"> 
-                    <div class="col-lg-2">
-                        <label>Ingrese Descripción:</label>
-                    </div>
-                    <div class="col-lg-3">
-                        <input type="text" class="form-control" id="txtDescripcionPerfil" 
-                               placeholder = "perfil" tabindex="1" maxlength="100">
-                    </div>
-                    <div class="col-lg-1">
-                        <button type="button" class="btn btn-primary btn-block">
-                            Crear <span class="glyphicon glyphicon-plus-sign"></span>
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <br/>
-            <div class="row form-group divPerfiles">
-                <div class="col-lg-offset-2 col-lg-8">
-                    <table id="tablaPerfiles" class="table table-bordered table-hover">
-                        <thead>
-                            <th class="text-center">Cod. Perfil</th>
-                            <th class="text-center">Descripcion</th>
-                            <th class="text-center">Estado</th>
-                            <th class="text-center">Editar</th>
-                            <th class="text-center">Menu</th>
-                        </thead>
-                        <tbody id="bodytablaPerfiles">
-                            <tr>
-                                <td class="text-center">1</td>
-                                <td class="text-center">SECRETARIA</td>
-                                <td class="text-center"><span class="label label-success">Activo</span></td>
-                                <td class="text-center">
-                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
-                                        <span class="glyphicon glyphicon-edit"></span>
-                                    </button>
-                                </td>
-                                <td class="text-center">
-                                    <button type="button" class="btn btn-primary" onclick="mostrarMenuPerfil(1)">
-                                        <span class="glyphicon glyphicon-list-alt"></span>
-                                    </button>
-                                </td>
-                            </tr>
-                            
-                        </tbody>
-                    </table>
-                </div>               
-            </div>
-            <br/>
-            <div class="panel panel-primary divDetalle">
-                <div class="panel-heading text-center"><strong>MENUS DE PERFIL: SECRETARIA</strong></div>
+            <div class="panel panel-primary">
+                <div class="panel-heading text-center"><strong id="tituloPanelMenu">GESTION USUARIO</strong></div>
                 <div class="panel-body">
                     <div class="row form-group">
-                        <div class="col-lg-offset-2 col-lg-8">
-                            <table id="tablaPerfilesMenu" class="table table-bordered table-hover">
-                                <thead>
-                                    <th class="text-center">Cod. Menu</th>
-                                    <th class="text-center">Descripcion</th>
-                                    <th class="text-center">Rol</th>
-                                    <th class="text-center">Seleccionar</th>
-                                </thead>
-                                <tbody id="bodytablaPerfilesMenu">
-                                    <tr>
-                                        <td class="text-center">1</td>
-                                        <td class="text-center">Perfiles</td>
-                                        <td class="text-center">ROLE-GESTION-PERFILES</td>
-                                        <td class="text-center">
-                                        <input type="checkbox" id="1"/>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                        <div class="col-lg-offset-3 col-lg-2">
+                            <label for="cboOpcionBusqueda">BUSCAR: </label>
+                        </div>
+                        <div class="col-lg-3">
+                            <select class="form-control" id="cboOpcionBusqueda">
+                                <option value="">--SELECCIONE--</option>
+                                <option value="1">PRE-INSCRITO</option>
+                                <option value="2">COLEGIADO</option>
+                            </select>
                         </div>
                     </div>
-                </div>
-                <div class="panel-footer">
                     <div class="row form-group">
-                        <div class="col-lg-offset-4 col-lg-2">
-                            <button type="button" class="btn btn-primary btn-block">
-                                Generar Menu <span class="glyphicon glyphicon-cog"></span>
-                            </button>
+                        <div class="col-lg-offset-3 col-lg-2">
+                            <label for="txtDNINumColeg">INGRESAR: </label>
                         </div>
-                        <div class="col-lg-offset-1 col-lg-2">
-                            <button type="button" class="btn btn-primary btn-block" id="btnAtras">
-                                <span class="glyphicon glyphicon-arrow-left"></span> Atras 
+                        <div class="col-lg-3">
+                            <input type="text" class="form-control" id="txtDNINumColeg" 
+                                name ="txtDNINumColeg"   placeholder = "DNI o Num. Colegiatura" maxlength="10">
+                        </div>
+                        <div class="col-lg-1">
+                            <button type="button" class="btn btn-primary btn-block" id="btnBuscar">
+                                <span class="glyphicon glyphicon-search"></span>
                             </button>
                         </div>
                     </div>
-                </div>
-            </div>
-            <div id="myModal" class="modal fade" role="dialog">
-                <div class="modal-dialog">
-                    <!-- Modal content-->
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            <h4 class="modal-title">EDITAR PERFIL</h4>
-                        </div>
-                        <div class="modal-body">
+                    <br/>
+                    <div class="panel panel-default divDetalle">
+                        <div class="panel-body">
                             <div class="row form-group"> 
                                 <div class="col-lg-2">
-                                    <label for="apellidos">Descripcion:</label>
+                                    <label for="txtNombre">Nombre: </label>
                                 </div>
                                 <div class="col-lg-8">
-                                    <input type="text" class="form-control" id="txtDescripcion" 
-                                           placeholder = "perfil" tabindex="5" maxlength="100">
+                                    <label id="txtNombre" name="txtNombre">Wilson Hernande</label>
                                 </div>
                             </div>
                             <div class="row form-group"> 
                                 <div class="col-lg-2">
-                                    <label>Habilitado: </label>
+                                    <label for="txtApellidos">Apellidos: </label>
+                                </div>
+                                <div class="col-lg-8">
+                                    <label id="txtApellidos" name="txtApellidos">Neira Mija</label>
+                                </div>
+                            </div>
+                            <div class="row form-group"> 
+                                <div class="col-lg-2">
+                                    <label for="txtTipoUsuario">Tipo Usuario: </label>
+                                </div>
+                                <div class="col-lg-8">
+                                    <label id="txtTipoUsuario" name="txtTipoUsuario">Colegiado</label>
+                                </div>
+                            </div>
+                            <div class="row form-group"> 
+                                <div class="col-lg-2">
+                                    <label for="txtPerfil">Perfil:</label>
+                                </div>
+                                <div class="col-lg-3">
+                                    <select class="form-control" id="cboPerfil">
+                                        
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row form-group"> 
+                                <div class="col-lg-2">
+                                    <label for="txtUsuario">Usuario: </label>
+                                </div>
+                                <div class="col-lg-8">
+                                    <label id="txtUsuario" name="txtUsuario">12345</label>
+                                </div>
+                            </div>
+                            <div class="row form-group"> 
+                                <div class="col-lg-2">
+                                    <label for="txtPassword">Password: </label>
+                                </div>
+                                <div class="col-lg-4">
+                                    <input type="password" class="form-control" id="txtPassword" 
+                                           name ="txtPassword"  maxlength="100">
+                                </div>
+                            </div>
+                            <div class="row form-group"> 
+                                <div class="col-lg-2">
+                                    <label>Estado: </label>
                                 </div>
                                 <div class="col-lg-1">
                                     <input type="checkbox"  id="chkEstado"/>
                                 </div>
                             </div>
                         </div>
-                        <div class="modal-footer">
-                            <div class="row form-group">
-                                <div class="col-lg-offset-3 col-lg-2">
-                                    <button type="button" class="btn btn-primary btn-block">
-                                        Aceptar
-                                    </button>
-                                </div>
-                                <div class="col-lg-offset-1 col-lg-2">
-                                    <button type="button" class="btn btn-primary btn-block" data-dismiss="modal">
-                                        Cerrar
-                                    </button>
-                                </div>
-                            </div>    
+                    </div>
+                </div>
+                <div class="panel-footer divDetalle">
+                    <div class="row form-group">
+                        <div class="col-lg-offset-4 col-lg-2">
+                            <button type="button" class="btn btn-primary btn-block" id="btnAceptar">
+                                Aceptar <span class="glyphicon glyphicon-ok"></span>
+                            </button>
+                        </div>
+                        <div class="col-lg-offset-1 col-lg-2">
+                            <button type="button" class="btn btn-primary btn-block" id="btnAtras">
+                                Limpiar <span class="glyphicon glyphicon-remove"></span> 
+                            </button>
                         </div>
                     </div>
                 </div>

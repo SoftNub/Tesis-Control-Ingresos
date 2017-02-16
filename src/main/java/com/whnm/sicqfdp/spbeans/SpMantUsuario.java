@@ -16,19 +16,27 @@ import org.springframework.jdbc.object.StoredProcedure;
  *
  * @author wilson
  */
-public class SpListarColegiado extends StoredProcedure {
-    public static final String SPROC_NAME = "mc_sp_listar_colegiado";
-    public static final String PARAM_IN_OPC = "opc";
-    public static final String PARAM_IN_DNI = "_dni";
-    public static final String PARAM_IN_NUMCOLEGIATURA = "num_coleg";
+public class SpMantUsuario extends StoredProcedure {
+    public static final String SPROC_NAME = "ms_mant_usuarios";
+    public static final String PARAM_IN_OPC = "_tipo_operacion";
+    public static final String PARAM_IN_USERNAME = "_username";
+    public static final String PARAM_IN_PASSWORD = "_password";
+    public static final String PARAM_IN_ESTADO = "_estado";
+    public static final String PARAM_IN_ID_PERFIL = "_id_perfil";
+    public static final String PARAM_IN_TIPO= "_tipo";
+    public static final String PARAM_IN_USUARIO = "_usuario";
     public static final String PARAM_OUT_IND = "ind";
     public static final String PARAM_OUT_MSJ = "msj";
     
-    public SpListarColegiado(DataSource dataSource) {
+    public SpMantUsuario(DataSource dataSource) {
         super(dataSource, SPROC_NAME);
         declareParameter(new SqlParameter(PARAM_IN_OPC, Types.INTEGER));
-        declareParameter(new SqlParameter(PARAM_IN_DNI, Types.VARCHAR));
-        declareParameter(new SqlParameter(PARAM_IN_NUMCOLEGIATURA, Types.VARCHAR));
+        declareParameter(new SqlParameter(PARAM_IN_USERNAME, Types.VARCHAR));
+        declareParameter(new SqlParameter(PARAM_IN_PASSWORD, Types.VARCHAR));
+        declareParameter(new SqlParameter(PARAM_IN_ESTADO, Types.INTEGER));
+        declareParameter(new SqlParameter(PARAM_IN_ID_PERFIL, Types.INTEGER));
+        declareParameter(new SqlParameter(PARAM_IN_TIPO, Types.VARCHAR));
+        declareParameter(new SqlParameter(PARAM_IN_USUARIO, Types.VARCHAR));
         declareParameter(new SqlOutParameter(PARAM_OUT_IND, Types.INTEGER));
         declareParameter(new SqlOutParameter(PARAM_OUT_MSJ, Types.VARCHAR));
         compile();

@@ -5,10 +5,15 @@
  */
 package com.whnm.sicqfdp.controller;
 
+import com.whnm.sicqfdp.beans.CustomUser;
+import javax.servlet.http.HttpSession;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -17,6 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
  * @version 1.0
  */
 @Controller
+@SessionAttributes({"menusUsuario"})
 public class BienvenidaController {
     
     
@@ -43,11 +49,15 @@ public class BienvenidaController {
     
     /**
      * Metodo que mostrar la vista del index del sistema 
+     * @param modelo
+     * @param session
      * @return ModelAndView
      */
     @RequestMapping(value="Index.cqfdp", method=RequestMethod.GET)
-    public ModelAndView mostrarIndex(){
+    public ModelAndView mostrarIndex(ModelMap modelo){
         ModelAndView vista = new ModelAndView();
+        CustomUser user = (CustomUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        modelo.addAttribute("menusUsuario", user.getMenus());
         vista.setViewName("Index");
         return vista;
     }

@@ -6,6 +6,7 @@
 package com.whnm.sicqfdp.dao;
 
 import com.whnm.sicqfdp.beans.CustomUser;
+import com.whnm.sicqfdp.beans.Menu;
 import com.whnm.sicqfdp.beans.Parametros;
 import com.whnm.sicqfdp.beans.Role;
 import com.whnm.sicqfdp.interfaces.UserDao;
@@ -42,13 +43,16 @@ public class UsuarioDaoImpl implements UserDao{
     public CustomUser login(String username) {
         CustomUser usuario = new CustomUser();
         Role role;
+        Menu menu;
         List<Role> myRoles = new ArrayList<>();
+        List<Menu> myMenus = new ArrayList<>();
         Map<String,Object> vars = new HashMap<>();
         vars.put(SpLoginUsuario.PARAM_IN_USUARIO, username);
         vars.put(SpLoginUsuario.PARAM_IN_PASSWORD, "");
         try {
             Map<String, Object> result = (Map<String, Object>) spLoginUsuario.execute(vars);
             List<Map<String, Object>> listResult = (List<Map<String, Object>>) result.get(Parametros.RESULSET);
+            List<Map<String, Object>> listResult2 = (List<Map<String, Object>>) result.get(Parametros.RESULSET_2);
             usuario.setIndError(Integer.parseInt(String.valueOf(result.get(Parametros.IND))));
             usuario.setMsjError(result.get(Parametros.MSJ).toString());
             usuario.setUsername(result.get(Parametros.USERNAME).toString());
@@ -62,6 +66,13 @@ public class UsuarioDaoImpl implements UserDao{
                     myRoles.add(role);
                 }
                 usuario.setAuthorities(myRoles);
+                
+                for (Map<String, Object> item : listResult2) {
+                    menu = new Menu();
+                    menu.setDescripMenu(item.get("opcionHtml") != null ? String.valueOf(item.get("opcionHtml")) : "");
+                    myMenus.add(menu);
+                }
+                usuario.setMenus(myMenus);
             }
         } catch(Exception ex){
             Logger.getLogger(UsuarioDaoImpl.class.getName()).log(Level.SEVERE, null, ex);

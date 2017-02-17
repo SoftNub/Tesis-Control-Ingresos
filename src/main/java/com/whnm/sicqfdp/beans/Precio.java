@@ -16,8 +16,6 @@ public class Precio {
     private Double precio;
     private String fechaInicioVigencia;
     private String fechaFinVigencia;
-    private Integer indTablaPrecio;
-    private Integer indTmpPrecio;
     private Integer indError;
     private String msjError;
 
@@ -46,22 +44,6 @@ public class Precio {
 
     public void setFechaInicioVigencia(String fechaInicioVigencia) {
         this.fechaInicioVigencia = fechaInicioVigencia;
-    }
-
-    public Integer getIndTablaPrecio() {
-        return indTablaPrecio;
-    }
-
-    public void setIndTablaPrecio(Integer indTablaPrecio) {
-        this.indTablaPrecio = indTablaPrecio;
-    }
-
-    public Integer getIndTmpPrecio() {
-        return indTmpPrecio;
-    }
-
-    public void setIndTmpPrecio(Integer indTmpPrecio) {
-        this.indTmpPrecio = indTmpPrecio;
     }
 
     public Integer getIndError() {

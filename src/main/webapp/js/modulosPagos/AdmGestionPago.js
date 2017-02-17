@@ -6,6 +6,7 @@
 
 var listTiposPagos;
 var accion;
+var interfaz;
 var estados = [
     {id:"1", descripcion:"Habilitado"},
     {id:"0", descripcion:"Inhabilitado"}
@@ -32,7 +33,12 @@ $(document).ready(function(){
        mantenimientoTipoPago(); 
     });
     listarTodosEstados();
+
     $("#txtFechaNacimiento").datepicker({
+       startDate : '0d'     
+    });
+
+    $("#txtFechaInicioVigenciaNuevo").datepicker({
        startDate : '0d'     
     });
 });
@@ -102,7 +108,10 @@ var listarTablaTipoPago = function(){
 var mostrarTipoPago = function(){
     limpiarFormulario();
     accion = 1;
+    interfaz = 1;
     $("#panelGrabar").show();
+    $("#divTipoPago").show();
+    $("#divPrecioTipoPago").hide();
     $("#panelConsultar").hide();
     $("#panelOpciones").hide();
     $(".divPrecio").show();
@@ -111,9 +120,12 @@ var mostrarTipoPago = function(){
 var editarTipoPago = function(index){
     limpiarFormulario();
     accion = 2;
+    interfaz = 1;
     tipoPagoSeleccionado = listTiposPagos[index];
     $(".divPrecio").hide();
     $("#panelGrabar").show();
+    $("#divTipoPago").show();
+    $("#divPrecioTipoPago").hide();
     $("#panelConsultar").hide();
     $("#panelOpciones").hide();
     $("#txtConcepto").val(tipoPagoSeleccionado.concepto);
@@ -217,9 +229,21 @@ var editarTipoPago = function(index){
 };
 
 var mostrarPreciosTipoPago = function(index){
+    var tipoPago, tipoPagoRep;
     $("#panelGrabar").show();
+    $("#divTipoPago").hide();
     $("#panelConsultar").hide();
     $("#panelOpciones").hide();
+    interfaz = 2;
+    $("#txtPrecioVigente").val(20);
+    $("#txtPrecioProxVigente").val(20);
+    $("#txtFechaInicioVigencia").val("02/01/2017");
+    $("#txtFechaInicioProxVigencia").val("02/01/2017");
+//    tipoPagoSeleccionado = listTiposPagos[index];
+//    tipoPago = new TipoPago();
+//    tipoPago.id = tipoPagoSeleccionado.id();
+    
+    $("#divPrecioTipoPago").show();
 };
 
 var regresarPrincipal = function(){
@@ -233,166 +257,169 @@ var mantenimientoTipoPago = function(){
     var tipoPago, tipoPagoRep;
     var concepto, conceptoPara, esInhabilitadora, numPagosActivos, tipoGeneracion,
         estado, estadosColegiados, precio, fechaVigencia;
-    concepto = $("#txtConcepto").val();
-    if(concepto === ''){
-        mostrarMensaje('danger', "Debe ingresar denominacion de concepto");
-        return;
-    }
-    if($("#chkConceptoCol").is(":checked") && $("#chkConceptoNoCol").is(":checked")){
-        conceptoPara = 'A';
-    } else if($("#chkConceptoCol").is(":checked")){
-        conceptoPara = 'C';
-    } else if($("#chkConceptoNoCol").is(":checked")){
-        conceptoPara = 'N';
-    } else {
-        mostrarMensaje('danger', "Debe elegir un opcion para asignar el concepto");
-        return;
-    }
-
-    if($("#chkConceptoInh").is(":checked")){
-        esInhabilitadora = 1;
-        numPagosActivos = parseInt($("#txtNumPagosActivos").val());
-        if(isNaN(numPagosActivos)){
-            mostrarMensaje('danger', "Debe ingresar un numero de pagos activos");
+    if(interfaz === 1){    
+        concepto = $("#txtConcepto").val();
+        if(concepto === ''){
+            mostrarMensaje('danger', "Debe ingresar denominacion de concepto");
             return;
         }
-
-        if($("#chkConceptoManual").is(":checked") && $("#chkConceptoMensual").is(":checked")){
-            tipoGeneracion = 3;
-        } else if($("#chkConceptoMensual").is(":checked")){
-            tipoGeneracion = 2;
-        } else if($("#chkConceptoManual").is(":checked")){
-            tipoGeneracion = 1;
+        if($("#chkConceptoCol").is(":checked") && $("#chkConceptoNoCol").is(":checked")){
+            conceptoPara = 'A';
+        } else if($("#chkConceptoCol").is(":checked")){
+            conceptoPara = 'C';
+        } else if($("#chkConceptoNoCol").is(":checked")){
+            conceptoPara = 'N';
         } else {
-            mostrarMensaje('danger', "Debe elegir el tipo de generacion del tipo pago");
-            return;
-        }
-    } else {
-        esInhabilitadora = 0;
-        tipoGeneracion = 1;
-        numPagosActivos = 0;
-    }
-    if($("#cboEstado").val() === ''){
-        mostrarMensaje('danger', "Debe seleccionar un estado");
-        return;
-    }
-    estado = estados[parseInt($("#cboEstado").val())].id;
-
-    estadosColegiados = '';
-    if(esInhabilitadora === 1){
-        if($("#chkEstColExo").is(":checked")){
-            mostrarMensaje('danger', "No puede seleccionar estado Exonerado");
+            mostrarMensaje('danger', "Debe elegir un opcion para asignar el concepto");
             return;
         }
 
-        if($("#chkEstColEgre").is(":checked")){
-            mostrarMensaje('danger', "No puede seleccionar estado Egresado");
+        if($("#chkConceptoInh").is(":checked")){
+            esInhabilitadora = 1;
+            numPagosActivos = parseInt($("#txtNumPagosActivos").val());
+            if(isNaN(numPagosActivos)){
+                mostrarMensaje('danger', "Debe ingresar un numero de pagos activos");
+                return;
+            }
+
+            if($("#chkConceptoManual").is(":checked") && $("#chkConceptoMensual").is(":checked")){
+                tipoGeneracion = 3;
+            } else if($("#chkConceptoMensual").is(":checked")){
+                tipoGeneracion = 2;
+            } else if($("#chkConceptoManual").is(":checked")){
+                tipoGeneracion = 1;
+            } else {
+                mostrarMensaje('danger', "Debe elegir el tipo de generacion del tipo pago");
+                return;
+            }
+        } else {
+            esInhabilitadora = 0;
+            tipoGeneracion = 1;
+            numPagosActivos = 0;
+        }
+        if($("#cboEstado").val() === ''){
+            mostrarMensaje('danger', "Debe seleccionar un estado");
             return;
         }
+        estado = estados[parseInt($("#cboEstado").val())].id;
 
-        if(!$("#chkEstColHab").is(":checked") && !$("#chkEstColHab").is(":checked")){
-            mostrarMensaje('danger', "Debe seleccionar al menos un estado del colegiado");
-            return;
-        }
+        estadosColegiados = '';
+        if(esInhabilitadora === 1){
+            if($("#chkEstColExo").is(":checked")){
+                mostrarMensaje('danger', "No puede seleccionar estado Exonerado");
+                return;
+            }
 
-        if($("#chkEstColHab").is(":checked")){
-            estadosColegiados += ',1';
-        }
+            if($("#chkEstColEgre").is(":checked")){
+                mostrarMensaje('danger', "No puede seleccionar estado Egresado");
+                return;
+            }
 
-        if($("#chkEstColInh").is(":checked")){
-            estadosColegiados += ',2';
-        }
+            if(!$("#chkEstColHab").is(":checked") && !$("#chkEstColHab").is(":checked")){
+                mostrarMensaje('danger', "Debe seleccionar al menos un estado del colegiado");
+                return;
+            }
 
-        estadosColegiados += ',';
-    } else {
-        if(!$("#chkEstColHab").is(":checked") && !$("#chkEstColHab").is(":checked") && 
-                !$("#chkEstColExo").is(":checked") && !$("#chkEstColEgre").is(":checked")){
-            mostrarMensaje('danger', "Debe seleccionar al menos un estado del colegiado");
-            return;
-        }
+            if($("#chkEstColHab").is(":checked")){
+                estadosColegiados += ',1';
+            }
 
-        if($("#chkEstColHab").is(":checked")){
-            estadosColegiados += ',1';
-        }
+            if($("#chkEstColInh").is(":checked")){
+                estadosColegiados += ',2';
+            }
 
-        if($("#chkEstColInh").is(":checked")){
-            estadosColegiados += ',2';
-        }
+            estadosColegiados += ',';
+        } else {
+            if(!$("#chkEstColHab").is(":checked") && !$("#chkEstColHab").is(":checked") && 
+                    !$("#chkEstColExo").is(":checked") && !$("#chkEstColEgre").is(":checked")){
+                mostrarMensaje('danger', "Debe seleccionar al menos un estado del colegiado");
+                return;
+            }
 
-        if($("#chkEstColExo").is(":checked")){
-            estadosColegiados += ',3';
-        }
+            if($("#chkEstColHab").is(":checked")){
+                estadosColegiados += ',1';
+            }
 
-        if($("#chkEstColEgre").is(":checked")){
-            estadosColegiados += ',4';
+            if($("#chkEstColInh").is(":checked")){
+                estadosColegiados += ',2';
+            }
+
+            if($("#chkEstColExo").is(":checked")){
+                estadosColegiados += ',3';
+            }
+
+            if($("#chkEstColEgre").is(":checked")){
+                estadosColegiados += ',4';
+            }
+            estadosColegiados += ',';
+        }    
+        if(accion === 1){
+            precio = parseFloat($("#txtPrecio").val());
+            if(isNaN(precio)){
+                mostrarMensaje('danger', "Debe ingresar un precio");
+                return;
+            }
+            fechaVigencia = $("#txtFechaNacimiento").val();
+            var date = new Date();
+            if(fechaVigencia === ''){
+                 mostrarMensaje('danger', "Debe seleccionar una fecha");
+                 return;
+            }
+            var fechaSplit = fechaVigencia.split("/");
+            var fechaHoy = new Date(date.getMonth(), date.getDate(), date.getFullYear());
+            var fechaSeleccionada = new Date(fechaSplit[1],fechaSplit[0], fechaSplit[2]);
+            if(fechaSeleccionada.getTime() < fechaHoy.getTime()){
+                mostrarMensaje('danger', "La fecha debe ser mayor o igual a la actual");
+                return;
+            }
+
+            tipoPago = new TipoPago();
+            tipoPago.concepto = concepto;
+            tipoPago.conceptoPara = conceptoPara;
+            tipoPago.esInhabilitadora= esInhabilitadora;
+            tipoPago.numPagosActivos= numPagosActivos;
+            tipoPago.tipoGeneracion = tipoGeneracion;
+            tipoPago.estado = estado;
+            tipoPago.estadosColegiados= estadosColegiados;
+
+            var precioActual = new Precio();
+            precioActual.precio =  precio;
+            precioActual.fechaInicioVigencia =  fechaVigencia;
+
+            tipoPago.precioActual = precioActual;
+
+            tipoPagoRep = tipoPago.mantTipoPago(1);
+            if(tipoPagoRep.indError === 0){
+                mostrarMensaje('success', tipoPagoRep.msjError);
+                listarTablaTipoPago();
+                setTimeout(regresarPrincipal(), 3000);
+            }else{
+                mostrarMensaje('danger', tipoPagoRep.msjError);
+            }
+        } else if(accion === 2) {
+            tipoPago = new TipoPago();
+            tipoPago.concepto = concepto;
+            tipoPago.conceptoPara = conceptoPara;
+            tipoPago.esInhabilitadora= esInhabilitadora;
+            tipoPago.numPagosActivos= numPagosActivos;
+            tipoPago.tipoGeneracion = tipoGeneracion;
+            tipoPago.estado = estado;
+            tipoPago.estadosColegiados= estadosColegiados;
+            tipoPago.id = tipoPagoSeleccionado.id;
+
+            tipoPagoRep = tipoPago.mantTipoPago(2);
+            if(tipoPagoRep.indError === 0){
+                mostrarMensaje('success', tipoPagoRep.msjError);
+                listarTablaTipoPago();
+    //            setTimeout(regresarPrincipal(), 3000);
+            }else{
+                mostrarMensaje('danger', tipoPagoRep.msjError);
+            }
         }
-        estadosColegiados += ',';
+    } else if(interfaz === 2){
+         mostrarMensaje('info', 'actualizaremos el precio');
     }    
-    if(accion === 1){
-        precio = parseFloat($("#txtPrecio").val());
-        if(isNaN(precio)){
-            mostrarMensaje('danger', "Debe ingresar un precio");
-            return;
-        }
-        fechaVigencia = $("#txtFechaNacimiento").val();
-        var date = new Date();
-        if(fechaVigencia === ''){
-             mostrarMensaje('danger', "Debe seleccionar una fecha");
-             return;
-        }
-        var fechaSplit = fechaVigencia.split("/");
-        var fechaHoy = new Date(date.getMonth(), date.getDate(), date.getFullYear());
-        var fechaSeleccionada = new Date(fechaSplit[1],fechaSplit[0], fechaSplit[2]);
-        if(fechaSeleccionada.getTime() < fechaHoy.getTime()){
-            mostrarMensaje('danger', "La fecha debe ser mayor o igual a la actual");
-            return;
-        }
-        
-        tipoPago = new TipoPago();
-        tipoPago.concepto = concepto;
-        tipoPago.conceptoPara = conceptoPara;
-        tipoPago.esInhabilitadora= esInhabilitadora;
-        tipoPago.numPagosActivos= numPagosActivos;
-        tipoPago.tipoGeneracion = tipoGeneracion;
-        tipoPago.estado = estado;
-        tipoPago.estadosColegiados= estadosColegiados;
-        
-        var precioActual = new Precio();
-        precioActual.precio =  precio;
-        precioActual.fechaInicioVigencia =  fechaVigencia;
-        
-        tipoPago.precioActual = precioActual;
-        
-        tipoPagoRep = tipoPago.mantTipoPago(1);
-        if(tipoPagoRep.indError === 0){
-            mostrarMensaje('success', tipoPagoRep.msjError);
-            listarTablaTipoPago();
-            setTimeout(regresarPrincipal(), 3000);
-        }else{
-            mostrarMensaje('danger', tipoPagoRep.msjError);
-        }
-    } else if(accion === 2) {
-        tipoPago = new TipoPago();
-        tipoPago.concepto = concepto;
-        tipoPago.conceptoPara = conceptoPara;
-        tipoPago.esInhabilitadora= esInhabilitadora;
-        tipoPago.numPagosActivos= numPagosActivos;
-        tipoPago.tipoGeneracion = tipoGeneracion;
-        tipoPago.estado = estado;
-        tipoPago.estadosColegiados= estadosColegiados;
-        tipoPago.id = tipoPagoSeleccionado.id;
-        
-        tipoPagoRep = tipoPago.mantTipoPago(2);
-        if(tipoPagoRep.indError === 0){
-            mostrarMensaje('success', tipoPagoRep.msjError);
-            listarTablaTipoPago();
-//            setTimeout(regresarPrincipal(), 3000);
-        }else{
-            mostrarMensaje('danger', tipoPagoRep.msjError);
-        }
-    }
 };
-
 
 var mostrarMensaje = function(tipo,mensaje){
     var htmlAlert;

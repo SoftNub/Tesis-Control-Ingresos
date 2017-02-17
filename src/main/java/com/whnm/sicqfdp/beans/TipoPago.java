@@ -23,8 +23,26 @@ public class TipoPago {
     private Precio precioActual;
     private Precio precioEspera;
     private List<Precio> preciosHistoricos;
+    private Integer indTablaPrecio;
+    private Integer indTmpPrecio;
     private Integer indError;
     private String msjError;
+
+    public Integer getIndTablaPrecio() {
+        return indTablaPrecio;
+    }
+
+    public void setIndTablaPrecio(Integer indTablaPrecio) {
+        this.indTablaPrecio = indTablaPrecio;
+    }
+
+    public Integer getIndTmpPrecio() {
+        return indTmpPrecio;
+    }
+
+    public void setIndTmpPrecio(Integer indTmpPrecio) {
+        this.indTmpPrecio = indTmpPrecio;
+    }
 
     public TipoPago() {
     }

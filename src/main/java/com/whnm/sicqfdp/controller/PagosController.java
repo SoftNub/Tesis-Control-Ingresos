@@ -32,7 +32,7 @@ public class PagosController {
     @Qualifier(value = "tipoPagoService")        
     TipoPagoDao tipoPagoService;
     
-    // <editor-fold defaultstate="collapsed" desc="gestion tipo pago">
+    // <editor-fold defaultstate="collapsed" desc="gestion tipo pago - precios">
      @RequestMapping(value="pagos/gestionTipoPago.cqfdp", method = RequestMethod.GET)
     public ModelAndView mostrarGestionPerfiles(){
         String tituloParametria;
@@ -84,6 +84,22 @@ public class PagosController {
             opc = mapper.convertValue(node.get("tipoOperacion"), Integer.class);
             tipoPago = mapper.convertValue(node.get("tipoPago"), TipoPago.class);     
             tipoPagoRep = tipoPagoService.mantenimientoTipoPago(opc, tipoPago, user);
+        }catch(Exception ex){
+            tipoPagoRep.setIndError(1);
+            tipoPagoRep.setMsjError("Error:["+ex.getMessage()+"]");
+        } 
+        return tipoPagoRep;
+    }
+    
+    @RequestMapping(value="pagos/consultarPreciosTipoPago.action", method = RequestMethod.POST)
+    public @ResponseBody TipoPago consultarPreciosTipoPago(
+          @RequestBody TipoPago objs  
+    ){
+        ValidaEntrada validaEntrada;
+        TipoPago tipoPagoRep = new TipoPago();
+        validaEntrada = new ValidaEntrada();
+        try{  
+            tipoPagoRep = tipoPagoService.consultarPreciosTipoPago(objs);
         }catch(Exception ex){
             tipoPagoRep.setIndError(1);
             tipoPagoRep.setMsjError("Error:["+ex.getMessage()+"]");

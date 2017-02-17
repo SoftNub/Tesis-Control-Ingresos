@@ -38,4 +38,12 @@ public interface TipoPagoDao extends Generica<TipoPago>{
      * @return datos de confirmacion de la accion realizada.
      */
     public TipoPago mantenimientoTipoPago(Integer opc, TipoPago tipoPago, CustomUser user);
+
+    /**
+     * Realiza el listado de Precio Actual y precio proximo a entrar en vigencia
+     * para un tipo de pago.
+     * @param objs : objeto que nos trae el id del tipo de pago
+     * @return objeto con los datos de los precios del tipo pago
+     */    
+    public TipoPago consultarPreciosTipoPago(TipoPago objs);
 }

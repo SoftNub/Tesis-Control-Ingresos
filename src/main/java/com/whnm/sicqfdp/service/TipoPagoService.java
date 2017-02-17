@@ -27,12 +27,6 @@ public class TipoPagoService implements TipoPagoDao{
     @Qualifier("tipoPagoDao")
     private TipoPagoDao tipoPagoDao;
 
-    /**
-     * Devolvera una lista de tipos de pago
-     * @param opc
-     * @param tipoPago
-     * @return 
-     */
     @Override
     public ListTipoPago listarTipoPago(Integer opc, TipoPago tipoPago) {
         return tipoPagoDao.listarTipoPago(opc, tipoPago);
@@ -62,4 +56,9 @@ public class TipoPagoService implements TipoPagoDao{
     public TipoPago listar(TipoPago elemento) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }   
+
+    @Override
+    public TipoPago consultarPreciosTipoPago(TipoPago objs) {
+        return tipoPagoDao.consultarPreciosTipoPago(objs);
+    }
 }

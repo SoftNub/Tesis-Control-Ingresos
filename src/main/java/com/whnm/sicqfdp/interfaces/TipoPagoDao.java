@@ -46,4 +46,21 @@ public interface TipoPagoDao extends Generica<TipoPago>{
      * @return objeto con los datos de los precios del tipo pago
      */    
     public TipoPago consultarPreciosTipoPago(TipoPago objs);
+
+    /**
+     * Actualiza el precio de un tipo de pago
+     * @param objs: objeto que trae el tipo de pago y su nuevo precio
+     * @param user
+     * @return 
+     */
+    public TipoPago actualizaTipoPagoPrecio(TipoPago objs, CustomUser user);
+    
+    /**
+     * Iniciara la vigencia de los precios que estan programados para entrar en vigencia
+     * en una fecha determinada
+     * @param format: fecha del sistema del servidor de aplicaciones formato 'dd/mm/yyyy'
+     * @param user : usuario que ejecuta
+     * @return 
+     */
+    public TipoPago iniciarVigenciaPreciosProgramados(String format, CustomUser user);
 }

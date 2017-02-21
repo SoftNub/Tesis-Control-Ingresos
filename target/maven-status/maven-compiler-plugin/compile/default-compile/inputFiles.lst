@@ -3,6 +3,7 @@
 /media/whnm/Proyectos/SICQFDP/src/main/java/com/whnm/sicqfdp/spbeans/SpEliminarDistritoProvincia.java
 /media/whnm/Proyectos/SICQFDP/src/main/java/com/whnm/sicqfdp/interfaces/Generica.java
 /media/whnm/Proyectos/SICQFDP/src/main/java/com/whnm/sicqfdp/spbeans/SpConsultarMenu.java
+/media/whnm/Proyectos/SICQFDP/src/main/java/com/whnm/sicqfdp/spbeans/SpActTipoPagoPrecio.java
 /media/whnm/Proyectos/SICQFDP/src/main/java/com/whnm/sicqfdp/spbeans/SpListarProvincia.java
 /media/whnm/Proyectos/SICQFDP/src/main/java/com/whnm/sicqfdp/spbeans/SpEliminarProvinciaDepartamento.java
 /media/whnm/Proyectos/SICQFDP/src/main/java/com/whnm/sicqfdp/service/UsuarioService.java
@@ -30,6 +31,7 @@
 /media/whnm/Proyectos/SICQFDP/src/main/java/com/whnm/sicqfdp/beans/ListEstadoCivil.java
 /media/whnm/Proyectos/SICQFDP/src/main/java/com/whnm/sicqfdp/beans/Precio.java
 /media/whnm/Proyectos/SICQFDP/src/main/java/com/whnm/sicqfdp/spbeans/SpGrabarColegiadoEgreso.java
+/media/whnm/Proyectos/SICQFDP/src/main/java/com/whnm/sicqfdp/tareas/ProcesosAutomaticos.java
 /media/whnm/Proyectos/SICQFDP/src/main/java/com/whnm/sicqfdp/beans/Perfil.java
 /media/whnm/Proyectos/SICQFDP/src/main/java/com/whnm/sicqfdp/service/EstadoCivilService.java
 /media/whnm/Proyectos/SICQFDP/src/main/java/com/whnm/sicqfdp/dao/EstadoCivilDaoImpl.java
@@ -58,8 +60,10 @@
 /media/whnm/Proyectos/SICQFDP/src/main/java/com/whnm/sicqfdp/dao/DepartamentoDaoImpl.java
 /media/whnm/Proyectos/SICQFDP/src/main/java/com/whnm/sicqfdp/spbeans/SpEliminarProvincia.java
 /media/whnm/Proyectos/SICQFDP/src/main/java/com/whnm/sicqfdp/spbeans/SpConsultarPerfil.java
+/media/whnm/Proyectos/SICQFDP/src/main/java/com/whnm/sicqfdp/spbeans/SpListarPreciosTipoPago.java
 /media/whnm/Proyectos/SICQFDP/src/main/java/com/whnm/sicqfdp/controller/ColegiadoController.java
 /media/whnm/Proyectos/SICQFDP/src/main/java/com/whnm/sicqfdp/dao/PersonaDaoImpl.java
+/media/whnm/Proyectos/SICQFDP/src/main/java/com/whnm/sicqfdp/spbeans/SpIniciaVigenciaPrecio.java
 /media/whnm/Proyectos/SICQFDP/src/main/java/com/whnm/sicqfdp/spbeans/SpListarTodosDepartamentos.java
 /media/whnm/Proyectos/SICQFDP/src/main/java/com/whnm/sicqfdp/spbeans/SpLoginUsuario.java
 /media/whnm/Proyectos/SICQFDP/src/main/java/com/whnm/sicqfdp/spbeans/SpListarOperadora.java

@@ -4,7 +4,8 @@
  * and open the template in the editor.
  */
 function TipoPago(id, concepto, conceptoPara, esInhabilitadora, numPagosActivos, tipoGeneracion,
-    estado, estadosColegiados, precioActual, precioEspera, preciosHistoricos){
+    estado, estadosColegiados, precioActual, precioEspera, preciosHistoricos,
+    indTablaPrecio, indTmpPrecio){
     this.id = id;
     this.concepto = concepto;
     this.conceptoPara = conceptoPara;
@@ -16,10 +17,14 @@ function TipoPago(id, concepto, conceptoPara, esInhabilitadora, numPagosActivos,
     this.precioActual = precioActual;
     this.precioEspera = precioEspera;
     this.preciosHistoricos = preciosHistoricos;
+    this.indTablaPrecio = indTablaPrecio;
+    this.indTmpPrecio = indTmpPrecio;
     this.indError = "";
     this.msjError = "";
     this.listarTipoPago = listarTipoPago;
     this.mantTipoPago = mantTipoPago;
+    this.listarTipoPagoPrecio = listarTipoPagoPrecio;
+    this.actualizaTipoPagoPrecio = actualizaTipoPagoPrecio;
 }
 
 function ListTipoPago(listTipoPago, indError, msjError){
@@ -76,6 +81,52 @@ function mantTipoPago(tipoOperacion){
         async: false,
         mimeType: 'application/json',
         data : JSON.stringify({tipoOperacion: tipoOperacion, tipoPago : tipoPago}),
+        success : function(data) {
+            tipoPagoRep.indError = data.indError;
+            tipoPagoRep.msjError = data.msjError;
+        }
+    });
+    return tipoPagoRep;
+}
+
+function listarTipoPagoPrecio(){
+    var tipoPagoRep;
+    var tipoPago ={
+        "id": this.id
+    };
+    tipoPagoRep = new TipoPago();
+    $.ajax({
+        url : "../pagos/listarTipoPagoPrecio.action",
+        type : "POST",
+        contentType : 'application/json; charset=utf-8',
+        dataType : 'json',
+        async: false,
+        mimeType: 'application/json',
+        data : JSON.stringify(tipoPago),
+        success : function(data) {
+            tipoPagoRep = data;
+        }
+    });
+    return tipoPagoRep;
+}
+
+function actualizaTipoPagoPrecio(){
+    var tipoPagoRep;
+    var tipoPago ={
+        "id" : this.id,
+        "indTablaPrecio" : this.indTablaPrecio, 
+        "indTmpPrecio" : this.indTmpPrecio,
+        "precioActual" : this.precioActual
+    };
+    tipoPagoRep = new TipoPago();
+    $.ajax({
+        url : "../pagos/actualizaTipoPagoPrecio.action",
+        type : "POST",
+        contentType : 'application/json; charset=utf-8',
+        dataType : 'json',
+        async: false,
+        mimeType: 'application/json',
+        data : JSON.stringify(tipoPago),
         success : function(data) {
             tipoPagoRep.indError = data.indError;
             tipoPagoRep.msjError = data.msjError;

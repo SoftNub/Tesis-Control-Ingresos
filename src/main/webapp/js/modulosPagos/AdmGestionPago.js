@@ -115,6 +115,7 @@ var mostrarTipoPago = function(){
     $("#panelConsultar").hide();
     $("#panelOpciones").hide();
     $(".divPrecio").show();
+    $(".titleTipoPago").html("Tipo Pago - Grabar Nuevo");
 };
 
 var editarTipoPago = function(index){
@@ -122,6 +123,7 @@ var editarTipoPago = function(index){
     accion = 2;
     interfaz = 1;
     tipoPagoSeleccionado = listTiposPagos[index];
+    $(".titleTipoPago").html("Tipo Pago - Actualizar "+tipoPagoSeleccionado.concepto);
     $(".divPrecio").hide();
     $("#panelGrabar").show();
     $("#divTipoPago").show();
@@ -235,15 +237,44 @@ var mostrarPreciosTipoPago = function(index){
     $("#panelConsultar").hide();
     $("#panelOpciones").hide();
     interfaz = 2;
-    $("#txtPrecioVigente").val(20);
-    $("#txtPrecioProxVigente").val(20);
-    $("#txtFechaInicioVigencia").val("02/01/2017");
-    $("#txtFechaInicioProxVigencia").val("02/01/2017");
-//    tipoPagoSeleccionado = listTiposPagos[index];
-//    tipoPago = new TipoPago();
-//    tipoPago.id = tipoPagoSeleccionado.id();
-    
-    $("#divPrecioTipoPago").show();
+    tipoPagoSeleccionado = listTiposPagos[index];
+    $(".titleTipoPago").html("Tipo Pago - Actualizar Precio "+tipoPagoSeleccionado.concepto);
+    $("#txtPrecioNuevo").val("");
+    $("#txtFechaInicioVigenciaNuevo").val("");
+    tipoPago = new TipoPago();
+    tipoPago.id = tipoPagoSeleccionado.id;
+    tipoPagoRep = tipoPago.listarTipoPagoPrecio();
+    if(tipoPagoRep.indError === 0){
+        tipoPagoSeleccionado = tipoPagoRep;
+        if(tipoPagoRep.indTablaPrecio === 1){
+            if(tipoPagoRep.indTmpPrecio === 1){
+                $(".precioVigente").show();
+                $(".precioProximo").show();
+                $("#txtPrecioVigente").val(tipoPagoRep.precioActual.precio);
+                $("#txtPrecioProxVigente").val(tipoPagoRep.precioEspera.precio);
+                $("#txtFechaInicioVigencia").val(tipoPagoRep.precioActual.fechaInicioVigencia);
+                $("#txtFechaInicioProxVigencia").val(tipoPagoRep.precioEspera.fechaInicioVigencia);
+            } else {
+                $(".precioVigente").show();
+                $(".precioProximo").hide();
+                $("#txtPrecioVigente").val(tipoPagoRep.precioActual.precio);
+                $("#txtFechaInicioVigencia").val(tipoPagoRep.precioActual.fechaInicioVigencia);
+            }
+        } else if(tipoPagoRep.indTablaPrecio === 2){
+            if(tipoPagoRep.indTmpPrecio === 1){
+                $(".precioVigente").hide();
+                $(".precioProximo").show();
+                $("#txtPrecioProxVigente").val(tipoPagoRep.precioEspera.precio);
+                $("#txtFechaInicioProxVigencia").val(tipoPagoRep.precioEspera.fechaInicioVigencia);
+            } else {
+                $(".precioVigente").hide();
+                $(".precioProximo").hide();
+            }
+        }
+        $("#divPrecioTipoPago").show();
+    } else {
+        mostrarMensaje('danger', tipoPagoRep.msjError);
+    }    
 };
 
 var regresarPrincipal = function(){
@@ -251,12 +282,14 @@ var regresarPrincipal = function(){
     $("#panelConsultar").show();
     $("#panelOpciones").show();
     $("#panelError").html("");
+    $(".titleTipoPago").html("Tipo Pago");
 };
 
 var mantenimientoTipoPago = function(){
     var tipoPago, tipoPagoRep;
     var concepto, conceptoPara, esInhabilitadora, numPagosActivos, tipoGeneracion,
         estado, estadosColegiados, precio, fechaVigencia;
+    var contenido;    
     if(interfaz === 1){    
         concepto = $("#txtConcepto").val();
         if(concepto === ''){
@@ -366,7 +399,7 @@ var mantenimientoTipoPago = function(){
                  return;
             }
             var fechaSplit = fechaVigencia.split("/");
-            var fechaHoy = new Date(date.getMonth(), date.getDate(), date.getFullYear());
+            var fechaHoy = new Date((date.getMonth()+1), date.getDate(), date.getFullYear());
             var fechaSeleccionada = new Date(fechaSplit[1],fechaSplit[0], fechaSplit[2]);
             if(fechaSeleccionada.getTime() < fechaHoy.getTime()){
                 mostrarMensaje('danger', "La fecha debe ser mayor o igual a la actual");
@@ -417,7 +450,151 @@ var mantenimientoTipoPago = function(){
             }
         }
     } else if(interfaz === 2){
-         mostrarMensaje('info', 'actualizaremos el precio');
+        var precioNuevo, fechaNueva;
+        precioNuevo = parseFloat($("#txtPrecioNuevo").val());
+        if(isNaN(precioNuevo)){
+            mostrarMensaje('danger', "Debe ingresar un precio nuevo");
+            return;
+        }
+        
+        fechaNueva = $("#txtFechaInicioVigenciaNuevo").val();
+        var date = new Date();
+        if(fechaNueva === ''){
+             mostrarMensaje('danger', "Debe seleccionar una fecha");
+             return;
+        }
+        var fechaSplit = fechaNueva.split("/");
+        var fechaHoy = new Date((date.getMonth()+1), date.getDate(), date.getFullYear());
+        var fechaSeleccionada = new Date(fechaSplit[1],fechaSplit[0], fechaSplit[2]);
+        if(fechaSeleccionada.getTime() < fechaHoy.getTime()){
+            mostrarMensaje('danger', "La fecha debe ser mayor o igual a la actual");
+            return;
+        }
+
+        if (tipoPagoSeleccionado.indTablaPrecio === 1 &&
+                tipoPagoSeleccionado.indTmpPrecio === 1){
+            if(fechaSeleccionada.getTime() === fechaHoy.getTime()){
+                contenido = 'Esta Acción quitará el cambio de precio Programado y actualizar'+
+                        ' el precio actual en vigencia. Esta seguro(a) de realizar este cambio?';
+            }else{
+                contenido = 'Esta Acción actualizará el cambio de precio programado'+
+                        '. Esta seguro(a) de realizar este cambio?';
+            }
+            $.jAlert({
+                'title': 'CONFIRMACION',
+                'content': contenido,
+                'theme': 'blue',
+                'btns': [
+                            {'text': 'SI', 
+                             'theme': 'blue', 
+                             'closeAlert': true,
+                             'onClick': function(e){
+                                    e.preventDefault();
+                                    tipoPago = new TipoPago();
+                                    tipoPago.id = tipoPagoSeleccionado.id;
+                                    tipoPago.indTablaPrecio = tipoPagoSeleccionado.indTablaPrecio;
+                                    tipoPago.indTmpPrecio = tipoPagoSeleccionado.indTmpPrecio;
+                                    
+                                    var precioActual = new Precio();
+                                    precioActual.precio =  precioNuevo;
+                                    precioActual.fechaInicioVigencia =  fechaNueva;
+                                    tipoPago.precioActual = precioActual;
+                                    tipoPagoRep = tipoPago.actualizaTipoPagoPrecio();
+                                    if(tipoPagoRep.indError === 0){
+                                        mostrarMensaje('success', tipoPagoRep.msjError);
+                                        listarTablaTipoPago();
+                                        setTimeout(regresarPrincipal, 3000);
+                                    }else{
+                                        mostrarMensaje('danger', tipoPagoRep.msjError);
+                                    }
+                                    return;
+                              }
+                            },
+                            { 'text': 'NO' }
+                         ]
+            });
+        } else if (tipoPagoSeleccionado.indTablaPrecio === 1 &&
+                tipoPagoSeleccionado.indTmpPrecio === 0){
+            if(fechaSeleccionada.getTime() === fechaHoy.getTime()){
+                contenido = 'Esta acción actualizara el precio actual en vigencia.'+
+                        ' Esta seguro(a) de realizar este cambio?';
+            } else {
+                contenido = 'Esta acción programará un cambio de precio. Esta seguro(a) de realizar este cambio?';
+            }
+            $.jAlert({
+                'title': 'CONFIRMACION',
+                'content': contenido,
+                'theme': 'blue',
+                'btns': [
+                            {'text': 'SI', 
+                             'theme': 'blue', 
+                             'closeAlert': true,
+                             'onClick': function(e){
+                                    e.preventDefault();
+                                    tipoPago = new TipoPago();
+                                    tipoPago.id = tipoPagoSeleccionado.id;
+                                    tipoPago.indTablaPrecio = tipoPagoSeleccionado.indTablaPrecio;
+                                    tipoPago.indTmpPrecio = tipoPagoSeleccionado.indTmpPrecio;
+                                    
+                                    var precioActual = new Precio();
+                                    precioActual.precio =  precioNuevo;
+                                    precioActual.fechaInicioVigencia =  fechaNueva;
+                                    tipoPago.precioActual = precioActual;
+                                    tipoPagoRep = tipoPago.actualizaTipoPagoPrecio();
+                                    if(tipoPagoRep.indError === 0){
+                                        mostrarMensaje('success', tipoPagoRep.msjError);
+                                        listarTablaTipoPago();
+                                        setTimeout(regresarPrincipal, 3000);
+                                    }else{
+                                        mostrarMensaje('danger', tipoPagoRep.msjError);
+                                    } 
+                              }
+                            },
+                            { 'text': 'NO' }
+                         ]
+            });
+        } else if (tipoPagoSeleccionado.indTablaPrecio === 2){
+            if(fechaSeleccionada.getTime() === fechaHoy.getTime()){
+                contenido = 'Esta acción quitará el cambio de precio programado y pondra'+
+                        ' en vigencia el nuevo precio del pago. Esta seguro(a) de realizar este cambio?';
+            } else {
+                contenido = 'Esta acción actualizara el cambio de precio programado.'+
+                        ' Esta seguro(a) de realizar este cambio?';
+            }
+            $.jAlert({
+                'title': 'CONFIRMACION',
+                'content': contenido,
+                'theme': 'blue',
+                'btns': [
+                            {'text': 'SI', 
+                             'theme': 'blue', 
+                             'closeAlert': true,
+                             'onClick': function(e){
+                                    e.preventDefault();
+                                    tipoPago = new TipoPago();
+                                    tipoPago.id = tipoPagoSeleccionado.id;
+                                    tipoPago.indTablaPrecio = tipoPagoSeleccionado.indTablaPrecio;
+                                    tipoPago.indTmpPrecio = tipoPagoSeleccionado.indTmpPrecio;
+                                    
+                                    var precioActual = new Precio();
+                                    precioActual.precio =  precioNuevo;
+                                    precioActual.fechaInicioVigencia =  fechaNueva;
+                                    tipoPago.precioActual = precioActual;
+                                    tipoPagoRep = tipoPago.actualizaTipoPagoPrecio();
+                                    if(tipoPagoRep.indError === 0){
+                                        mostrarMensaje('success', tipoPagoRep.msjError);
+                                        listarTablaTipoPago();
+                                        setTimeout(regresarPrincipal, 3000);
+                                    }else{
+                                        mostrarMensaje('danger', tipoPagoRep.msjError);
+                                    }
+                                    return;
+                              }
+                            },
+                            { 'text': 'NO' }
+                         ]
+            });
+        }
     }    
 };
 

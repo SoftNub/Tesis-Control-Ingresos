@@ -32,6 +32,7 @@ com/whnm/sicqfdp/beans/ListOperadora.class
 com/whnm/sicqfdp/dao/Usuario2DaoImpl.class
 com/whnm/sicqfdp/spbeans/SpListarPersona.class
 com/whnm/sicqfdp/spbeans/SpGrabarDistritoProvincia.class
+com/whnm/sicqfdp/spbeans/SpIniciaVigenciaPrecio.class
 com/whnm/sicqfdp/service/TipoEquipoService.class
 com/whnm/sicqfdp/beans/ListDepartamento.class
 com/whnm/sicqfdp/spbeans/SpGrabarProvinciaDepartamento.class
@@ -40,9 +41,11 @@ com/whnm/sicqfdp/spbeans/SpLoginUsuario.class
 com/whnm/sicqfdp/interfaces/PerfilDao.class
 com/whnm/sicqfdp/spbeans/SpListarDistritosHabilitados.class
 com/whnm/sicqfdp/spbeans/SpConsultarUsuario.class
+com/whnm/sicqfdp/tareas/ProcesosAutomaticos.class
 com/whnm/sicqfdp/beans/ListEstadoCivil.class
 com/whnm/sicqfdp/dao/ProvinciaDaoImpl.class
 com/whnm/sicqfdp/spbeans/SpListarTipoEquipo.class
+com/whnm/sicqfdp/spbeans/SpListarPreciosTipoPago.class
 com/whnm/sicqfdp/beans/OtrosGrados.class
 com/whnm/sicqfdp/spbeans/SpGrabarProvincia.class
 com/whnm/sicqfdp/service/ColegiadoService.class
@@ -80,6 +83,7 @@ com/whnm/sicqfdp/beans/Role.class
 com/whnm/sicqfdp/spbeans/SpGrabarDepartamento.class
 com/whnm/sicqfdp/beans/TipoPago.class
 com/whnm/sicqfdp/spbeans/SpListarCondicionCasa.class
+com/whnm/sicqfdp/spbeans/SpActTipoPagoPrecio.class
 com/whnm/sicqfdp/controller/ColegiadoController.class
 com/whnm/sicqfdp/interfaces/PersonaDao.class
 com/whnm/sicqfdp/beans/Titulacion.class

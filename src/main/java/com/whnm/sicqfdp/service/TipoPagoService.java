@@ -61,4 +61,14 @@ public class TipoPagoService implements TipoPagoDao{
     public TipoPago consultarPreciosTipoPago(TipoPago objs) {
         return tipoPagoDao.consultarPreciosTipoPago(objs);
     }
+
+    @Override
+    public TipoPago actualizaTipoPagoPrecio(TipoPago objs, CustomUser user) {
+         return tipoPagoDao.actualizaTipoPagoPrecio(objs, user);
+    }
+
+    @Override
+    public TipoPago iniciarVigenciaPreciosProgramados(String format, CustomUser user) {
+        return tipoPagoDao.iniciarVigenciaPreciosProgramados(format, user);
+    }
 }

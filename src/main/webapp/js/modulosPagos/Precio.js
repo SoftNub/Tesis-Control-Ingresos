@@ -8,8 +8,6 @@ function Precio(id, precio, fechaInicioVigencia, fechaFinVigencia, indTablaPreci
     this.precio = precio;
     this.fechaInicioVigencia = fechaInicioVigencia;
     this.fechaFinVigencia = fechaFinVigencia;
-    this.indTablaPrecio = indTablaPrecio;
-    this.indTmpPrecio = indTmpPrecio;
     this.indError = "";
     this.msjError = "";
 }

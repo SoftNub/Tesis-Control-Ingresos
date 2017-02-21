@@ -91,7 +91,7 @@ public class PagosController {
         return tipoPagoRep;
     }
     
-    @RequestMapping(value="pagos/consultarPreciosTipoPago.action", method = RequestMethod.POST)
+    @RequestMapping(value="pagos/listarTipoPagoPrecio.action", method = RequestMethod.POST)
     public @ResponseBody TipoPago consultarPreciosTipoPago(
           @RequestBody TipoPago objs  
     ){
@@ -100,6 +100,21 @@ public class PagosController {
         validaEntrada = new ValidaEntrada();
         try{  
             tipoPagoRep = tipoPagoService.consultarPreciosTipoPago(objs);
+        }catch(Exception ex){
+            tipoPagoRep.setIndError(1);
+            tipoPagoRep.setMsjError("Error:["+ex.getMessage()+"]");
+        } 
+        return tipoPagoRep;
+    }
+    
+     @RequestMapping(value="pagos/actualizaTipoPagoPrecio.action", method = RequestMethod.POST)
+    public @ResponseBody TipoPago actualizaTipoPagoPrecio(
+          @RequestBody TipoPago objs  
+    ){
+        TipoPago tipoPagoRep = new TipoPago();
+        CustomUser user = (CustomUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        try{
+            tipoPagoRep = tipoPagoService.actualizaTipoPagoPrecio(objs, user);
         }catch(Exception ex){
             tipoPagoRep.setIndError(1);
             tipoPagoRep.setMsjError("Error:["+ex.getMessage()+"]");

@@ -43,7 +43,7 @@
             <div id = "panelGrabar">
                 <div class="panel panel-primary">
                     <div class="panel-heading">
-                        <h3 class="panel-title text-center">Tipo Pago</h3>
+                        <h3 class="panel-title text-center titleTipoPago">Tipo Pago</h3>
                     </div>
                     <div class="panel-body">
                         <div id="divTipoPago">
@@ -139,13 +139,13 @@
                             </div>    
                         </div>
                         <div id="divPrecioTipoPago">
-                            <div class="row form-group"> 
+                            <div class="row form-group precioVigente"> 
                                 <div class="col-lg-offset-1 col-lg-2">
                                     <label>Precio Vigente:</label>
                                 </div>
                                 <div class="col-lg-2">
                                      <input type="text" class="form-control" id="txtPrecioVigente" 
-                                            placeholder = "Precio" maxlength="10">
+                                            readonly="true" placeholder = "Precio" maxlength="10">
                                 </div>
                                 <div class="col-lg-offset-1 col-lg-2">
                                     <label for="nombres">Fecha Inicio Vigencia:</label>
@@ -155,13 +155,13 @@
                                         readonly="true" maxlength="10">
                                 </div>
                             </div>
-                            <div class="row form-group"> 
+                            <div class="row form-group precioProximo"> 
                                 <div class="col-lg-offset-1 col-lg-2">
                                     <label>Precio Prox. Vigente:</label>
                                 </div>
                                 <div class="col-lg-2">
                                      <input type="text" class="form-control" id="txtPrecioProxVigente" 
-                                            placeholder = "Precio" maxlength="10">
+                                            readonly="true" placeholder = "Precio" maxlength="10">
                                 </div>
                                 <div class="col-lg-offset-1 col-lg-2">
                                     <label for="nombres">Fecha Inicio Prox. Vigente:</label>

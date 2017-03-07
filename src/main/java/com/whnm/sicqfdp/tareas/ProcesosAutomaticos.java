@@ -13,7 +13,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 /**
@@ -32,9 +31,26 @@ public class ProcesosAutomaticos {
             Date date = new Date();
             SimpleDateFormat sf = new SimpleDateFormat("dd/MM/yyyy");
             Logger.getLogger(ProcesosAutomaticos.class.getName()).log(Level.INFO, "Iniciando Tarea iniciarVigenciaPreciosProgramados");
-            CustomUser user = (CustomUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            CustomUser user = new CustomUser();
+            user.setUsername("AUTOMATICO");
             tipoPagoRep = tipoPagoService.iniciarVigenciaPreciosProgramados(sf.format(date), user);
             Logger.getLogger(ProcesosAutomaticos.class.getName()).log(Level.INFO, "Ejecutando Tarea de iniciarVigenciaPreciosProgramados {0} ", date.toString());
+            Logger.getLogger(ProcesosAutomaticos.class.getName()).log(Level.INFO, "Respuesta: {0} ", tipoPagoRep.getMsjError());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public void crearCuotasInhabilitadoras(){
+        TipoPago tipoPagoRep = new TipoPago();
+        try {
+            Date date = new Date();
+            SimpleDateFormat sf = new SimpleDateFormat("dd/MM/yyyy");
+            Logger.getLogger(ProcesosAutomaticos.class.getName()).log(Level.INFO, "Iniciando Tarea crearCuotasInhabilitadoras");
+            CustomUser user = new CustomUser();
+            user.setUsername("AUTOMATICO");
+            tipoPagoRep = tipoPagoService.crearCuotasInhabilitadoras(sf.format(date), user);
+            Logger.getLogger(ProcesosAutomaticos.class.getName()).log(Level.INFO, "Ejecutando Tarea de crearCuotasInhabilitadoras {0} ", date.toString());
             Logger.getLogger(ProcesosAutomaticos.class.getName()).log(Level.INFO, "Respuesta: {0} ", tipoPagoRep.getMsjError());
         } catch (Exception e) {
             e.printStackTrace();

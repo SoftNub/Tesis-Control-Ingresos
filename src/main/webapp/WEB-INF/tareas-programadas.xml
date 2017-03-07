@@ -7,10 +7,11 @@
     
     <task:scheduled-tasks>
          <!--Configures the ref=componentName method=methodToExectute cron="Sec Min Hour DayOfMonth Month DayOfTheWeak"--> 
-	<task:scheduled ref="ProcesosAutomaticosTask" method="iniciarVigenciaPreciosProgramados" cron="0 30 5 * * *" />
+	<task:scheduled ref="ProcesosAutomaticosTask" method="iniciarVigenciaPreciosProgramados" cron="0 52 5 * * *" />
+        <task:scheduled ref="ProcesosAutomaticosTask" method="crearCuotasInhabilitadoras" cron="0 0 2 28-31 * *" />
     </task:scheduled-tasks>
 <!--    <task:scheduled-tasks> 
-	<task:scheduled ref="reporstProcessTask" method="taskReporteOrdePagoCertificadas" cron="0 0 22 * * *" />
+	
     </task:scheduled-tasks>-->
     
 </beans>

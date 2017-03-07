@@ -25,6 +25,7 @@ function TipoPago(id, concepto, conceptoPara, esInhabilitadora, numPagosActivos,
     this.mantTipoPago = mantTipoPago;
     this.listarTipoPagoPrecio = listarTipoPagoPrecio;
     this.actualizaTipoPagoPrecio = actualizaTipoPagoPrecio;
+    this.generarCoutasMensuales = generarCoutasMensuales;
 }
 
 function ListTipoPago(listTipoPago, indError, msjError){
@@ -127,6 +128,25 @@ function actualizaTipoPagoPrecio(){
         async: false,
         mimeType: 'application/json',
         data : JSON.stringify(tipoPago),
+        success : function(data) {
+            tipoPagoRep.indError = data.indError;
+            tipoPagoRep.msjError = data.msjError;
+        }
+    });
+    return tipoPagoRep;
+}
+
+function generarCoutasMensuales(fechaEjecucion){
+    var tipoPagoRep;
+    tipoPagoRep = new TipoPago();
+    $.ajax({
+        url : "../pagos/generarCoutasMensuales.action",
+        type : "POST",
+        contentType : 'application/json; charset=utf-8',
+        dataType : 'json',
+        async: false,
+        mimeType: 'application/json',
+        data : JSON.stringify({fechaEjecucion: fechaEjecucion}),
         success : function(data) {
             tipoPagoRep.indError = data.indError;
             tipoPagoRep.msjError = data.msjError;

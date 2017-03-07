@@ -6,6 +6,7 @@
 package com.whnm.sicqfdp.interfaces;
 
 import com.whnm.sicqfdp.beans.CustomUser;
+import com.whnm.sicqfdp.beans.ListLogTipoPago;
 import com.whnm.sicqfdp.beans.ListTipoPago;
 import com.whnm.sicqfdp.beans.TipoPago;
 
@@ -63,4 +64,22 @@ public interface TipoPagoDao extends Generica<TipoPago>{
      * @return 
      */
     public TipoPago iniciarVigenciaPreciosProgramados(String format, CustomUser user);
+
+    /**
+     * Proceso que creara mensualmente las cuotas que pueden inhabilitar a un colegiado por
+     * falta de pago.
+     * @param format
+     * @param user
+     * @return 
+     */
+    public TipoPago crearCuotasInhabilitadoras(String format, CustomUser user);
+
+    /**
+     * Permitira mostrar el log del proceso automatico o manual para crear cuotas mensuales
+     * masivamente y verificar si esta correcto para un determinado periodo
+     * @param fechaIni
+     * @param fechaFin
+     * @return 
+     */
+    public ListLogTipoPago verLogCoutasMensuales(Integer tipoOperacion, String fechaIni, String fechaFin);
 }

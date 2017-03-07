@@ -57,6 +57,7 @@ com/whnm/sicqfdp/spbeans/SpEliminarDistrito.class
 com/whnm/sicqfdp/spbeans/SpMantOperadora.class
 com/whnm/sicqfdp/dao/TipoEquipoDaoImp.class
 com/whnm/sicqfdp/controller/BienvenidaController.class
+com/whnm/sicqfdp/spbeans/SpCrearCuotasInhabilitadoras.class
 com/whnm/sicqfdp/spbeans/SpListarDepartamentosHabilitados.class
 com/whnm/sicqfdp/spbeans/SpMantTipoEquipo.class
 com/whnm/sicqfdp/interfaces/UserDao.class
@@ -75,6 +76,7 @@ com/whnm/sicqfdp/interfaces/MenuDao.class
 com/whnm/sicqfdp/spbeans/SpListarColegiado.class
 com/whnm/sicqfdp/beans/ListMenu.class
 com/whnm/sicqfdp/dao/DistritoDaoImpl.class
+com/whnm/sicqfdp/beans/ListLogTipoPago.class
 com/whnm/sicqfdp/spbeans/SpTraePassword.class
 com/whnm/sicqfdp/spbeans/SpMantPerfil.class
 com/whnm/sicqfdp/beans/Persona.class
@@ -82,6 +84,7 @@ com/whnm/sicqfdp/dao/MenuDaoImpl.class
 com/whnm/sicqfdp/beans/Role.class
 com/whnm/sicqfdp/spbeans/SpGrabarDepartamento.class
 com/whnm/sicqfdp/beans/TipoPago.class
+com/whnm/sicqfdp/beans/LogTipoPago.class
 com/whnm/sicqfdp/spbeans/SpListarCondicionCasa.class
 com/whnm/sicqfdp/spbeans/SpActTipoPagoPrecio.class
 com/whnm/sicqfdp/controller/ColegiadoController.class
@@ -140,3 +143,4 @@ com/whnm/sicqfdp/seguridad/UserDetailServiceImpl.class
 com/whnm/sicqfdp/service/OperadoraService.class
 com/whnm/sicqfdp/spbeans/SpMantMenu.class
 com/whnm/sicqfdp/dao/DepartamentoDaoImpl.class
+com/whnm/sicqfdp/spbeans/SpVerLogCuotasInhabilitadoras.class

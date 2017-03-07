@@ -5,11 +5,13 @@
  */
 package com.whnm.sicqfdp.beans;
 
+import java.io.Serializable;
+
 /**
  *
  * @author whnm
  */
-public class Perfil {
+public class Perfil implements Serializable{
     private Integer idPerfil;
     private String descripcion;
     private Integer estado;

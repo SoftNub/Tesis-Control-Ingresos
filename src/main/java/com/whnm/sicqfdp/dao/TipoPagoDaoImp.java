@@ -6,16 +6,20 @@
 package com.whnm.sicqfdp.dao;
 
 import com.whnm.sicqfdp.beans.CustomUser;
+import com.whnm.sicqfdp.beans.ListLogTipoPago;
 import com.whnm.sicqfdp.beans.ListTipoPago;
+import com.whnm.sicqfdp.beans.LogTipoPago;
 import com.whnm.sicqfdp.beans.Parametros;
 import com.whnm.sicqfdp.beans.Precio;
 import com.whnm.sicqfdp.beans.TipoPago;
 import com.whnm.sicqfdp.interfaces.TipoPagoDao;
 import com.whnm.sicqfdp.spbeans.SpActTipoPagoPrecio;
+import com.whnm.sicqfdp.spbeans.SpCrearCuotasInhabilitadoras;
 import com.whnm.sicqfdp.spbeans.SpIniciaVigenciaPrecio;
 import com.whnm.sicqfdp.spbeans.SpListarPreciosTipoPago;
 import com.whnm.sicqfdp.spbeans.SpListarTipoPago;
 import com.whnm.sicqfdp.spbeans.SpMantTipoPago;
+import com.whnm.sicqfdp.spbeans.SpVerLogCuotasInhabilitadoras;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -39,6 +43,8 @@ public class TipoPagoDaoImp implements TipoPagoDao{
     private SpMantTipoPago spMantTipoPago;
     private SpActTipoPagoPrecio spActTipoPagoPrecio;
     private SpIniciaVigenciaPrecio spIniciaVigenciaPrecio;
+    private SpCrearCuotasInhabilitadoras spCrearCuotasInhabilitadoras;
+    private SpVerLogCuotasInhabilitadoras spVerLogCuotasInhabilitadoras;
     
     @Autowired
     public TipoPagoDaoImp(@Qualifier("dataSource1") DataSource dataSource) {
@@ -48,6 +54,8 @@ public class TipoPagoDaoImp implements TipoPagoDao{
         this.spMantTipoPago = new SpMantTipoPago(dataSource);
         this.spActTipoPagoPrecio = new SpActTipoPagoPrecio(dataSource);
         this.spIniciaVigenciaPrecio = new SpIniciaVigenciaPrecio(dataSource);
+        this.spCrearCuotasInhabilitadoras = new SpCrearCuotasInhabilitadoras(dataSource);
+        this.spVerLogCuotasInhabilitadoras = new SpVerLogCuotasInhabilitadoras(dataSource);
     }
     
     @Override
@@ -212,6 +220,57 @@ public class TipoPagoDaoImp implements TipoPagoDao{
             tipoPago.setMsjError("Error: ["+ex.getMessage()+"]");        
         }
         return tipoPago;
+    }
+
+    @Override
+    public TipoPago crearCuotasInhabilitadoras(String format, CustomUser user) {
+        TipoPago tipoPago = new TipoPago();
+        Map<String,Object> vars = new HashMap<String,Object>();
+        vars.put(SpCrearCuotasInhabilitadoras.PARAM_IN_FECHA_SIST, format);
+        vars.put(SpCrearCuotasInhabilitadoras.PARAM_IN_USUARIO, (user == null ? "AUTOMATICO" : user.getUsername()));
+        try {
+            Map<String, Object> result = (Map<String, Object>) spCrearCuotasInhabilitadoras.execute(vars);
+            tipoPago.setIndError(Integer.parseInt(String.valueOf(result.get(Parametros.IND))));
+            tipoPago.setMsjError(result.get(Parametros.MSJ).toString());        
+        } catch(Exception ex){
+            Logger.getLogger(TipoPagoDaoImp.class.getName()).log(Level.SEVERE, "SICQFDP - crearCuotasInhabilitadoras", ex);
+            tipoPago.setIndError(1);
+            tipoPago.setMsjError("Error: ["+ex.getMessage()+"]");        
+        }
+        return tipoPago;
+    }
+
+    @Override
+    public ListLogTipoPago verLogCoutasMensuales(Integer tipoOperacion, String fechaIni, String fechaFin) {
+        ListLogTipoPago listaTiposPagos = new ListLogTipoPago();
+        List<LogTipoPago> tiposPagos = new ArrayList<>();
+        Map<String,Object> vars = new HashMap<String,Object>();
+        vars.put(SpVerLogCuotasInhabilitadoras.PARAM_IN_TIPO_OPERACION, tipoOperacion);
+        vars.put(SpVerLogCuotasInhabilitadoras.PARAM_IN_FECHA_INI, fechaIni);
+        vars.put(SpVerLogCuotasInhabilitadoras.PARAM_IN_FECHA_FIN, fechaFin);
+        try {
+            Map<String, Object> result = (Map<String, Object>) spVerLogCuotasInhabilitadoras.execute(vars);
+            List<Map<String, Object>> listResult = (List<Map<String, Object>>) result.get(Parametros.RESULSET);
+            listaTiposPagos.setIndError(Integer.parseInt(String.valueOf(result.get(Parametros.IND))));
+            listaTiposPagos.setMsjError(result.get(Parametros.MSJ).toString());
+            if(listaTiposPagos.getIndError() == 0){
+                for (Map<String, Object> item : listResult) {
+                    LogTipoPago respuesta = new LogTipoPago();
+                    respuesta.setId(item.get("id") != null ? Long.parseLong(String.valueOf(item.get("id"))) : -1);
+                    respuesta.setPeriodo(item.get("periodo") != null ? String.valueOf(item.get("periodo")) : "");
+                    respuesta.setFechaGeneracion(item.get("fecha_generacion") != null ? String.valueOf(item.get("fecha_generacion")) : "");
+                    respuesta.setIndicador(item.get("indicador") != null ? Integer.parseInt(String.valueOf(item.get("indicador"))) : -1);
+                    respuesta.setMensaje(item.get("mensaje") != null ? String.valueOf(item.get("mensaje")) : "");
+                    tiposPagos.add(respuesta);
+                }
+                listaTiposPagos.setListLogTipoPago(tiposPagos);
+            }
+        } catch(Exception ex){
+            Logger.getLogger(TipoPagoDaoImp.class.getName()).log(Level.SEVERE, null, ex);
+            listaTiposPagos.setIndError(1);
+            listaTiposPagos.setMsjError("Error: ["+ex.getMessage()+"]");
+        }
+        return listaTiposPagos;
     }
     
 }

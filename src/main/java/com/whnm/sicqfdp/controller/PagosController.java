@@ -6,6 +6,7 @@
 package com.whnm.sicqfdp.controller;
 
 import com.whnm.sicqfdp.beans.CustomUser;
+import com.whnm.sicqfdp.beans.ListLogTipoPago;
 import com.whnm.sicqfdp.beans.ListTipoPago;
 import com.whnm.sicqfdp.beans.TipoPago;
 import com.whnm.sicqfdp.interfaces.TipoPagoDao;
@@ -120,6 +121,63 @@ public class PagosController {
             tipoPagoRep.setMsjError("Error:["+ex.getMessage()+"]");
         } 
         return tipoPagoRep;
+    }
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="generacion manual -procesos automaticos">
+     @RequestMapping(value="pagos/generarCoutasManuales.cqfdp", method = RequestMethod.GET)
+    public ModelAndView generarCoutasManuales(){
+        String tituloParametria;
+        String btnGrabar;
+        ModelAndView vista = new ModelAndView();
+        tituloParametria = "GENERACION DE COUTAS MENSUALES";
+        vista.addObject("TituloModulo", tituloParametria);
+        vista.setViewName("moduloPagos/GenerarCuotaManuales");
+        return vista;
+    }
+    
+    @RequestMapping(value="pagos/generarCoutasMensuales.action", method = RequestMethod.POST)
+    public @ResponseBody TipoPago generarCoutasMensuales(
+          @RequestBody String objs  
+    ){
+        ValidaEntrada validaEntrada;
+        TipoPago resp = new TipoPago();
+        validaEntrada = new ValidaEntrada();
+        ObjectMapper mapper = new ObjectMapper();
+        String fecha;
+        CustomUser user = (CustomUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        try{
+            JsonNode node = mapper.readTree(objs);
+            fecha = mapper.convertValue(node.get("fechaEjecucion"), String.class);   
+            resp = tipoPagoService.crearCuotasInhabilitadoras(fecha, user);
+        }catch(Exception ex){
+            resp.setIndError(1);
+            resp.setMsjError("Error:["+ex.getMessage()+"]");
+        } 
+        return resp;
+    }
+    
+    @RequestMapping(value="pagos/verLogCoutasMensuales.action", method = RequestMethod.POST)
+    public @ResponseBody ListLogTipoPago verLogCoutasMensuales(
+          @RequestBody String objs  
+    ){
+        ValidaEntrada validaEntrada;
+        ListLogTipoPago lista = new ListLogTipoPago();
+        validaEntrada = new ValidaEntrada();
+        ObjectMapper mapper = new ObjectMapper();
+        String fechaIni, fechaFin;
+        Integer tipoOperacion;
+        try{
+            JsonNode node = mapper.readTree(objs);
+            tipoOperacion = mapper.convertValue(node.get("tipoOperacion"), Integer.class);
+            fechaIni = mapper.convertValue(node.get("fechaInicio"), String.class);
+            fechaFin = mapper.convertValue(node.get("fechaFin"), String.class);   
+            lista = tipoPagoService.verLogCoutasMensuales(tipoOperacion,fechaIni, fechaFin);
+        }catch(Exception ex){
+            lista.setIndError(1);
+            lista.setMsjError("Error:["+ex.getMessage()+"]");
+        } 
+        return lista;
     }
     // </editor-fold>
 }

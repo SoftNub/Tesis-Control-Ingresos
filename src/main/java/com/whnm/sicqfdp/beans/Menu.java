@@ -5,11 +5,13 @@
  */
 package com.whnm.sicqfdp.beans;
 
+import java.io.Serializable;
+
 /**
  *
  * @author whnm
  */
-public class Menu {
+public class Menu implements Serializable{
     private Integer idMenu;
     private Integer idRol;
     private String descripMenu;

@@ -6,6 +6,7 @@
 package com.whnm.sicqfdp.service;
 
 import com.whnm.sicqfdp.beans.CustomUser;
+import com.whnm.sicqfdp.beans.ListLogTipoPago;
 import com.whnm.sicqfdp.beans.ListTipoPago;
 import com.whnm.sicqfdp.beans.TipoPago;
 import com.whnm.sicqfdp.interfaces.TipoPagoDao;
@@ -70,5 +71,15 @@ public class TipoPagoService implements TipoPagoDao{
     @Override
     public TipoPago iniciarVigenciaPreciosProgramados(String format, CustomUser user) {
         return tipoPagoDao.iniciarVigenciaPreciosProgramados(format, user);
+    }
+
+    @Override
+    public TipoPago crearCuotasInhabilitadoras(String format, CustomUser user) {
+        return tipoPagoDao.crearCuotasInhabilitadoras(format, user);
+    }
+
+    @Override
+    public ListLogTipoPago verLogCoutasMensuales(Integer tipoOperacion,String fechaIni, String fechaFin) {
+        return tipoPagoDao.verLogCoutasMensuales(tipoOperacion, fechaIni, fechaFin);
     }
 }

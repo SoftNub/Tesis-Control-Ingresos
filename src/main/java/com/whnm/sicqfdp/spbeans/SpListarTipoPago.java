@@ -22,6 +22,7 @@ public class SpListarTipoPago extends StoredProcedure {
     public static final String PARAM_IN_IDPAGO = "_id_pago";
     public static final String PARAM_IN_ESTADO = "_estado";
     public static final String PARAM_IN_CONCEPTO_PARA = "_concepto_para";
+    public static final String PARAM_IN_ESTADOS_COLEG = "v_estados_colegiados";
     public static final String PARAM_OUT_IND = "ind";
     public static final String PARAM_OUT_MSJ = "msj";
     
@@ -31,6 +32,7 @@ public class SpListarTipoPago extends StoredProcedure {
         declareParameter(new SqlParameter(PARAM_IN_IDPAGO, Types.INTEGER));
         declareParameter(new SqlParameter(PARAM_IN_ESTADO, Types.INTEGER));
         declareParameter(new SqlParameter(PARAM_IN_CONCEPTO_PARA, Types.VARCHAR));
+        declareParameter(new SqlParameter(PARAM_IN_ESTADOS_COLEG, Types.VARCHAR));
         declareParameter(new SqlOutParameter(PARAM_OUT_IND, Types.INTEGER));
         declareParameter(new SqlOutParameter(PARAM_OUT_MSJ, Types.VARCHAR));
         compile();

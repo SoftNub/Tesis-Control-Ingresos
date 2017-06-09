@@ -27,4 +27,11 @@
         <property name="username" value="root"/>
         <property name="password" value="wilsonadmin"/>
     </bean>
+    
+    <bean id = "birtEngineFactory" class = "com.whnm.sicqfdp.birtreport.BirtEngineFactory" />
+    
+    <bean id = "birtFactory" class = "com.whnm.sicqfdp.birtreport.BirtFactory" >
+        <property name="birtEngine" ref="birtEngineFactory" />
+        <property name="reportsRootPath" value="/WEB-INF/Reportes" />
+    </bean>
 </beans>

@@ -21,6 +21,7 @@ public class SpListarColegiado extends StoredProcedure {
     public static final String PARAM_IN_OPC = "opc";
     public static final String PARAM_IN_DNI = "_dni";
     public static final String PARAM_IN_NUMCOLEGIATURA = "num_coleg";
+    public static final String PARAM_IN_ESTADO = "_estado";
     public static final String PARAM_OUT_IND = "ind";
     public static final String PARAM_OUT_MSJ = "msj";
     
@@ -29,6 +30,7 @@ public class SpListarColegiado extends StoredProcedure {
         declareParameter(new SqlParameter(PARAM_IN_OPC, Types.INTEGER));
         declareParameter(new SqlParameter(PARAM_IN_DNI, Types.VARCHAR));
         declareParameter(new SqlParameter(PARAM_IN_NUMCOLEGIATURA, Types.VARCHAR));
+        declareParameter(new SqlParameter(PARAM_IN_ESTADO, Types.INTEGER));
         declareParameter(new SqlOutParameter(PARAM_OUT_IND, Types.INTEGER));
         declareParameter(new SqlOutParameter(PARAM_OUT_MSJ, Types.VARCHAR));
         compile();

@@ -5,7 +5,7 @@
  */
 function TipoPago(id, concepto, conceptoPara, esInhabilitadora, numPagosActivos, tipoGeneracion,
     estado, estadosColegiados, precioActual, precioEspera, preciosHistoricos,
-    indTablaPrecio, indTmpPrecio){
+    indTablaPrecio, indTmpPrecio, tipoCantidad){
     this.id = id;
     this.concepto = concepto;
     this.conceptoPara = conceptoPara;
@@ -19,6 +19,8 @@ function TipoPago(id, concepto, conceptoPara, esInhabilitadora, numPagosActivos,
     this.preciosHistoricos = preciosHistoricos;
     this.indTablaPrecio = indTablaPrecio;
     this.indTmpPrecio = indTmpPrecio;
+    this.annadido = 0;
+    this.tipoCantidad = tipoCantidad;
     this.indError = "";
     this.msjError = "";
     this.listarTipoPago = listarTipoPago;
@@ -40,6 +42,7 @@ function listarTipoPago(tipoOperacion){
     var tipoPago ={
         "id": this.id,
         "conceptoPara" : this.conceptoPara,
+        "estadosColegiados" : this.estadosColegiados,
         "estado" : this.estado
     };
     listaTipoPagoRep = new ListTipoPago();

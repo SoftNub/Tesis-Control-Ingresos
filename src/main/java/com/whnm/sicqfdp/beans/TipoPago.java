@@ -20,6 +20,8 @@ public class TipoPago {
     private Integer tipoGeneracion;
     private Integer estado;
     private String estadosColegiados;
+    private Integer annadido;
+    private Integer tipoCantidad;
     private Precio precioActual;
     private Precio precioEspera;
     private List<Precio> preciosHistoricos;
@@ -111,6 +113,14 @@ public class TipoPago {
         this.estadosColegiados = estadosColegiados;
     }
 
+    public Integer getAnnadido() {
+        return annadido;
+    }
+
+    public void setAnnadido(Integer annadido) {
+        this.annadido = annadido;
+    }
+    
     public Precio getPrecioActual() {
         return precioActual;
     }
@@ -133,6 +143,14 @@ public class TipoPago {
 
     public void setPreciosHistoricos(List<Precio> preciosHistoricos) {
         this.preciosHistoricos = preciosHistoricos;
+    }
+
+    public Integer getTipoCantidad() {
+        return tipoCantidad;
+    }
+
+    public void setTipoCantidad(Integer tipoCantidad) {
+        this.tipoCantidad = tipoCantidad;
     }
 
     public Integer getIndError() {

@@ -18,6 +18,7 @@ import com.whnm.sicqfdp.spbeans.SpGrabarColegiadoEgreso;
 import com.whnm.sicqfdp.spbeans.SpGrabarColegiadoInscripcion;
 import com.whnm.sicqfdp.spbeans.SpGrabarSolicitudEgreso;
 import com.whnm.sicqfdp.spbeans.SpListarColegiado;
+import com.whnm.sicqfdp.spbeans.SpListarColegiadoPago;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -40,6 +41,7 @@ public class ColegiadoDaoImpl implements ColegiadoDao{
     private SpGrabarColegiadoInscripcion spGrabarColegiadoInscripcion;
     private SpGrabarSolicitudEgreso spGrabarSolicitudEgreso;
     private SpGrabarColegiadoEgreso spGrabarColegiadoEgreso;
+    private SpListarColegiadoPago spListarColegiadoPago;
     
     
     @Autowired
@@ -49,6 +51,7 @@ public class ColegiadoDaoImpl implements ColegiadoDao{
         this.spGrabarColegiadoInscripcion = new SpGrabarColegiadoInscripcion(dataSource);
         this.spGrabarSolicitudEgreso = new SpGrabarSolicitudEgreso(dataSource);
         this.spGrabarColegiadoEgreso = new SpGrabarColegiadoEgreso(dataSource);
+        this.spListarColegiadoPago = new SpListarColegiadoPago(dataSource);
     }
    
     @Override
@@ -68,6 +71,7 @@ public class ColegiadoDaoImpl implements ColegiadoDao{
         vars.put(SpListarColegiado.PARAM_IN_OPC, opc);
         vars.put(SpListarColegiado.PARAM_IN_DNI, per.getDni());
         vars.put(SpListarColegiado.PARAM_IN_NUMCOLEGIATURA, per.getNumColegiatura());
+        vars.put(SpListarColegiado.PARAM_IN_ESTADO, (per.getEstado() == null ? 0 : per.getEstado()));
         try {
             Map<String, Object> result = (Map<String, Object>) spListarColegiado.execute(vars);
             List<Map<String, Object>> listResult = (List<Map<String, Object>>) result.get(Parametros.RESULSET);
@@ -471,5 +475,42 @@ public class ColegiadoDaoImpl implements ColegiadoDao{
             persona.setMsjError("Error: ["+ex.getMessage()+"]");        
         }
         return persona;
+    }
+
+    @Override
+    public ListColegiado buscarColegiadosPagos(String tipoOperacion, Integer tipoDocumento, Colegiado col) {
+        ListColegiado listaColegiados = new ListColegiado();
+        List<Colegiado> lista = new ArrayList<>();
+        Colegiado persona;
+        Map<String,Object> vars = new HashMap<String,Object>();
+        vars.put(SpListarColegiadoPago.PARAM_IN_OPC, tipoOperacion);
+        vars.put(SpListarColegiadoPago.PARAM_IN_TIPO_DOC, tipoDocumento);
+        if(tipoOperacion.equals("C")){
+            vars.put(SpListarColegiadoPago.PARAM_IN_DOC, col.getNumColegiatura());
+        } else {
+            vars.put(SpListarColegiadoPago.PARAM_IN_DOC, col.getDni());
+        }
+        try {
+            Map<String, Object> result = (Map<String, Object>) spListarColegiadoPago.execute(vars);
+            List<Map<String, Object>> listResult = (List<Map<String, Object>>) result.get(Parametros.RESULSET);
+            listaColegiados.setIndError(Integer.parseInt(String.valueOf(result.get(Parametros.IND))));
+            listaColegiados.setMsjError(result.get(Parametros.MSJ).toString());
+            if (listaColegiados.getIndError() == 0){
+               for (Map<String, Object> item : listResult) {
+                    persona = new Colegiado(); 
+                    persona.setNombres(item.get("Nombre") != null ? item.get("Nombre").toString() : "");
+                    persona.setEstado(item.get("estado") != null ? Integer.parseInt(item.get("estado").toString()) : -1);
+                    persona.setDni(item.get("DNI") != null ? item.get("DNI").toString() : "");
+                    persona.setNumColegiatura(item.get("num_colegiatura") != null ? item.get("num_colegiatura").toString() : "");
+                    lista.add(persona);
+               }
+               listaColegiados.setListaColegiados(lista);
+            } 
+        } catch(Exception ex){
+            Logger.getLogger(ColegiadoDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+            listaColegiados.setIndError(1);
+            listaColegiados.setMsjError("Error: ["+ex.getMessage()+"]");        
+        }
+        return listaColegiados;
     }
 }

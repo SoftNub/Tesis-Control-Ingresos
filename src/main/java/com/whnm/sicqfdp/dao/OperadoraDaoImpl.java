@@ -19,6 +19,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 /**
@@ -32,7 +33,7 @@ public class OperadoraDaoImpl implements OperadoraDao{
     private SpMantOperadora spMantOperadora;
     
     @Autowired
-    public OperadoraDaoImpl(DataSource dataSource) {
+    public OperadoraDaoImpl(@Qualifier("dataSource1")DataSource dataSource) {
         this.dataSource = dataSource;
         this.spListarOperadora = new SpListarOperadora(dataSource);
         this.spMantOperadora = new SpMantOperadora(dataSource);

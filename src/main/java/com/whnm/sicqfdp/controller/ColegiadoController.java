@@ -9,9 +9,15 @@ import com.whnm.sicqfdp.beans.Colegiado;
 import com.whnm.sicqfdp.beans.CustomUser;
 import com.whnm.sicqfdp.beans.ListColegiado;
 import com.whnm.sicqfdp.beans.Persona;
+import com.whnm.sicqfdp.birtreport.BirtReportInterface;
 import com.whnm.sicqfdp.interfaces.ColegiadoDao;
 import com.whnm.sicqfdp.interfaces.PersonaDao;
 import com.whnm.sicqfdp.utils.ValidaEntrada;
+import java.util.HashMap;
+import java.util.Map;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +27,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -36,6 +43,10 @@ public class ColegiadoController {
     @Autowired
     @Qualifier("colegiadoService")
     private ColegiadoDao colegiadoService;
+    @Autowired
+    @Qualifier("birtReportInterfaceImpl")
+    private BirtReportInterface birtReport;
+    
     
     // <editor-fold defaultstate="collapsed" desc="Pre Inscripcion">
     @RequestMapping(value="colegiados/PreInscripcion.cqfdp", method = RequestMethod.GET)
@@ -1141,4 +1152,123 @@ public class ColegiadoController {
         return personaRep;
     }
 // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="Buscar Colegiado Pagos">
+    @RequestMapping(value="colegiados/buscarColegiadosPagos.action", method = RequestMethod.POST)
+    public @ResponseBody ListColegiado buscarColegiadosPagos(
+        @RequestBody String objs      
+    ){
+        ListColegiado resp = new ListColegiado();
+        Colegiado col = new Colegiado();
+        ObjectMapper mapper = new ObjectMapper();
+        ValidaEntrada valida = new ValidaEntrada();
+        String tipoOperacion;
+        Integer tipoDocumento;
+        String numeroDocumento;
+        try{
+            JsonNode node = mapper.readTree(objs);
+            tipoOperacion = mapper.convertValue(node.get("tipoOperacion"), String.class);
+            tipoDocumento = mapper.convertValue(node.get("tipoDocumento"), Integer.class);
+            col = mapper.convertValue(node.get("colegiado"), Colegiado.class);   
+            if(!tipoOperacion.equals("C") && !tipoOperacion.equals("N")){
+                resp.setIndError(1);
+                resp.setMsjError("[Error: valor incorrecto en el Tipo]");
+                return resp;
+            }
+            
+            if(tipoDocumento != 2){
+                resp.setIndError(1);
+                resp.setMsjError("[Error: valor incorrecto en el documento]");
+                return resp;
+            }
+            
+            if(tipoOperacion.equals("C")){
+                if(!valida.validarSoloNumerosColegiatura(col.getNumColegiatura())){
+                    resp.setIndError(1);
+                    resp.setMsjError("[Error: valor incorrecto en el documento]");
+                    return resp;
+                }
+            } else {
+                if(!valida.validarSoloNumerosDNI(col.getDni())){
+                    resp.setIndError(1);
+                    resp.setMsjError("[Error: valor incorrecto en el documento]");
+                    return resp;
+                }
+            }
+            
+            resp = colegiadoService.buscarColegiadosPagos(tipoOperacion, tipoDocumento, col);
+        } catch(Exception ex){
+            resp.setIndError(1);
+            resp.setMsjError("[Error: "+ex.getMessage()+" ]");
+        }
+        return  resp;
+    }
+    // </editor-fold>
+    
+    
+    // <editor-fold defaultstate="collapsed" desc="Reporte Colegiado">
+    @RequestMapping(value="reportes/reporteColegiados.cqfdp", method = RequestMethod.GET)
+    public ModelAndView viewReporteColegiados(){
+        String tituloParametria;
+        String msjGrabar;
+        String msjCancelar;
+        ModelAndView vista = new ModelAndView();
+        tituloParametria = "REPORTES DE COLEGIADOS";
+        vista.addObject("TituloModulo", tituloParametria);
+        vista.setViewName("moduloReportes/reporteColegiados");
+        return vista;
+    }
+    
+    
+    @RequestMapping(value = "reportes/reporteColegiados.action", method = RequestMethod.GET)
+    public void reporteColegiados(
+    @RequestParam Integer reporte,
+    @RequestParam Integer opc,
+    @RequestParam String dni,
+    @RequestParam String numeroColegiatura,
+    @RequestParam Integer estado,
+    @RequestParam String formato,
+    HttpServletRequest request,
+    HttpServletResponse response) {
+        byte varRespuesta[];
+        String reportName;
+        String reportFormat=formato;
+        ServletOutputStream outputStream;
+        try {
+            Map reportParameters = new HashMap(); 
+            CustomUser user = (CustomUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            if(reporte == 1){
+                reportParameters.put("parOpc", opc);            
+                reportParameters.put("parDNI", dni);            
+                reportParameters.put("parNumColeg", numeroColegiatura);                       
+                reportParameters.put("parEstadoColeg", estado);                       
+                reportParameters.put("parOpcExpLab", 1);                       
+                reportParameters.put("parOpcFamColeg", 1);                       
+                reportParameters.put("parUser", user.getUsername()); 
+                reportName = "repCarnetizacionRecarnetizacionColegiado";
+            } else {
+                reportParameters.put("parOpc", opc);            
+                reportParameters.put("parDNI", dni);            
+                reportParameters.put("parNumColeg", ("ALL".equals(numeroColegiatura)? "%" : numeroColegiatura));                       
+                reportParameters.put("parEstado", estado);                       
+                reportParameters.put("parUser", user.getUsername());
+                reportName = "repColegiadoEstados";
+            }                   
+            response.setContentType("application/"+formato);
+            response.setHeader("Content-Disposition", "attachment;filename="+reportName+"."+formato);
+            if(formato.equalsIgnoreCase("PDF")){
+                varRespuesta=birtReport.getReport(reportName+".rptdesign", reportFormat, reportParameters,user.getUsername());
+            } else {
+                varRespuesta=birtReport.getReportXLS(reportName+".rptdesign", reportParameters,user.getUsername());
+            }
+            response.setContentLength(varRespuesta.length);
+            outputStream = response.getOutputStream();
+            outputStream.write(varRespuesta, 0, varRespuesta.length);
+            outputStream.flush();
+            outputStream.close();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+    // </editor-fold>
 }

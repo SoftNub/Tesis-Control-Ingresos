@@ -61,6 +61,7 @@ function ListColegiado(listaColegiados, indError, msjError){
     this.msjError = msjError;
     this.buscarColegiadosEgreso = buscarColegiadosEgreso;
     this.grabarEgresoColegiatura = grabarEgresoColegiatura;
+    this.buscarColegiadosPagos = buscarColegiadosPagos;
 }
 
 function buscarPersonaColegiadoInscripIngre(opc){
@@ -240,4 +241,28 @@ function grabarEgresoColegiatura(){
         }
     });
     return listColegiado;
+}
+
+function buscarColegiadosPagos(tipoOperacion, tipoDocumento, col){
+    var listColegiados;
+    listColegiados = new ListColegiado();
+    var colegiado2 ={
+        "numColegiatura" : col.numColegiatura,
+        "dni": col.dni
+    };
+    $.ajax({
+        url : "../colegiados/buscarColegiadosPagos.action",
+        type : "POST",
+        contentType : 'application/json; charset=utf-8',
+        dataType : 'json',
+        async: false,
+        mimeType: 'application/json',
+        data : JSON.stringify({tipoOperacion:tipoOperacion, tipoDocumento:tipoDocumento, colegiado: colegiado2}),
+        success : function(data) {
+            listColegiados.listaColegiados = data.listaColegiados;
+            listColegiados.indError = data.indError;
+            listColegiados.msjError = data.msjError;
+        }
+    });
+    return listColegiados;
 }

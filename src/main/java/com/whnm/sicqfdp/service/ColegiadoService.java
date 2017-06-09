@@ -68,5 +68,10 @@ public class ColegiadoService implements ColegiadoDao{
     public ListColegiado grabarEgresoColegiado(ListColegiado listaColegiados, CustomUser user) {
         return colegiadoDao.grabarEgresoColegiado(listaColegiados, user);
     }
+
+    @Override
+    public ListColegiado buscarColegiadosPagos(String tipoOperacion, Integer tipoDocumento, Colegiado col) {
+        return colegiadoDao.buscarColegiadosPagos(tipoOperacion, tipoDocumento, col);
+    }
     
 }

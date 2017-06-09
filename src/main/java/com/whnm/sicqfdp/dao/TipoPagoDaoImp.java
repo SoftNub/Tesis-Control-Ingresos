@@ -98,6 +98,7 @@ public class TipoPagoDaoImp implements TipoPagoDao{
         Map<String,Object> vars = new HashMap<String,Object>();
         vars.put(SpListarTipoPago.PARAM_IN_IDTIPOOPERACION, opcListado);
         vars.put(SpListarTipoPago.PARAM_IN_CONCEPTO_PARA, tipoPa.getConceptoPara());
+        vars.put(SpListarTipoPago.PARAM_IN_ESTADOS_COLEG, tipoPa.getEstadosColegiados());
         vars.put(SpListarTipoPago.PARAM_IN_ESTADO, tipoPa.getEstado());
         vars.put(SpListarTipoPago.PARAM_IN_IDPAGO, tipoPa.getId());
         try {
@@ -116,6 +117,11 @@ public class TipoPagoDaoImp implements TipoPagoDao{
                     respuesta.setConceptoPara(item.get("concepto_para") != null ? String.valueOf(item.get("concepto_para")) : "");
                     respuesta.setEstadosColegiados(item.get("estados_colegiados") != null ? String.valueOf(item.get("estados_colegiados")) : "");
                     respuesta.setTipoGeneracion(item.get("tipo_generacion") != null ? Integer.parseInt(String.valueOf(item.get("tipo_generacion"))) : -1);
+                    if(opcListado == 5 || opcListado == 6){
+                        Precio precio = new Precio();
+                        precio.setPrecio(item.get("precio") != null ? Double.parseDouble(String.valueOf(item.get("precio"))) : 0);
+                        respuesta.setPrecioActual(precio);
+                    }
                     tiposPagos.add(respuesta);
                 }
                 listaTiposPagos.setListTipoPago(tiposPagos);

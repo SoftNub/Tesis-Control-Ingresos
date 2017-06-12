@@ -1,2 +1,3 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Context antiJARLocking="true" path="/SICQFDP"/>
+<Context antiJARLocking="true" path="/SICQFDP"/> <!--cuando lo levanto en G,t o Jboos me lee este contexto mira-->
+<!--<Context antiJARLocking="true" path="/sicqfdp"/>-->

@@ -49,7 +49,7 @@ public class ColegiadoController {
     
     
     // <editor-fold defaultstate="collapsed" desc="Pre Inscripcion">
-    @RequestMapping(value="colegiados/PreInscripcion.cqfdp", method = RequestMethod.GET)
+    @RequestMapping(value="/colegiados/PreInscripcion.cqfdp", method = RequestMethod.GET)
     public ModelAndView mostrarVistaPreInscripcion(){
         String urlJs1;
         String urlJs2;
@@ -114,7 +114,7 @@ public class ColegiadoController {
         return personaRep;
     }
     
-    @RequestMapping(value="colegiados/mantPersonaPreInscripcion.action", method = RequestMethod.POST)
+    @RequestMapping(value="/colegiados/mantPersonaPreInscripcion.action", method = RequestMethod.POST)
     public @ResponseBody Persona mantPersonaPreInscripcion(
           @RequestBody String objs  
     ){

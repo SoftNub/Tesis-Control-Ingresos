@@ -21,14 +21,12 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
-@Service("birtReportInterfaceImpl")
+//@Service("birtReportInterfaceImpl")
 public class BirtReportInterfaceImpl implements BirtReportInterface{
-    @Autowired
+    //@Autowired
     private BirtFactory birtFactory;
-    @Autowired
+    //@Autowired
     private ServletContext servletContext=null;
     
     @Override

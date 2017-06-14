@@ -43,8 +43,8 @@ public class ColegiadoController {
     @Autowired
     @Qualifier("colegiadoService")
     private ColegiadoDao colegiadoService;
-    @Autowired
-    @Qualifier("birtReportInterfaceImpl")
+//    @Autowired
+//    @Qualifier("birtReportInterfaceImpl")
     private BirtReportInterface birtReport;
     
     

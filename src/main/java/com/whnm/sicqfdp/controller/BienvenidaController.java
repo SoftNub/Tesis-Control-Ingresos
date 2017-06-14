@@ -6,7 +6,6 @@
 package com.whnm.sicqfdp.controller;
 
 import com.whnm.sicqfdp.beans.CustomUser;
-import javax.servlet.http.HttpSession;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;

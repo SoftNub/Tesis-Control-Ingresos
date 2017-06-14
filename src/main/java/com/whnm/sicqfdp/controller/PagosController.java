@@ -53,8 +53,8 @@ public class PagosController {
     @Qualifier(value = "pagoService")        
     PagoDao pagoService;
     
-    @Autowired
-    @Qualifier("birtReportInterfaceImpl")
+//    @Autowired
+//    @Qualifier("birtReportInterfaceImpl")
     private BirtReportInterface birtReport;
     
     // <editor-fold defaultstate="collapsed" desc="gestion tipo pago - precios">
